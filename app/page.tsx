@@ -1,16 +1,21 @@
+import { Navbar } from "@/components/navbar"
+import { HeroSection } from "@/components/hero-section"
+import { FeaturesSection } from "@/components/features-section"
+import { EcosystemSection } from "@/components/ecosystem-section"
+import { CtaSection } from "@/components/cta-section"
+import { Footer } from "@/components/footer"
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans">
-      <main className="flex w-full max-w-3xl flex-col items-center gap-8 px-6 py-16 text-center sm:items-start sm:text-left">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold tracking-tight">
-            SoloSuccess Solutions 1.0
-          </h1>
-          <p className="max-w-md text-lg text-muted-foreground">
-            To get started, send a prompt or modify this page directly.
-          </p>
-        </div>
+    <div className="min-h-screen bg-background font-sans">
+      <Navbar />
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <EcosystemSection />
+        <CtaSection />
       </main>
+      <Footer />
     </div>
-  );
+  )
 }
