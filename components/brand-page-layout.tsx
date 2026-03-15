@@ -72,13 +72,26 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
         {/* Hero */}
         <section className="px-6 py-24 sm:py-32" aria-label="Hero">
           <div className="mx-auto max-w-5xl flex flex-col items-center gap-8 text-center">
-            {/* Icon badge */}
-            <div
-              className="flex h-24 w-24 items-center justify-center rounded-3xl"
-              style={{ background: `${brand.color}20`, border: `2px solid ${brand.color}` }}
-            >
-              <Icon size={44} style={{ color: brand.color }} aria-hidden="true" />
-            </div>
+            {/* Logo image or icon badge */}
+            {brand.logoUrl ? (
+              <div className="flex items-center justify-center">
+                <Image
+                  src={brand.logoUrl}
+                  alt={`${brand.name} logo`}
+                  width={200}
+                  height={200}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            ) : (
+              <div
+                className="flex h-24 w-24 items-center justify-center rounded-3xl"
+                style={{ background: `${brand.color}20`, border: `2px solid ${brand.color}` }}
+              >
+                <Icon size={44} style={{ color: brand.color }} aria-hidden="true" />
+              </div>
+            )}
 
             {/* Tagline badge */}
             <div

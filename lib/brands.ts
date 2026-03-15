@@ -9,6 +9,7 @@ export type Brand = {
   color: string
   secondaryColor: string
   icon: typeof Brain
+  logoUrl?: string
   features: { title: string; description: string }[]
   benefits: { stat: string; label: string }[]
   ctaLabel: string
@@ -50,6 +51,7 @@ export const brands: Brand[] = [
     color: "#2D9E2A",
     secondaryColor: "#38B835",
     icon: BookOpen,
+    logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/academy-imZ39Gf4MMNZc5UEzcqLZXIhMgd5aV.png",
     features: [
       { title: "On-Demand Courses", description: "Self-paced video courses covering every stage of the solo business journey." },
       { title: "Live Coaching", description: "Weekly group coaching calls with experienced solo business mentors." },
