@@ -38,15 +38,15 @@ export function CtaSection() {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Link
             href="mailto:hello@solosuccesssolutions.com"
-            className="group relative inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 rainbow-border"
+            className="group relative inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
             style={{ background: "linear-gradient(135deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
           >
             Send a Message
-            <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+              <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
           <Link
             href="#companies"
-            className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-semibold glass-card transition-all duration-200 hover:border-white/20"
+            className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-semibold glass-card transition-all duration-500 hover:border-white/20"
             style={{ color: "#9CA3AF" }}
           >
             View Our Companies

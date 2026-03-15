@@ -38,7 +38,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled ? "glass-card border-b border-border" : "bg-transparent"
       }`}
     >
@@ -64,7 +64,7 @@ export function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-semibold transition-colors duration-200 hover:opacity-80"
+                className="text-sm font-semibold transition-colors duration-500 hover:opacity-80"
                 style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
               >
                 {link.label}
@@ -77,7 +77,7 @@ export function Navbar() {
         <div className="hidden md:flex items-center">
           <Link
             href="#connect"
-            className="relative rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 rainbow-border"
+            className="relative rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
             style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
           >
             Get in Touch

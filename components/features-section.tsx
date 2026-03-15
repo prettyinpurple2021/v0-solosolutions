@@ -97,7 +97,7 @@ export function FeaturesSection() {
           {values.map((val) => (
             <div
               key={val.title}
-              className="group relative rounded-2xl p-6 glass-card transition-all duration-300 overflow-hidden"
+              className="group relative rounded-2xl p-6 glass-card transition-all duration-700 overflow-hidden"
               style={{ borderColor: `${val.color}33` }}
             >
               {/* Top accent */}
@@ -115,7 +115,7 @@ export function FeaturesSection() {
               <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{val.description}</p>
 
               <div
-                className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-50"
+                className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-50"
                 style={{ background: val.color }}
                 aria-hidden="true"
               />

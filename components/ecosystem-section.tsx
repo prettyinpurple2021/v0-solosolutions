@@ -90,12 +90,12 @@ export function EcosystemSection() {
         {companies.filter((c) => c.featured).map((company) => (
           <div
             key={company.name}
-            className="group relative mb-6 flex flex-col sm:flex-row items-start gap-6 rounded-2xl p-8 glass-card overflow-hidden transition-all duration-300"
+            className="group relative mb-6 flex flex-col sm:flex-row items-start gap-6 rounded-2xl p-8 glass-card overflow-hidden transition-all duration-700"
             style={{ borderColor: `${company.color}44` }}
           >
             {/* Animated hover glow */}
             <div
-              className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-30 blur-[80px]"
+              className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-0 transition-opacity duration-900 group-hover:opacity-30 blur-[80px]"
               style={{ background: company.color }}
               aria-hidden="true"
             />
@@ -124,7 +124,7 @@ export function EcosystemSection() {
               <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
             </div>
             <button
-              className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold transition-all duration-200 hover:opacity-90"
+              className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold transition-all duration-500 hover:opacity-90"
               style={{ background: `${company.color}22`, color: company.color, border: `1px solid ${company.color}44` }}
               aria-label={`Learn more about ${company.name}`}
             >
@@ -139,7 +139,7 @@ export function EcosystemSection() {
           {companies.filter((c) => !c.featured).map((company) => (
             <div
               key={company.name}
-              className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card overflow-hidden transition-all duration-300"
+              className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card overflow-hidden transition-all duration-700"
               style={{ borderColor: `${company.color}33` }}
             >
               {/* Top accent line per company color */}
@@ -148,7 +148,7 @@ export function EcosystemSection() {
                 aria-hidden="true"
               />
               <div
-                className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-30 blur-[60px]"
+                className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full opacity-0 transition-opacity duration-900 group-hover:opacity-30 blur-[60px]"
                 style={{ background: company.color }}
                 aria-hidden="true"
               />
@@ -160,7 +160,7 @@ export function EcosystemSection() {
                   <company.icon size={22} style={{ color: company.color }} aria-hidden="true" />
                 </div>
                 <button
-                  className="inline-flex items-center gap-1 text-xs font-bold transition-opacity duration-200 hover:opacity-70"
+                  className="inline-flex items-center gap-1 text-xs font-bold transition-opacity duration-500 hover:opacity-70"
                   style={{ color: company.color }}
                   aria-label={`Learn more about ${company.name}`}
                 >
@@ -176,7 +176,7 @@ export function EcosystemSection() {
 
               {/* Bottom accent line on hover */}
               <div
-                className="absolute bottom-0 left-7 right-7 h-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-60"
+                className="absolute bottom-0 left-7 right-7 h-px rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-60"
                 style={{ background: company.color }}
                 aria-hidden="true"
               />
