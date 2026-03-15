@@ -156,29 +156,29 @@
 /* Slow background orb drift animations — cloud-like, no scale flash */
 @keyframes orb-drift-a {
   0%   { transform: translate(0px, 0px); }
-  25%  { transform: translate(60px, -40px); }
-  50%  { transform: translate(30px, -80px); }
-  75%  { transform: translate(-40px, -30px); }
+  25%  { transform: translate(30px, -20px); }
+  50%  { transform: translate(15px, -45px); }
+  75%  { transform: translate(-20px, -15px); }
   100% { transform: translate(0px, 0px); }
 }
 @keyframes orb-drift-b {
   0%   { transform: translate(0px, 0px); }
-  25%  { transform: translate(-50px, 35px); }
-  50%  { transform: translate(-80px, -20px); }
-  75%  { transform: translate(-20px, 50px); }
+  25%  { transform: translate(-25px, 18px); }
+  50%  { transform: translate(-40px, -10px); }
+  75%  { transform: translate(-10px, 25px); }
   100% { transform: translate(0px, 0px); }
 }
 @keyframes orb-drift-c {
   0%   { transform: translate(0px, 0px); }
-  33%  { transform: translate(45px, 55px); }
-  66%  { transform: translate(-30px, 30px); }
+  33%  { transform: translate(22px, 28px); }
+  66%  { transform: translate(-15px, 15px); }
   100% { transform: translate(0px, 0px); }
 }
 
-.orb-a { animation: orb-drift-a 50s ease-in-out infinite; }
-.orb-b { animation: orb-drift-b 60s ease-in-out infinite; }
-.orb-c { animation: orb-drift-c 45s ease-in-out infinite; }
-.orb-d { animation: orb-drift-a 70s ease-in-out infinite reverse; }
-.orb-e { animation: orb-drift-b 55s ease-in-out infinite 10s; }
-.orb-f { animation: orb-drift-c 65s ease-in-out infinite 20s; }
-.orb-g { animation: orb-drift-a 48s ease-in-out infinite 30s; }
+.orb-a { animation: orb-drift-a 140s ease-in-out infinite; }
+.orb-b { animation: orb-drift-b 160s ease-in-out infinite; }
+.orb-c { animation: orb-drift-c 120s ease-in-out infinite; }
+.orb-d { animation: orb-drift-a 180s ease-in-out infinite reverse; }
+.orb-e { animation: orb-drift-b 150s ease-in-out infinite 25s; }
+.orb-f { animation: orb-drift-c 170s ease-in-out infinite 50s; }
+.orb-g { animation: orb-drift-a 130s ease-in-out infinite 75s; }
