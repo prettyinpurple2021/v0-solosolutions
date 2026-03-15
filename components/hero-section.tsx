@@ -129,8 +129,8 @@ export function HeroSection() {
           </Link>
           <Link
             href="#about"
-            className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-semibold glass-card transition-all duration-500 hover:border-white/20"
-            style={{ color: "#9CA3AF" }}
+            className="inline-flex items-center gap-2 rounded-xl border px-8 py-3.5 text-sm font-bold glass-card transition-all duration-500 hover:opacity-80"
+            style={{ color: "#9CA3AF", borderColor: "#9CA3AF44" }}
           >
             Meet the Founder
           </Link>

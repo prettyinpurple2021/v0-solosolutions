@@ -25,11 +25,11 @@ export function Footer() {
         <div className="flex flex-col items-center sm:items-start gap-3">
           <div className="flex items-center gap-3">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/finished%20solutions%20logo-El6oq26ejF7UHHNShHv1OEp3Gg4m4e.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
               alt="SoloSuccess Solutions"
               width={36}
               height={36}
-              className="rounded-md object-contain"
+              className="object-contain"
             />
             <span className="font-bold text-sm tracking-tight">
               {"SoloSuccess".split("").map((char, i) => (

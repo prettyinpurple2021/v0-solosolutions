@@ -124,8 +124,8 @@ export function EcosystemSection() {
               <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
             </div>
             <button
-              className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold transition-all duration-500 hover:opacity-90"
-              style={{ background: `${company.color}22`, color: company.color, border: `1px solid ${company.color}44` }}
+              className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl border px-5 py-2.5 text-xs font-bold transition-all duration-500 hover:opacity-80"
+              style={{ color: company.color, borderColor: `${company.color}55`, background: `${company.color}14` }}
               aria-label={`Learn more about ${company.name}`}
             >
               Learn More
@@ -160,8 +160,8 @@ export function EcosystemSection() {
                   <company.icon size={22} style={{ color: company.color }} aria-hidden="true" />
                 </div>
                 <button
-                  className="inline-flex items-center gap-1 text-xs font-bold transition-opacity duration-500 hover:opacity-70"
-                  style={{ color: company.color }}
+                  className="inline-flex items-center gap-1.5 rounded-xl border px-4 py-2 text-xs font-bold transition-all duration-500 hover:opacity-80"
+                  style={{ color: company.color, borderColor: `${company.color}55`, background: `${company.color}14` }}
                   aria-label={`Learn more about ${company.name}`}
                 >
                   Learn More
