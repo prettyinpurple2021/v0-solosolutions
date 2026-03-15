@@ -22,22 +22,29 @@ export function HeroSection() {
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-20"
       aria-label="Hero"
     >
-      {/* Full-spectrum background orbs — every logo color */}
+      {/* Soft cloud-like color washes — full logo spectrum */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="orb-a absolute -top-48 -left-48 h-[800px] w-[800px] rounded-full opacity-20 blur-[150px]"
-          style={{ background: "radial-gradient(circle, #6B44A0, transparent 65%)" }} />
-        <div className="orb-b absolute -bottom-48 -right-40 h-[700px] w-[700px] rounded-full opacity-18 blur-[140px]"
-          style={{ background: "radial-gradient(circle, #005FA3, transparent 65%)" }} />
-        <div className="orb-c absolute top-1/4 right-1/3 h-[450px] w-[450px] rounded-full opacity-14 blur-[120px]"
-          style={{ background: "radial-gradient(circle, #009B94, transparent 65%)" }} />
-        <div className="orb-d absolute bottom-1/4 left-1/4 h-[350px] w-[350px] rounded-full opacity-12 blur-[100px]"
-          style={{ background: "radial-gradient(circle, #D93025, transparent 65%)" }} />
-        <div className="orb-e absolute top-2/3 left-2/3 h-[300px] w-[300px] rounded-full opacity-12 blur-[100px]"
-          style={{ background: "radial-gradient(circle, #F07B1F, transparent 65%)" }} />
-        <div className="orb-f absolute top-1/3 left-1/2 h-[250px] w-[250px] rounded-full opacity-10 blur-[90px]"
-          style={{ background: "radial-gradient(circle, #2D9E2A, transparent 65%)" }} />
-        <div className="orb-g absolute bottom-1/2 left-1/3 h-[250px] w-[250px] rounded-full opacity-10 blur-[90px]"
-          style={{ background: "radial-gradient(circle, #F5C400, transparent 65%)" }} />
+        {/* Purple cloud — top left */}
+        <div className="orb-a absolute -top-64 -left-64 h-[1100px] w-[1100px] rounded-full blur-[200px]"
+          style={{ background: "radial-gradient(circle at 40% 40%, #6B44A0cc, #6B44A055 45%, transparent 70%)" }} />
+        {/* Blue cloud — bottom right */}
+        <div className="orb-b absolute -bottom-64 -right-64 h-[1000px] w-[1000px] rounded-full blur-[200px]"
+          style={{ background: "radial-gradient(circle at 60% 60%, #005FA3cc, #005FA355 45%, transparent 70%)" }} />
+        {/* Teal cloud — center right */}
+        <div className="orb-c absolute top-1/3 right-0 h-[700px] w-[700px] rounded-full blur-[180px]"
+          style={{ background: "radial-gradient(circle at 50% 50%, #009B94bb, #009B9444 45%, transparent 70%)" }} />
+        {/* Red cloud — bottom left */}
+        <div className="orb-d absolute bottom-0 -left-32 h-[650px] w-[650px] rounded-full blur-[180px]"
+          style={{ background: "radial-gradient(circle at 40% 60%, #D93025bb, #D9302544 45%, transparent 70%)" }} />
+        {/* Orange cloud — top right */}
+        <div className="orb-e absolute -top-32 right-0 h-[600px] w-[600px] rounded-full blur-[160px]"
+          style={{ background: "radial-gradient(circle at 60% 40%, #F07B1Fbb, #F07B1F44 45%, transparent 70%)" }} />
+        {/* Green cloud — center */}
+        <div className="orb-f absolute top-1/2 left-1/4 h-[550px] w-[550px] rounded-full blur-[160px]"
+          style={{ background: "radial-gradient(circle at 50% 50%, #2D9E2Aaa, #2D9E2A33 45%, transparent 70%)" }} />
+        {/* Yellow cloud — center top */}
+        <div className="orb-g absolute top-0 left-1/2 h-[500px] w-[500px] rounded-full blur-[150px]"
+          style={{ background: "radial-gradient(circle at 50% 40%, #F5C400aa, #F5C40033 45%, transparent 70%)" }} />
       </div>
 
       <div className="relative z-10 flex flex-col items-center gap-8 text-center max-w-4xl mx-auto">

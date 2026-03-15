@@ -153,29 +153,32 @@
   font-family: var(--font-display);
 }
 
-/* Slow background orb drift animations */
+/* Slow background orb drift animations — cloud-like, no scale flash */
 @keyframes orb-drift-a {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  33%  { transform: translate(40px, -30px) scale(1.06); }
-  66%  { transform: translate(-25px, 20px) scale(0.96); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0%   { transform: translate(0px, 0px); }
+  25%  { transform: translate(60px, -40px); }
+  50%  { transform: translate(30px, -80px); }
+  75%  { transform: translate(-40px, -30px); }
+  100% { transform: translate(0px, 0px); }
 }
 @keyframes orb-drift-b {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  33%  { transform: translate(-35px, 25px) scale(1.04); }
-  66%  { transform: translate(30px, -20px) scale(0.97); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0%   { transform: translate(0px, 0px); }
+  25%  { transform: translate(-50px, 35px); }
+  50%  { transform: translate(-80px, -20px); }
+  75%  { transform: translate(-20px, 50px); }
+  100% { transform: translate(0px, 0px); }
 }
 @keyframes orb-drift-c {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  50%  { transform: translate(20px, 30px) scale(1.05); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0%   { transform: translate(0px, 0px); }
+  33%  { transform: translate(45px, 55px); }
+  66%  { transform: translate(-30px, 30px); }
+  100% { transform: translate(0px, 0px); }
 }
 
-.orb-a { animation: orb-drift-a 22s ease-in-out infinite; }
-.orb-b { animation: orb-drift-b 28s ease-in-out infinite; }
-.orb-c { animation: orb-drift-c 18s ease-in-out infinite; }
-.orb-d { animation: orb-drift-a 32s ease-in-out infinite reverse; }
-.orb-e { animation: orb-drift-b 24s ease-in-out infinite 4s; }
-.orb-f { animation: orb-drift-c 26s ease-in-out infinite 8s; }
-.orb-g { animation: orb-drift-a 20s ease-in-out infinite 12s; }
+.orb-a { animation: orb-drift-a 50s ease-in-out infinite; }
+.orb-b { animation: orb-drift-b 60s ease-in-out infinite; }
+.orb-c { animation: orb-drift-c 45s ease-in-out infinite; }
+.orb-d { animation: orb-drift-a 70s ease-in-out infinite reverse; }
+.orb-e { animation: orb-drift-b 55s ease-in-out infinite 10s; }
+.orb-f { animation: orb-drift-c 65s ease-in-out infinite 20s; }
+.orb-g { animation: orb-drift-a 48s ease-in-out infinite 30s; }
