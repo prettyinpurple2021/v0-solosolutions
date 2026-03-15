@@ -24,19 +24,19 @@ export function HeroSection() {
     >
       {/* Full-spectrum background orbs — every logo color */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-48 -left-48 h-[800px] w-[800px] rounded-full opacity-20 blur-[150px]"
+        <div className="orb-a absolute -top-48 -left-48 h-[800px] w-[800px] rounded-full opacity-20 blur-[150px]"
           style={{ background: "radial-gradient(circle, #6B44A0, transparent 65%)" }} />
-        <div className="absolute -bottom-48 -right-40 h-[700px] w-[700px] rounded-full opacity-18 blur-[140px]"
+        <div className="orb-b absolute -bottom-48 -right-40 h-[700px] w-[700px] rounded-full opacity-18 blur-[140px]"
           style={{ background: "radial-gradient(circle, #005FA3, transparent 65%)" }} />
-        <div className="absolute top-1/4 right-1/3 h-[450px] w-[450px] rounded-full opacity-14 blur-[120px]"
+        <div className="orb-c absolute top-1/4 right-1/3 h-[450px] w-[450px] rounded-full opacity-14 blur-[120px]"
           style={{ background: "radial-gradient(circle, #009B94, transparent 65%)" }} />
-        <div className="absolute bottom-1/4 left-1/4 h-[350px] w-[350px] rounded-full opacity-12 blur-[100px]"
+        <div className="orb-d absolute bottom-1/4 left-1/4 h-[350px] w-[350px] rounded-full opacity-12 blur-[100px]"
           style={{ background: "radial-gradient(circle, #D93025, transparent 65%)" }} />
-        <div className="absolute top-2/3 left-2/3 h-[300px] w-[300px] rounded-full opacity-12 blur-[100px]"
+        <div className="orb-e absolute top-2/3 left-2/3 h-[300px] w-[300px] rounded-full opacity-12 blur-[100px]"
           style={{ background: "radial-gradient(circle, #F07B1F, transparent 65%)" }} />
-        <div className="absolute top-1/3 left-1/2 h-[250px] w-[250px] rounded-full opacity-10 blur-[90px]"
+        <div className="orb-f absolute top-1/3 left-1/2 h-[250px] w-[250px] rounded-full opacity-10 blur-[90px]"
           style={{ background: "radial-gradient(circle, #2D9E2A, transparent 65%)" }} />
-        <div className="absolute bottom-1/2 left-1/3 h-[250px] w-[250px] rounded-full opacity-10 blur-[90px]"
+        <div className="orb-g absolute bottom-1/2 left-1/3 h-[250px] w-[250px] rounded-full opacity-10 blur-[90px]"
           style={{ background: "radial-gradient(circle, #F5C400, transparent 65%)" }} />
       </div>
 
@@ -44,11 +44,11 @@ export function HeroSection() {
         {/* Logo */}
         <div className="relative">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/finished%20solutions%20logo-El6oq26ejF7UHHNShHv1OEp3Gg4m4e.jpg"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
             alt="SoloSuccess Solutions diamond logo"
-            width={150}
-            height={150}
-            className="rounded-2xl object-contain rainbow-border"
+            width={180}
+            height={180}
+            className="object-contain"
             priority
           />
         </div>

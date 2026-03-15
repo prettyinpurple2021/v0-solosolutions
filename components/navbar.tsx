@@ -46,11 +46,11 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" aria-label="SoloSuccess Solutions home">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/finished%20solutions%20logo-El6oq26ejF7UHHNShHv1OEp3Gg4m4e.jpg"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
             alt="SoloSuccess Solutions logo"
-            width={40}
-            height={40}
-            className="rounded-md object-contain"
+            width={44}
+            height={44}
+            className="object-contain"
           />
           <span className="hidden sm:block text-sm font-bold tracking-tight">
             <RainbowText text="SoloSuccess" />
