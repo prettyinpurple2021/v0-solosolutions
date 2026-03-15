@@ -27,52 +27,63 @@ const values = [
 export function FeaturesSection() {
   return (
     <section id="about" className="relative overflow-hidden px-6 py-24 sm:py-32">
-      {/* Background orb */}
+      {/* Background orbs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute top-1/2 left-0 h-[500px] w-[500px] -translate-y-1/2 rounded-full opacity-12 blur-[130px]"
-          style={{ background: "radial-gradient(circle, #2D9E2A, transparent 70%)" }}
-        />
+        <div className="absolute top-1/2 left-0 h-[500px] w-[500px] -translate-y-1/2 rounded-full opacity-12 blur-[130px]"
+          style={{ background: "radial-gradient(circle, #2D9E2A, transparent 65%)" }} />
+        <div className="absolute top-0 right-1/4 h-[350px] w-[350px] rounded-full opacity-10 blur-[110px]"
+          style={{ background: "radial-gradient(circle, #F07B1F, transparent 65%)" }} />
+        <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full opacity-10 blur-[100px]"
+          style={{ background: "radial-gradient(circle, #6B44A0, transparent 65%)" }} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section heading */}
         <div className="mb-16 flex flex-col items-center gap-4 text-center">
-          <span
-            className="rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-widest glass-card"
-            style={{ color: "#F07B1F", borderColor: "#F07B1F40" }}
-          >
+          <span className="font-display text-xl font-semibold rainbow-text">
             About the Founder
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-balance">
-            Building the future of{" "}
-            <span style={{ color: "#F07B1F" }}>solo entrepreneurship.</span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-balance rainbow-text">
+            Building the future of solo entrepreneurship.
           </h2>
         </div>
 
         {/* Founder bio card */}
-        <div className="mb-14 rounded-2xl p-8 sm:p-10 glass-card">
+        <div
+          className="mb-14 rounded-2xl p-8 sm:p-10 glass-card relative overflow-hidden"
+          style={{ borderColor: "#F07B1F33" }}
+        >
+          {/* Rainbow top border */}
+          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+            style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
+            aria-hidden="true"
+          />
           <div className="flex flex-col lg:flex-row gap-8 items-start">
-            {/* Avatar placeholder */}
+            {/* Avatar */}
             <div
-              className="flex-shrink-0 flex h-24 w-24 items-center justify-center rounded-2xl text-4xl font-bold"
-              style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)", color: "#fff" }}
+              className="flex-shrink-0 flex h-24 w-24 items-center justify-center rounded-2xl text-5xl font-extrabold"
+              style={{
+                background: "linear-gradient(135deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)",
+                color: "#fff",
+              }}
               aria-hidden="true"
             >
               S
             </div>
             <div className="flex flex-col gap-4">
               <div>
-                <h3 className="text-xl font-bold text-foreground">The Vision Behind SoloSuccess</h3>
-                <p className="text-sm mt-0.5" style={{ color: "#6B44A0" }}>Founder &amp; CEO, SoloSuccess Solutions</p>
+                <h3 className="text-xl font-extrabold rainbow-text">The Vision Behind SoloSuccess</h3>
+                <p className="text-sm mt-0.5 font-display font-semibold" style={{ color: "#F07B1F" }}>
+                  Founder &amp; CEO, SoloSuccess Solutions
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
                 SoloSuccess Solutions was founded on a simple but powerful belief: that a single person with the right
                 tools, knowledge, and community can build something remarkable. The modern solo entrepreneur faces the
                 same challenges as a full enterprise — marketing, operations, technology, education, and community —
                 but without the team or budget to match.
               </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
                 That gap is exactly what this ecosystem was designed to close. Each company under the SoloSuccess
                 umbrella was created to tackle one specific piece of that puzzle — giving solo builders access to
                 enterprise-level resources without the enterprise-level overhead.
@@ -86,16 +97,22 @@ export function FeaturesSection() {
           {values.map((val) => (
             <div
               key={val.title}
-              className="group relative rounded-2xl p-6 glass-card transition-all duration-300 hover:border-white/20"
+              className="group relative rounded-2xl p-6 glass-card transition-all duration-300 overflow-hidden"
+              style={{ borderColor: `${val.color}33` }}
             >
+              {/* Top accent */}
+              <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl"
+                style={{ background: `linear-gradient(90deg, ${val.color}, transparent)` }}
+                aria-hidden="true"
+              />
               <div
-                className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{ background: `${val.color}22` }}
+                className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                style={{ background: `${val.color}22`, border: `1px solid ${val.color}44` }}
               >
                 <val.icon size={20} style={{ color: val.color }} aria-hidden="true" />
               </div>
-              <h3 className="mb-2 text-base font-semibold text-foreground">{val.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{val.description}</p>
+              <h3 className="mb-2 text-base font-extrabold" style={{ color: val.color }}>{val.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{val.description}</p>
 
               <div
                 className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-50"

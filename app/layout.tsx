@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk } from 'next/font/google'
+import { Syne, Caveat } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const spaceGrotesk = Space_Grotesk({
+const syne = Syne({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-syne',
+  weight: ['400', '500', '600', '700', '800'],
+})
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
-  title: 'SoloSuccess Solutions — Futuristic Project Ecosystem',
-  description: 'SoloSuccess Solutions empowers founders and innovators with a cutting-edge project ecosystem. Launch your vision into the future.',
+  title: 'SoloSuccess Solutions — The Solo Entrepreneur Ecosystem',
+  description: 'SoloSuccess Solutions is the parent company behind SoloSuccess AI, Academy, Content Factory, Connect, and SoloScribe — a family of brands built for the modern solo entrepreneur.',
   generator: 'v0.app',
 }
 
@@ -20,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={spaceGrotesk.variable} suppressHydrationWarning>
+    <html lang="en" className={`${syne.variable} ${caveat.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         {children}
         <Analytics />

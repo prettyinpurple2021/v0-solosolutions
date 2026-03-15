@@ -1,17 +1,25 @@
 import Link from "next/link"
 import Image from "next/image"
 
+const footerColors = ["#D93025", "#2D9E2A", "#F07B1F", "#009B94", "#6B44A0"]
+
 const footerLinks = [
-  { label: "SoloSuccess AI", href: "#companies" },
-  { label: "SoloSuccess Academy", href: "#companies" },
-  { label: "Content Factory", href: "#companies" },
-  { label: "SoloSuccess Connect", href: "#companies" },
-  { label: "SoloScribe", href: "#companies" },
+  { label: "SoloSuccess AI", href: "#companies", color: "#005FA3" },
+  { label: "SoloSuccess Academy", href: "#companies", color: "#2D9E2A" },
+  { label: "Content Factory", href: "#companies", color: "#F07B1F" },
+  { label: "SoloSuccess Connect", href: "#companies", color: "#D93025" },
+  { label: "SoloScribe", href: "#companies", color: "#6B44A0" },
 ]
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border px-6 py-12">
+    <footer className="relative border-t px-6 py-12"
+      style={{ borderColor: "#ffffff14" }}>
+      {/* Rainbow border top */}
+      <div className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
+        aria-hidden="true"
+      />
       <div className="mx-auto max-w-7xl flex flex-col items-center gap-8 sm:flex-row sm:items-start sm:justify-between">
         {/* Brand */}
         <div className="flex flex-col items-center sm:items-start gap-3">
@@ -19,22 +27,25 @@ export function Footer() {
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/finished%20solutions%20logo-El6oq26ejF7UHHNShHv1OEp3Gg4m4e.jpg"
               alt="SoloSuccess Solutions"
-              width={32}
-              height={32}
+              width={36}
+              height={36}
               className="rounded-md object-contain"
             />
-            <span className="font-bold text-sm text-foreground tracking-tight">
-              SoloSuccess Solutions
+            <span className="font-bold text-sm tracking-tight">
+              {"SoloSuccess".split("").map((char, i) => (
+                <span key={i} style={{ color: footerColors[i % footerColors.length] }}>{char}</span>
+              ))}
+              <span style={{ color: "#9CA3AF" }}> Solutions</span>
             </span>
           </div>
-          <p className="text-xs text-muted-foreground max-w-xs text-center sm:text-left">
+          <p className="text-xs max-w-xs text-center sm:text-left" style={{ color: "#6b7280" }}>
             The parent company powering a family of brands built for the solo entrepreneur.
           </p>
         </div>
 
         {/* Companies nav */}
         <nav aria-label="Footer company links">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground text-center sm:text-left">
+          <p className="mb-3 text-xs font-bold uppercase tracking-wider text-center sm:text-left rainbow-text font-display">
             Our Companies
           </p>
           <ul className="flex flex-col gap-2 text-center sm:text-left" role="list">
@@ -42,7 +53,8 @@ export function Footer() {
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-xs font-semibold transition-opacity hover:opacity-70"
+                  style={{ color: link.color }}
                 >
                   {link.label}
                 </Link>
@@ -55,16 +67,20 @@ export function Footer() {
         <div className="flex flex-col items-center sm:items-end gap-2">
           <nav aria-label="Footer legal links">
             <ul className="flex gap-4" role="list">
-              {[{ label: "Privacy", href: "#" }, { label: "Terms", href: "#" }].map((l) => (
+              {[
+                { label: "Privacy", href: "#", color: "#009B94" },
+                { label: "Terms", href: "#", color: "#F07B1F" },
+              ].map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  <Link href={l.href} className="text-xs font-semibold transition-opacity hover:opacity-70"
+                    style={{ color: l.color }}>
                     {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs" style={{ color: "#6b7280" }}>
             &copy; {new Date().getFullYear()} SoloSuccess Solutions. All rights reserved.
           </p>
         </div>

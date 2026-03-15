@@ -11,6 +11,21 @@ const navLinks = [
   { label: "Connect", href: "#connect" },
 ]
 
+// Per-letter colors cycling through the full spectrum
+const spectrumColors = ["#D93025", "#F07B1F", "#F5C400", "#2D9E2A", "#009B94", "#005FA3", "#6B44A0"]
+
+function RainbowText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split("").map((char, i) => (
+        <span key={i} style={{ color: spectrumColors[i % spectrumColors.length] }}>
+          {char}
+        </span>
+      ))}
+    </>
+  )
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -36,31 +51,21 @@ export function Navbar() {
             width={40}
             height={40}
             className="rounded-md object-contain"
-            style={{ background: "transparent" }}
           />
-          <span className="hidden sm:block font-bold tracking-tight text-sm">
-            <span style={{ color: "#D93025" }}>S</span>
-            <span style={{ color: "#F07B1F" }}>o</span>
-            <span style={{ color: "#F5C400" }}>l</span>
-            <span style={{ color: "#2D9E2A" }}>o</span>
-            <span style={{ color: "#009B94" }}>S</span>
-            <span style={{ color: "#005FA3" }}>u</span>
-            <span style={{ color: "#6B44A0" }}>c</span>
-            <span style={{ color: "#D93025" }}>c</span>
-            <span style={{ color: "#F07B1F" }}>e</span>
-            <span style={{ color: "#F5C400" }}>s</span>
-            <span style={{ color: "#2D9E2A" }}>s</span>
-            <span className="text-foreground font-semibold"> Solutions</span>
+          <span className="hidden sm:block text-sm font-bold tracking-tight">
+            <RainbowText text="SoloSuccess" />
+            <span className="ml-1" style={{ color: "#9CA3AF" }}>Solutions</span>
           </span>
         </Link>
 
         {/* Desktop Links */}
         <ul className="hidden md:flex items-center gap-8" role="list">
-          {navLinks.map((link) => (
+          {navLinks.map((link, i) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium tracking-wide"
+                className="text-sm font-semibold transition-colors duration-200 hover:opacity-80"
+                style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
               >
                 {link.label}
               </Link>
@@ -72,7 +77,7 @@ export function Navbar() {
         <div className="hidden md:flex items-center">
           <Link
             href="#connect"
-            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 glow-primary"
+            className="relative rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 rainbow-border"
             style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
           >
             Get in Touch
@@ -81,7 +86,8 @@ export function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-muted-foreground hover:text-foreground transition-colors p-1"
+          className="md:hidden transition-colors p-1"
+          style={{ color: "#F07B1F" }}
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -94,11 +100,12 @@ export function Navbar() {
       {mobileOpen && (
         <div className="md:hidden glass-card border-t border-border px-6 pb-6 pt-2">
           <ul className="flex flex-col gap-4" role="list">
-            {navLinks.map((link) => (
+            {navLinks.map((link, i) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="block text-sm text-muted-foreground hover:text-foreground transition-colors py-1 font-medium"
+                  className="block text-sm font-semibold py-1 transition-opacity hover:opacity-75"
+                  style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
@@ -108,7 +115,7 @@ export function Navbar() {
             <li>
               <Link
                 href="#connect"
-                className="mt-2 block w-full rounded-lg px-5 py-2.5 text-center text-sm font-semibold text-white glow-primary"
+                className="mt-2 block w-full rounded-xl px-5 py-2.5 text-center text-sm font-bold text-white rainbow-border"
                 style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
                 onClick={() => setMobileOpen(false)}
               >
