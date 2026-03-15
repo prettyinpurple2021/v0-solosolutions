@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
-  { label: "Features", href: "#features" },
-  { label: "Ecosystem", href: "#ecosystem" },
+  { label: "Our Companies", href: "#companies" },
   { label: "About", href: "#about" },
+  { label: "Connect", href: "#connect" },
 ]
 
 export function Navbar() {
@@ -26,18 +27,30 @@ export function Navbar() {
         scrolled ? "glass-card border-b border-border" : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4" aria-label="Main navigation">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3" aria-label="Main navigation">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group" aria-label="SoloSuccess Solutions home">
-          <span
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-primary-foreground text-sm font-bold"
-            style={{ background: "oklch(0.58 0.22 255)" }}
-            aria-hidden="true"
-          >
-            S
-          </span>
-          <span className="font-bold text-foreground tracking-tight text-sm hidden sm:block">
-            SoloSuccess<span style={{ color: "oklch(0.58 0.22 255)" }}> Solutions</span>
+        <Link href="/" className="flex items-center gap-3" aria-label="SoloSuccess Solutions home">
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/finished%20solutions%20logo-El6oq26ejF7UHHNShHv1OEp3Gg4m4e.jpg"
+            alt="SoloSuccess Solutions logo"
+            width={40}
+            height={40}
+            className="rounded-md object-contain"
+            style={{ background: "transparent" }}
+          />
+          <span className="hidden sm:block font-bold tracking-tight text-sm">
+            <span style={{ color: "#D93025" }}>S</span>
+            <span style={{ color: "#F07B1F" }}>o</span>
+            <span style={{ color: "#F5C400" }}>l</span>
+            <span style={{ color: "#2D9E2A" }}>o</span>
+            <span style={{ color: "#009B94" }}>S</span>
+            <span style={{ color: "#005FA3" }}>u</span>
+            <span style={{ color: "#6B44A0" }}>c</span>
+            <span style={{ color: "#D93025" }}>c</span>
+            <span style={{ color: "#F07B1F" }}>e</span>
+            <span style={{ color: "#F5C400" }}>s</span>
+            <span style={{ color: "#2D9E2A" }}>s</span>
+            <span className="text-foreground font-semibold"> Solutions</span>
           </span>
         </Link>
 
@@ -56,13 +69,13 @@ export function Navbar() {
         </ul>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center">
           <Link
-            href="#ecosystem"
-            className="rounded-lg px-5 py-2 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:opacity-90 glow-blue"
-            style={{ background: "oklch(0.58 0.22 255)" }}
+            href="#connect"
+            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 glow-primary"
+            style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
           >
-            Launch
+            Get in Touch
           </Link>
         </div>
 
@@ -94,12 +107,12 @@ export function Navbar() {
             ))}
             <li>
               <Link
-                href="#ecosystem"
-                className="mt-2 block w-full rounded-lg px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground glow-blue"
-                style={{ background: "oklch(0.58 0.22 255)" }}
+                href="#connect"
+                className="mt-2 block w-full rounded-lg px-5 py-2.5 text-center text-sm font-semibold text-white glow-primary"
+                style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
                 onClick={() => setMobileOpen(false)}
               >
-                Launch
+                Get in Touch
               </Link>
             </li>
           </ul>

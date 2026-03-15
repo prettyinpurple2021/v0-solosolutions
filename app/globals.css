@@ -4,45 +4,51 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Nebula Glassmorphism — dark-only palette */
-  --background: oklch(0.07 0.02 270);
-  --foreground: oklch(0.96 0.01 240);
-  --card: oklch(0.12 0.025 270 / 0.45);
-  --card-foreground: oklch(0.96 0.01 240);
-  --popover: oklch(0.10 0.02 270);
-  --popover-foreground: oklch(0.96 0.01 240);
+  /* SoloSuccess Solutions — deep space dark, rainbow-spectrum accents */
+  --background: oklch(0.08 0.015 260);
+  --foreground: oklch(0.96 0.008 240);
+  --card: oklch(0.13 0.018 260 / 0.50);
+  --card-foreground: oklch(0.96 0.008 240);
+  --popover: oklch(0.11 0.016 260);
+  --popover-foreground: oklch(0.96 0.008 240);
 
-  /* Electric blue primary */
-  --primary: oklch(0.58 0.22 255);
+  /* Primary: deep violet-blue from logo */
+  --primary: oklch(0.52 0.20 270);
   --primary-foreground: oklch(0.98 0.005 240);
 
-  /* Royal purple secondary */
-  --secondary: oklch(0.38 0.18 300);
-  --secondary-foreground: oklch(0.96 0.01 240);
+  /* Secondary: royal purple from logo */
+  --secondary: oklch(0.42 0.18 305);
+  --secondary-foreground: oklch(0.96 0.008 240);
 
   /* Muted deep space */
-  --muted: oklch(0.14 0.02 270);
-  --muted-foreground: oklch(0.62 0.04 250);
+  --muted: oklch(0.15 0.016 260);
+  --muted-foreground: oklch(0.60 0.04 250);
 
-  /* Teal accent */
-  --accent: oklch(0.62 0.14 185);
-  --accent-foreground: oklch(0.07 0.02 270);
+  /* Accent: teal-green from logo spectrum */
+  --accent: oklch(0.60 0.16 175);
+  --accent-foreground: oklch(0.08 0.015 260);
 
   --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.96 0.01 240);
+  --destructive-foreground: oklch(0.96 0.008 240);
 
-  --border: oklch(0.22 0.04 270 / 0.5);
-  --input: oklch(0.16 0.03 270);
-  --ring: oklch(0.58 0.22 255 / 0.5);
+  --border: oklch(0.24 0.035 265 / 0.45);
+  --input: oklch(0.17 0.022 260);
+  --ring: oklch(0.52 0.20 270 / 0.5);
 
   --radius: 0.75rem;
 
-  /* Custom nebula tokens */
-  --nebula-purple: oklch(0.45 0.22 300);
-  --nebula-teal: oklch(0.62 0.14 185);
-  --nebula-blue: oklch(0.58 0.22 255);
-  --glass-bg: oklch(0.14 0.025 270 / 0.35);
-  --glass-border: oklch(0.50 0.06 270 / 0.20);
+  /* Logo spectrum color tokens */
+  --logo-red: #D93025;
+  --logo-orange: #F07B1F;
+  --logo-yellow: #F5C400;
+  --logo-green: #2D9E2A;
+  --logo-teal: #009B94;
+  --logo-blue: #005FA3;
+  --logo-purple: #6B44A0;
+  --logo-silver: #9CA3AF;
+
+  --glass-bg: oklch(0.15 0.020 265 / 0.38);
+  --glass-border: oklch(0.55 0.055 270 / 0.18);
 }
 
 @theme inline {
@@ -70,9 +76,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 6px);
-  --color-nebula-purple: var(--nebula-purple);
-  --color-nebula-teal: var(--nebula-teal);
-  --color-nebula-blue: var(--nebula-blue);
 }
 
 @layer base {
@@ -95,16 +98,13 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
-/* Nebula glow utilities */
-.glow-blue {
-  box-shadow: 0 0 24px oklch(0.58 0.22 255 / 0.35), 0 0 64px oklch(0.58 0.22 255 / 0.12);
+/* Glow utilities using logo colors */
+.glow-primary {
+  box-shadow: 0 0 28px oklch(0.52 0.20 270 / 0.40), 0 0 70px oklch(0.52 0.20 270 / 0.14);
 }
 .glow-purple {
-  box-shadow: 0 0 24px oklch(0.45 0.22 300 / 0.35), 0 0 64px oklch(0.45 0.22 300 / 0.12);
+  box-shadow: 0 0 24px #6B44A0AA, 0 0 64px #6B44A022;
 }
-.text-glow-blue {
-  text-shadow: 0 0 20px oklch(0.58 0.22 255 / 0.6);
-}
-.text-glow-teal {
-  text-shadow: 0 0 20px oklch(0.62 0.14 185 / 0.6);
+.glow-teal {
+  box-shadow: 0 0 24px #009B94AA, 0 0 64px #009B9422;
 }

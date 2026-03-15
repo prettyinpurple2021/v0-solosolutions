@@ -1,80 +1,70 @@
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Brain, BookOpen, Film, Users, PenLine } from "lucide-react"
 
-const projects = [
+const companies = [
   {
-    tag: "Strategy",
-    title: "Orbit Planner",
+    icon: Brain,
+    name: "SoloSuccess AI",
+    tagline: "AI-Powered Productivity for Entrepreneurs",
     description:
-      "Map your 90-day vision across milestones, deliverables, and revenue targets. Keep every launch on trajectory.",
-    status: "Live",
-    statusColor: "oklch(0.62 0.14 185)",
-    accentColor: "oklch(0.58 0.22 255)",
-    size: "lg",
+      "Cutting-edge artificial intelligence tools designed specifically for solo founders and small teams. Automate workflows, generate content, analyze data, and make smarter business decisions — all without a full team behind you.",
+    color: "#005FA3",
+    glowColor: "#005FA344",
+    featured: true,
   },
   {
-    tag: "Automation",
-    title: "Pulse Engine",
+    icon: BookOpen,
+    name: "SoloSuccess Academy",
+    tagline: "Education Built for the Solo Journey",
     description:
-      "Automate repetitive workflows and reclaim hours every week. The engine runs while you sleep.",
-    status: "Beta",
-    statusColor: "oklch(0.58 0.22 255)",
-    accentColor: "oklch(0.45 0.22 300)",
-    size: "sm",
+      "Practical courses, coaching programs, and learning resources that teach real skills for building and scaling a solo business. No fluff — just actionable frameworks from founders who have done it.",
+    color: "#2D9E2A",
+    glowColor: "#2D9E2A44",
+    featured: false,
   },
   {
-    tag: "Analytics",
-    title: "Signal Dashboard",
+    icon: Film,
+    name: "SoloSuccess Content Factory",
+    tagline: "Content Strategy & Creation at Scale",
     description:
-      "Unified metrics across every channel, distilled into a single real-time command center.",
-    status: "Live",
-    statusColor: "oklch(0.62 0.14 185)",
-    accentColor: "oklch(0.62 0.14 185)",
-    size: "sm",
+      "Done-for-you and done-with-you content solutions that help entrepreneurs show up consistently across platforms. From short-form video to long-form articles, we turn your expertise into content that converts.",
+    color: "#F07B1F",
+    glowColor: "#F07B1F44",
+    featured: false,
   },
   {
-    tag: "Community",
-    title: "Nexus Network",
+    icon: Users,
+    name: "SoloSuccess Connect",
+    tagline: "Community & Networking for Solo Builders",
     description:
-      "Connect with fellow solo founders, share resources, and co-create solutions in a curated space.",
-    status: "Coming Soon",
-    statusColor: "oklch(0.45 0.22 300)",
-    accentColor: "oklch(0.45 0.22 300)",
-    size: "md",
+      "A curated network of like-minded entrepreneurs, collaborators, and mentors. Find accountability partners, referral partners, and real relationships that accelerate your growth.",
+    color: "#D93025",
+    glowColor: "#D9302544",
+    featured: false,
   },
   {
-    tag: "Finance",
-    title: "Revenue Vault",
+    icon: PenLine,
+    name: "SoloScribe",
+    tagline: "Writing & Copywriting for Your Brand",
     description:
-      "Track MRR, manage invoices, and forecast growth — all from one secured financial cockpit.",
-    status: "Beta",
-    statusColor: "oklch(0.58 0.22 255)",
-    accentColor: "oklch(0.58 0.22 255)",
-    size: "md",
-  },
-  {
-    tag: "Deployment",
-    title: "LaunchPad",
-    description:
-      "Ship products and landing pages with zero-config deployments. From idea to the world in minutes.",
-    status: "Live",
-    statusColor: "oklch(0.62 0.14 185)",
-    accentColor: "oklch(0.62 0.14 185)",
-    size: "sm",
+      "Professional writing services and tools for solo entrepreneurs who need compelling copy. Sales pages, email sequences, social content, and brand voice development — written to convert.",
+    color: "#6B44A0",
+    glowColor: "#6B44A044",
+    featured: false,
   },
 ]
 
 export function EcosystemSection() {
   return (
-    <section id="ecosystem" className="relative overflow-hidden px-6 py-24 sm:py-32">
-      {/* Nebula background orbs */}
+    <section id="companies" className="relative overflow-hidden px-6 py-24 sm:py-32">
+      {/* Background orbs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute -bottom-24 -left-24 h-[600px] w-[600px] rounded-full opacity-20 blur-[130px]"
-          style={{ background: "radial-gradient(circle, oklch(0.58 0.22 255), transparent 70%)" }}
+          className="absolute -bottom-32 -left-32 h-[600px] w-[600px] rounded-full opacity-18 blur-[130px]"
+          style={{ background: "radial-gradient(circle, #005FA3, transparent 70%)" }}
         />
         <div
-          className="absolute top-0 right-0 h-[400px] w-[400px] rounded-full opacity-15 blur-[110px]"
-          style={{ background: "radial-gradient(circle, oklch(0.62 0.14 185), transparent 70%)" }}
+          className="absolute top-0 right-0 h-[400px] w-[400px] rounded-full opacity-12 blur-[110px]"
+          style={{ background: "radial-gradient(circle, #6B44A0, transparent 70%)" }}
         />
       </div>
 
@@ -83,90 +73,101 @@ export function EcosystemSection() {
         <div className="mb-16 flex flex-col items-center gap-4 text-center">
           <span
             className="rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-widest glass-card"
-            style={{ color: "oklch(0.58 0.22 255)", borderColor: "oklch(0.58 0.22 255 / 0.25)" }}
+            style={{ color: "#009B94", borderColor: "#009B9440" }}
           >
-            Project Ecosystem
+            Our Companies
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-balance">
-            Your complete{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, oklch(0.58 0.22 255) 0%, oklch(0.45 0.22 300) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              mission control.
-            </span>
+            Five brands. One{" "}
+            <span style={{ color: "#6B44A0" }}>mission.</span>
           </h2>
-          <p className="max-w-md text-sm text-muted-foreground leading-relaxed">
-            Six interconnected modules that work in concert — each one powerful alone, unstoppable together.
+          <p className="max-w-lg text-sm text-muted-foreground leading-relaxed">
+            Each company in the SoloSuccess family is purpose-built to serve a specific need of the solo entrepreneur
+            — from AI tools to education, content, community, and copywriting.
           </p>
         </div>
 
-        {/* Bento-style grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-auto">
-          {projects.map((project, i) => (
+        {/* Featured card — SoloSuccess AI */}
+        {companies.filter((c) => c.featured).map((company) => (
+          <div
+            key={company.name}
+            className="group relative mb-6 flex flex-col sm:flex-row items-start gap-6 rounded-2xl p-8 glass-card transition-all duration-300 hover:border-white/20 overflow-hidden"
+          >
             <div
-              key={project.title}
-              className={`group relative flex flex-col justify-between rounded-2xl p-7 glass-card transition-all duration-300 hover:border-primary/30 overflow-hidden ${
-                i === 0 ? "sm:col-span-2 lg:col-span-1 lg:row-span-2" : ""
-              }`}
+              className="pointer-events-none absolute -top-24 -right-24 h-60 w-60 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-30 blur-[70px]"
+              style={{ background: company.color }}
+              aria-hidden="true"
+            />
+            <div
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
+              style={{ background: `${company.color}22` }}
             >
-              {/* Accent glow top-right corner */}
+              <company.icon size={28} style={{ color: company.color }} aria-hidden="true" />
+            </div>
+            <div className="flex flex-col gap-2 flex-1">
+              <div className="flex flex-wrap items-center gap-3">
+                <h3 className="text-xl font-bold text-foreground">{company.name}</h3>
+                <span
+                  className="rounded-md px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
+                  style={{ background: `${company.color}22`, color: company.color }}
+                >
+                  Flagship
+                </span>
+              </div>
+              <p className="text-sm font-medium" style={{ color: company.color }}>{company.tagline}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{company.description}</p>
+            </div>
+            <button
+              className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold transition-all duration-200 hover:opacity-90"
+              style={{ background: `${company.color}22`, color: company.color }}
+              aria-label={`Learn more about ${company.name}`}
+            >
+              Learn More
+              <ArrowUpRight size={13} aria-hidden="true" />
+            </button>
+          </div>
+        ))}
+
+        {/* Grid — remaining four companies */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {companies.filter((c) => !c.featured).map((company) => (
+            <div
+              key={company.name}
+              className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card transition-all duration-300 hover:border-white/20 overflow-hidden"
+            >
               <div
                 className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-25 blur-[60px]"
-                style={{ background: project.accentColor }}
+                style={{ background: company.color }}
                 aria-hidden="true"
               />
-
-              <div className="flex flex-col gap-3 flex-1">
-                {/* Tag + Status row */}
-                <div className="flex items-center justify-between gap-2">
-                  <span
-                    className="rounded-md px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
-                    style={{
-                      background: `${project.accentColor}22`,
-                      color: project.accentColor,
-                    }}
-                  >
-                    {project.tag}
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <div
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{ background: project.statusColor }}
-                      aria-hidden="true"
-                    />
-                    <span className="text-[10px] font-medium" style={{ color: project.statusColor }}>
-                      {project.status}
-                    </span>
-                  </div>
+              <div className="flex items-start justify-between gap-3">
+                <div
+                  className="flex h-11 w-11 items-center justify-center rounded-xl"
+                  style={{ background: `${company.color}22` }}
+                >
+                  <company.icon size={22} style={{ color: company.color }} aria-hidden="true" />
                 </div>
-
-                <h3
-                  className={`font-bold text-foreground tracking-tight ${
-                    i === 0 ? "text-2xl" : "text-lg"
-                  }`}
-                >
-                  {project.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed flex-1">{project.description}</p>
-              </div>
-
-              {/* Launch link */}
-              <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
                 <button
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
-                  style={{ color: project.accentColor }}
-                  aria-label={`Launch ${project.title}`}
+                  className="inline-flex items-center gap-1 text-xs font-semibold transition-colors duration-200"
+                  style={{ color: company.color }}
+                  aria-label={`Learn more about ${company.name}`}
                 >
-                  Launch
-                  <ArrowUpRight size={13} aria-hidden="true" />
+                  Learn More
+                  <ArrowUpRight size={12} aria-hidden="true" />
                 </button>
-                <span className="text-[10px] text-muted-foreground">SoloSuccess</span>
               </div>
+              <div className="flex flex-col gap-1.5">
+                <h3 className="text-base font-bold text-foreground">{company.name}</h3>
+                <p className="text-xs font-medium" style={{ color: company.color }}>{company.tagline}</p>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">{company.description}</p>
+
+              {/* Bottom accent line */}
+              <div
+                className="absolute bottom-0 left-7 right-7 h-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-50"
+                style={{ background: company.color }}
+                aria-hidden="true"
+              />
             </div>
           ))}
         </div>

@@ -1,58 +1,37 @@
-import { Layers, Cpu, Globe, Shield, BarChart2, Zap } from "lucide-react"
+import { Lightbulb, Target, Heart } from "lucide-react"
 
-const features = [
+const values = [
   {
-    icon: Layers,
-    title: "Modular Architecture",
+    icon: Lightbulb,
+    title: "Built from Experience",
     description:
-      "Stack and compose project modules with precision. Every component of your ecosystem plugs in seamlessly.",
-    accent: "oklch(0.58 0.22 255)",
+      "Every company in the SoloSuccess family was born out of a real problem faced on the solo entrepreneur journey — not a whiteboard exercise.",
+    color: "#F5C400",
   },
   {
-    icon: Cpu,
-    title: "AI-Powered Insights",
+    icon: Target,
+    title: "Focused on Execution",
     description:
-      "Harness intelligent automation that learns your workflow and surfaces opportunities before you see them.",
-    accent: "oklch(0.45 0.22 300)",
+      "Ideas are easy. Execution is everything. SoloSuccess Solutions exists to give solo builders the same resources that large teams have access to.",
+    color: "#009B94",
   },
   {
-    icon: Globe,
-    title: "Global Infrastructure",
+    icon: Heart,
+    title: "Community First",
     description:
-      "Deploy from anywhere. Your solutions reach every corner of the planet with sub-100ms latency guarantees.",
-    accent: "oklch(0.62 0.14 185)",
-  },
-  {
-    icon: Shield,
-    title: "Enterprise Security",
-    description:
-      "Zero-trust architecture from day one. Your data, your rules — protected by multi-layer encryption.",
-    accent: "oklch(0.58 0.22 255)",
-  },
-  {
-    icon: BarChart2,
-    title: "Real-Time Analytics",
-    description:
-      "Live dashboards that distill signal from noise, giving you the clarity to make bold, informed decisions.",
-    accent: "oklch(0.62 0.14 185)",
-  },
-  {
-    icon: Zap,
-    title: "Instant Deployment",
-    description:
-      "From concept to live in minutes. The launchpad handles the complexity so you stay focused on impact.",
-    accent: "oklch(0.45 0.22 300)",
+      "Solo doesn't mean alone. The entire SoloSuccess ecosystem is designed to connect, support, and elevate the community of builders around it.",
+    color: "#D93025",
   },
 ]
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="relative overflow-hidden px-6 py-24 sm:py-32">
-      {/* Faint nebula orb */}
+    <section id="about" className="relative overflow-hidden px-6 py-24 sm:py-32">
+      {/* Background orb */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute top-1/2 right-0 h-[500px] w-[500px] -translate-y-1/2 rounded-full opacity-15 blur-[130px]"
-          style={{ background: "radial-gradient(circle, oklch(0.45 0.22 300), transparent 70%)" }}
+          className="absolute top-1/2 left-0 h-[500px] w-[500px] -translate-y-1/2 rounded-full opacity-12 blur-[130px]"
+          style={{ background: "radial-gradient(circle, #2D9E2A, transparent 70%)" }}
         />
       </div>
 
@@ -61,49 +40,66 @@ export function FeaturesSection() {
         <div className="mb-16 flex flex-col items-center gap-4 text-center">
           <span
             className="rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-widest glass-card"
-            style={{ color: "oklch(0.62 0.14 185)", borderColor: "oklch(0.62 0.14 185 / 0.25)" }}
+            style={{ color: "#F07B1F", borderColor: "#F07B1F40" }}
           >
-            Core Capabilities
+            About the Founder
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-balance">
-            Every tool you need.{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, oklch(0.45 0.22 300) 0%, oklch(0.62 0.14 185) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Nothing you don&apos;t.
-            </span>
+            Building the future of{" "}
+            <span style={{ color: "#F07B1F" }}>solo entrepreneurship.</span>
           </h2>
-          <p className="max-w-md text-sm text-muted-foreground leading-relaxed">
-            Built specifically for solo founders and small teams who need enterprise-grade power without the overhead.
-          </p>
         </div>
 
-        {/* Features grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feat) => (
+        {/* Founder bio card */}
+        <div className="mb-14 rounded-2xl p-8 sm:p-10 glass-card">
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* Avatar placeholder */}
             <div
-              key={feat.title}
-              className="group relative rounded-2xl p-6 glass-card transition-all duration-300 hover:border-primary/30"
+              className="flex-shrink-0 flex h-24 w-24 items-center justify-center rounded-2xl text-4xl font-bold"
+              style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)", color: "#fff" }}
+              aria-hidden="true"
             >
-              {/* Icon */}
+              S
+            </div>
+            <div className="flex flex-col gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-foreground">The Vision Behind SoloSuccess</h3>
+                <p className="text-sm mt-0.5" style={{ color: "#6B44A0" }}>Founder &amp; CEO, SoloSuccess Solutions</p>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                SoloSuccess Solutions was founded on a simple but powerful belief: that a single person with the right
+                tools, knowledge, and community can build something remarkable. The modern solo entrepreneur faces the
+                same challenges as a full enterprise — marketing, operations, technology, education, and community —
+                but without the team or budget to match.
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                That gap is exactly what this ecosystem was designed to close. Each company under the SoloSuccess
+                umbrella was created to tackle one specific piece of that puzzle — giving solo builders access to
+                enterprise-level resources without the enterprise-level overhead.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Values grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {values.map((val) => (
+            <div
+              key={val.title}
+              className="group relative rounded-2xl p-6 glass-card transition-all duration-300 hover:border-white/20"
+            >
               <div
                 className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{ background: `${feat.accent}22` }}
+                style={{ background: `${val.color}22` }}
               >
-                <feat.icon size={20} style={{ color: feat.accent }} aria-hidden="true" />
+                <val.icon size={20} style={{ color: val.color }} aria-hidden="true" />
               </div>
-              <h3 className="mb-2 text-base font-semibold text-foreground">{feat.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{feat.description}</p>
+              <h3 className="mb-2 text-base font-semibold text-foreground">{val.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{val.description}</p>
 
-              {/* Subtle hover glow line */}
               <div
-                className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-60"
-                style={{ background: feat.accent }}
+                className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-50"
+                style={{ background: val.color }}
                 aria-hidden="true"
               />
             </div>
