@@ -23,14 +23,26 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
   return (
     <div className="min-h-screen font-sans" style={{ background: "oklch(0.08 0.015 260)" }}>
 
-      {/* Static color wash background — brand-tinted */}
+      {/* Static color wash background — rich brand-tinted washes */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
-        <div className="absolute -top-96 -left-96 h-[1200px] w-[1200px] rounded-full blur-[220px]"
+        {/* Deep base tint over the dark background */}
+        <div className="absolute inset-0"
+          style={{ background: `radial-gradient(ellipse at 50% 0%, ${brand.color}30 0%, transparent 60%)` }} />
+        {/* Top-left dominant wash */}
+        <div className="absolute -top-64 -left-64 h-[1100px] w-[1100px] rounded-full blur-[200px]"
+          style={{ background: `radial-gradient(circle, ${brand.color}99 0%, transparent 65%)` }} />
+        {/* Bottom-right wash */}
+        <div className="absolute -bottom-64 -right-64 h-[1100px] w-[1100px] rounded-full blur-[200px]"
+          style={{ background: `radial-gradient(circle, ${brand.secondaryColor}88 0%, transparent 65%)` }} />
+        {/* Center accent */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[700px] w-[700px] rounded-full blur-[180px]"
           style={{ background: `radial-gradient(circle, ${brand.color}55 0%, transparent 65%)` }} />
-        <div className="absolute -bottom-96 -right-96 h-[1100px] w-[1100px] rounded-full blur-[220px]"
-          style={{ background: `radial-gradient(circle, ${brand.secondaryColor}40 0%, transparent 65%)` }} />
-        <div className="absolute top-1/2 left-1/2 h-[800px] w-[800px] rounded-full blur-[200px]"
-          style={{ background: `radial-gradient(circle, ${brand.color}25 0%, transparent 65%)` }} />
+        {/* Top-right secondary wash */}
+        <div className="absolute -top-32 -right-32 h-[700px] w-[700px] rounded-full blur-[180px]"
+          style={{ background: `radial-gradient(circle, ${brand.secondaryColor}66 0%, transparent 65%)` }} />
+        {/* Bottom-left secondary wash */}
+        <div className="absolute -bottom-32 -left-32 h-[600px] w-[600px] rounded-full blur-[160px]"
+          style={{ background: `radial-gradient(circle, ${brand.color}66 0%, transparent 65%)` }} />
       </div>
 
       {/* Navbar */}
