@@ -52,8 +52,8 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-caveat), 'Caveat', cursive;
+  --font-sans: var(--font-raleway), 'Raleway', ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-henny-penny), 'Henny Penny', cursive;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -148,7 +148,7 @@
   background: linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0);
 }
 
-/* Display / Caveat font utility */
+/* Henny Penny display font utility */
 .font-display {
   font-family: var(--font-display);
 }

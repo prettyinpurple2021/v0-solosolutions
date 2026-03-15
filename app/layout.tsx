@@ -1,18 +1,18 @@
 import type { Metadata } from 'next'
-import { Syne, Caveat } from 'next/font/google'
+import { Henny_Penny, Raleway } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const syne = Syne({
+const hennyPenny = Henny_Penny({
   subsets: ['latin'],
-  variable: '--font-syne',
-  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-henny-penny',
+  weight: '400',
 })
 
-const caveat = Caveat({
+const raleway = Raleway({
   subsets: ['latin'],
-  variable: '--font-caveat',
-  weight: ['400', '500', '600', '700'],
+  variable: '--font-raleway',
+  weight: ['300', '400', '500', '600', '700', '800'],
 })
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${caveat.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${hennyPenny.variable} ${raleway.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
