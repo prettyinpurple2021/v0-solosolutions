@@ -16,62 +16,37 @@ const heroLetters = [
   { char: "s", color: "#005FA3" },
 ]
 
-const orbKeyframes = `
-  @keyframes drift-a {
-    0%   { transform: translate3d(0vw,   0vh,  0); }
-    20%  { transform: translate3d(8vw,  -6vh,  0); }
-    40%  { transform: translate3d(5vw, -12vh,  0); }
-    60%  { transform: translate3d(-4vw, -8vh,  0); }
-    80%  { transform: translate3d(-7vw,  3vh,  0); }
-    100% { transform: translate3d(0vw,   0vh,  0); }
-  }
-  @keyframes drift-b {
-    0%   { transform: translate3d(0vw,   0vh,  0); }
-    25%  { transform: translate3d(-10vw,  7vh,  0); }
-    50%  { transform: translate3d(-6vw, -10vh,  0); }
-    75%  { transform: translate3d(9vw,   5vh,  0); }
-    100% { transform: translate3d(0vw,   0vh,  0); }
-  }
-  @keyframes drift-c {
-    0%   { transform: translate3d(0vw,  0vh,  0); }
-    33%  { transform: translate3d(7vw,  9vh,  0); }
-    66%  { transform: translate3d(-8vw, 5vh,  0); }
-    100% { transform: translate3d(0vw,  0vh,  0); }
-  }
-`
-
 export function HeroSection() {
   return (
     <section
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-20"
       aria-label="Hero"
     >
-      {/* Keyframes injected directly so they can never be overridden */}
-      <style dangerouslySetInnerHTML={{ __html: orbKeyframes }} />
-
-      {/* Soft cloud-like color washes — full logo spectrum */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Purple — top left */}
-        <div className="absolute -top-64 -left-64 h-[1100px] w-[1100px] rounded-full blur-[200px]"
-          style={{ background: "radial-gradient(circle at 40% 40%, #6B44A0cc, #6B44A055 45%, transparent 70%)", animationName: "drift-a", animationDuration: "240s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite" }} />
-        {/* Blue — bottom right */}
-        <div className="absolute -bottom-64 -right-64 h-[1000px] w-[1000px] rounded-full blur-[200px]"
-          style={{ background: "radial-gradient(circle at 60% 60%, #005FA3cc, #005FA355 45%, transparent 70%)", animationName: "drift-b", animationDuration: "280s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite" }} />
-        {/* Teal — center right */}
-        <div className="absolute top-1/3 right-0 h-[700px] w-[700px] rounded-full blur-[180px]"
-          style={{ background: "radial-gradient(circle at 50% 50%, #009B94bb, #009B9444 45%, transparent 70%)", animationName: "drift-c", animationDuration: "200s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite" }} />
-        {/* Red — bottom left */}
-        <div className="absolute bottom-0 -left-32 h-[650px] w-[650px] rounded-full blur-[180px]"
-          style={{ background: "radial-gradient(circle at 40% 60%, #D93025bb, #D9302544 45%, transparent 70%)", animationName: "drift-a", animationDuration: "300s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite", animationDirection: "reverse" }} />
-        {/* Orange — top right */}
-        <div className="absolute -top-32 right-0 h-[600px] w-[600px] rounded-full blur-[160px]"
-          style={{ background: "radial-gradient(circle at 60% 40%, #F07B1Fbb, #F07B1F44 45%, transparent 70%)", animationName: "drift-b", animationDuration: "260s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite", animationDelay: "-40s" }} />
-        {/* Green — center */}
-        <div className="absolute top-1/2 left-1/4 h-[550px] w-[550px] rounded-full blur-[160px]"
-          style={{ background: "radial-gradient(circle at 50% 50%, #2D9E2Aaa, #2D9E2A33 45%, transparent 70%)", animationName: "drift-c", animationDuration: "290s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite", animationDelay: "-90s" }} />
-        {/* Yellow — center top */}
-        <div className="absolute top-0 left-1/2 h-[500px] w-[500px] rounded-full blur-[150px]"
-          style={{ background: "radial-gradient(circle at 50% 40%, #F5C400aa, #F5C40033 45%, transparent 70%)", animationName: "drift-a", animationDuration: "220s", animationTimingFunction: "ease-in-out", animationIterationCount: "infinite", animationDelay: "-130s" }} />
+      {/* Static rainbow color wash — no animation, no blinking */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        {/* Base deep-space background */}
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 260)" }} />
+        {/* Purple wash — top left */}
+        <div className="absolute -top-96 -left-96 h-[1200px] w-[1200px] rounded-full blur-[220px]"
+          style={{ background: "radial-gradient(circle, #6B44A080 0%, transparent 65%)" }} />
+        {/* Blue wash — bottom right */}
+        <div className="absolute -bottom-96 -right-96 h-[1200px] w-[1200px] rounded-full blur-[220px]"
+          style={{ background: "radial-gradient(circle, #005FA380 0%, transparent 65%)" }} />
+        {/* Teal wash — right center */}
+        <div className="absolute top-1/4 -right-48 h-[900px] w-[900px] rounded-full blur-[200px]"
+          style={{ background: "radial-gradient(circle, #009B9460 0%, transparent 65%)" }} />
+        {/* Red wash — lower left */}
+        <div className="absolute bottom-0 -left-48 h-[800px] w-[800px] rounded-full blur-[200px]"
+          style={{ background: "radial-gradient(circle, #D9302560 0%, transparent 65%)" }} />
+        {/* Orange wash — top right */}
+        <div className="absolute -top-48 right-1/4 h-[700px] w-[700px] rounded-full blur-[180px]"
+          style={{ background: "radial-gradient(circle, #F07B1F50 0%, transparent 65%)" }} />
+        {/* Green wash — center */}
+        <div className="absolute top-1/2 left-1/3 h-[600px] w-[600px] rounded-full blur-[180px]"
+          style={{ background: "radial-gradient(circle, #2D9E2A50 0%, transparent 65%)" }} />
+        {/* Yellow wash — top center */}
+        <div className="absolute -top-32 left-1/2 h-[600px] w-[600px] rounded-full blur-[180px]"
+          style={{ background: "radial-gradient(circle, #F5C40040 0%, transparent 65%)" }} />
       </div>
 
       <div className="relative z-10 flex flex-col items-center gap-8 text-center max-w-4xl mx-auto">
