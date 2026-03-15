@@ -55,8 +55,8 @@ export function HeroSection() {
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
             alt="SoloSuccess Solutions diamond logo"
-            width={180}
-            height={180}
+            width={280}
+            height={280}
             className="object-contain"
             priority
           />

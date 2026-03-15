@@ -48,8 +48,8 @@ export function Navbar() {
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
             alt="SoloSuccess Solutions logo"
-            width={44}
-            height={44}
+            width={64}
+            height={64}
             className="object-contain"
           />
           <span className="hidden sm:block text-sm font-bold tracking-tight">

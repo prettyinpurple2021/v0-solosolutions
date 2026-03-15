@@ -45,8 +45,8 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
               alt="SoloSuccess Solutions"
-              width={36}
-              height={36}
+              width={64}
+              height={64}
               className="object-contain"
             />
             <span className="hidden sm:flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6b7280" }}>
@@ -78,8 +78,8 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
                 <Image
                   src={brand.logoUrl}
                   alt={`${brand.name} logo`}
-                  width={200}
-                  height={200}
+                  width={360}
+                  height={360}
                   className="object-contain"
                   priority
                 />
