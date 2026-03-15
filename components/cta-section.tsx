@@ -46,8 +46,8 @@ export function CtaSection() {
           </Link>
           <Link
             href="#companies"
-            className="inline-flex items-center gap-2 rounded-xl border px-8 py-3.5 text-sm font-bold glass-card transition-all duration-500 hover:opacity-80"
-            style={{ color: "#9CA3AF", borderColor: "#9CA3AF44" }}
+            className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold transition-all duration-500 hover:opacity-80"
+            style={{ color: "#9CA3AF", border: "2px solid #9CA3AF", background: "oklch(0.15 0.020 265 / 0.38)", backdropFilter: "blur(16px)" }}
           >
             View Our Companies
           </Link>
