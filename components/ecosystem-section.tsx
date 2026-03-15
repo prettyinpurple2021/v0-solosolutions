@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { ArrowUpRight, Brain, BookOpen, Film, Users, PenLine } from "lucide-react"
 
 const companies = [
@@ -8,6 +9,7 @@ const companies = [
     description:
       "Cutting-edge artificial intelligence tools designed specifically for solo founders and small teams. Automate workflows, generate content, analyze data, and make smarter business decisions — all without a full team behind you.",
     color: "#005FA3",
+    href: "/brands/ai",
     featured: true,
   },
   {
@@ -17,6 +19,7 @@ const companies = [
     description:
       "Practical courses, coaching programs, and learning resources that teach real skills for building and scaling a solo business. No fluff — just actionable frameworks from founders who have done it.",
     color: "#2D9E2A",
+    href: "/brands/academy",
     featured: false,
   },
   {
@@ -26,6 +29,7 @@ const companies = [
     description:
       "Done-for-you and done-with-you content solutions that help entrepreneurs show up consistently across platforms. From short-form video to long-form articles, we turn your expertise into content that converts.",
     color: "#F07B1F",
+    href: "/brands/content-factory",
     featured: false,
   },
   {
@@ -35,6 +39,7 @@ const companies = [
     description:
       "A curated network of like-minded entrepreneurs, collaborators, and mentors. Find accountability partners, referral partners, and real relationships that accelerate your growth.",
     color: "#D93025",
+    href: "/brands/connect",
     featured: false,
   },
   {
@@ -44,6 +49,7 @@ const companies = [
     description:
       "Professional writing services and tools for solo entrepreneurs who need compelling copy. Sales pages, email sequences, social content, and brand voice development — written to convert.",
     color: "#6B44A0",
+    href: "/brands/soloscribe",
     featured: false,
   },
 ]
@@ -123,14 +129,15 @@ export function EcosystemSection() {
               <p className="text-sm font-semibold" style={{ color: `${company.color}cc` }}>{company.tagline}</p>
               <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
             </div>
-            <button
+            <Link
+              href={company.href}
               className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold transition-all duration-500 hover:opacity-80"
               style={{ color: company.color, border: `2px solid ${company.color}`, background: `${company.color}14` }}
               aria-label={`Learn more about ${company.name}`}
             >
               Learn More
               <ArrowUpRight size={13} aria-hidden="true" />
-            </button>
+            </Link>
           </div>
         ))}
 
@@ -159,14 +166,15 @@ export function EcosystemSection() {
                 >
                   <company.icon size={22} style={{ color: company.color }} aria-hidden="true" />
                 </div>
-                <button
+                <Link
+                  href={company.href}
                   className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-500 hover:opacity-80"
                   style={{ color: company.color, border: `2px solid ${company.color}`, background: `${company.color}14` }}
                   aria-label={`Learn more about ${company.name}`}
                 >
                   Learn More
                   <ArrowUpRight size={12} aria-hidden="true" />
-                </button>
+                </Link>
               </div>
               <div className="flex flex-col gap-1">
                 <h3 className="text-lg font-extrabold" style={{ color: company.color }}>{company.name}</h3>

@@ -4,11 +4,11 @@ import Image from "next/image"
 const footerColors = ["#D93025", "#2D9E2A", "#F07B1F", "#009B94", "#6B44A0"]
 
 const footerLinks = [
-  { label: "SoloSuccess AI", href: "#companies", color: "#005FA3" },
-  { label: "SoloSuccess Academy", href: "#companies", color: "#2D9E2A" },
-  { label: "Content Factory", href: "#companies", color: "#F07B1F" },
-  { label: "SoloSuccess Connect", href: "#companies", color: "#D93025" },
-  { label: "SoloScribe", href: "#companies", color: "#6B44A0" },
+  { label: "SoloSuccess AI", href: "/brands/ai", color: "#005FA3" },
+  { label: "SoloSuccess Academy", href: "/brands/academy", color: "#2D9E2A" },
+  { label: "Content Factory", href: "/brands/content-factory", color: "#F07B1F" },
+  { label: "SoloSuccess Connect", href: "/brands/connect", color: "#D93025" },
+  { label: "SoloScribe", href: "/brands/soloscribe", color: "#6B44A0" },
 ]
 
 export function Footer() {
