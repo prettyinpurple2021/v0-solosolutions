@@ -89,6 +89,18 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Anchor offset so fixed navbar doesn't cover section headings */
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Body text — more readable default */
+.text-body {
+  color: oklch(0.72 0.025 250);
+}
+.text-body-dim {
+  color: oklch(0.58 0.025 250);
 }
 
 /* Glassmorphism — base card */
@@ -235,3 +247,36 @@
 .orb-e { animation: orb-drift-b 150s ease-in-out infinite 25s; }
 .orb-f { animation: orb-drift-c 170s ease-in-out infinite 50s; }
 .orb-g { animation: orb-drift-a 130s ease-in-out infinite 75s; }
+
+/* Scroll-reveal — sections fade up on enter */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.reveal.revealed {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger children inside a reveal container */
+.reveal-children > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-children.revealed > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.05s; }
+.reveal-children.revealed > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.15s; }
+.reveal-children.revealed > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.25s; }
+.reveal-children.revealed > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.35s; }
+.reveal-children.revealed > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.45s; }
+.reveal-children.revealed > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.55s; }

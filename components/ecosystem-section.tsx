@@ -86,7 +86,7 @@ export function EcosystemSection() {
             ))}
             <span style={{ color: "#9CA3AF" }}>mission.</span>
           </h2>
-          <p className="max-w-lg text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
+          <p className="max-w-lg text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>
             Each company in the SoloSuccess family is purpose-built to serve a specific need of the solo entrepreneur
             — from AI tools to education, content, community, and copywriting.
           </p>
@@ -127,7 +127,7 @@ export function EcosystemSection() {
                 </span>
               </div>
               <p className="text-sm font-semibold" style={{ color: `${company.color}cc` }}>{company.tagline}</p>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>{company.description}</p>
             </div>
             <Link
               href={company.href}
@@ -180,7 +180,7 @@ export function EcosystemSection() {
                 <h3 className="text-lg font-extrabold" style={{ color: company.color }}>{company.name}</h3>
                 <p className="text-xs font-semibold" style={{ color: `${company.color}cc` }}>{company.tagline}</p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>{company.description}</p>
 
               {/* Bottom accent line on hover */}
               <div

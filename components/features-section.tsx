@@ -82,13 +82,13 @@ export function FeaturesSection() {
                   Founder &amp; CEO, SoloSuccess Solutions
                 </p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>
                 SoloSuccess Solutions was founded on a simple but powerful belief: that a single person with the right
                 tools, knowledge, and community can build something remarkable. The modern solo entrepreneur faces the
                 same challenges as a full enterprise — marketing, operations, technology, education, and community —
                 but without the team or budget to match.
               </p>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>
                 That gap is exactly what this ecosystem was designed to close. Each company under the SoloSuccess
                 umbrella was created to tackle one specific piece of that puzzle — giving solo builders access to
                 enterprise-level resources without the enterprise-level overhead.
@@ -118,7 +118,7 @@ export function FeaturesSection() {
                 <val.icon size={20} style={{ color: val.color }} aria-hidden="true" />
               </div>
               <h3 className="mb-2 text-base font-extrabold" style={{ color: val.color }}>{val.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{val.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>{val.description}</p>
 
               <div
                 className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-50"
