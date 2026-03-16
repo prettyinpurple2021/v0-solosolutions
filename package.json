@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm install && next dev --turbopack",
-    "build": "pnpm install && next build",
+    "dev": "next dev --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint ."
   },
