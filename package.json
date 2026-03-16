@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx next dev",
-    "build": "npx next build",
-    "start": "npx next start",
-    "lint": "npx eslint ."
+    "dev": "cd /vercel/share/v0-project && node_modules/.bin/next dev",
+    "build": "cd /vercel/share/v0-project && node_modules/.bin/next build",
+    "start": "cd /vercel/share/v0-project && node_modules/.bin/next start",
+    "lint": "node_modules/.bin/eslint ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
