@@ -108,7 +108,7 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
             {/* Tagline badge */}
             <div
               className="inline-flex items-center gap-2 rounded-full px-5 py-2 glass-card"
-              style={{ borderColor: `${brand.color}55` }}
+              style={{ borderColor: `${brand.color}66`, boxShadow: `0 0 20px ${brand.color}33` }}
             >
               <span className="font-display text-sm font-semibold" style={{ color: brand.color }}>
                 {brand.tagline}
@@ -170,16 +170,16 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
               {brand.features.map((feature, i) => (
                 <div
                   key={feature.title}
-                  className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card overflow-hidden transition-all duration-700"
-                  style={{ borderColor: `${brand.color}33` }}
+                  className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card glass-shimmer overflow-hidden transition-all duration-700 hover:glass-card-deep"
+                  style={{ borderColor: `${brand.color}44` }}
                 >
                   {/* Top accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl"
+                  <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
                     style={{ background: `linear-gradient(90deg, ${spectrumColors[i % spectrumColors.length]}, transparent)` }}
                     aria-hidden="true"
                   />
                   <div className="flex items-center gap-3">
-                    <CheckCircle2 size={20} style={{ color: spectrumColors[i % spectrumColors.length] }} aria-hidden="true" />
+                    <CheckCircle2 size={20} style={{ color: spectrumColors[i % spectrumColors.length], filter: `drop-shadow(0 0 6px ${spectrumColors[i % spectrumColors.length]}88)` }} aria-hidden="true" />
                     <h3 className="text-base font-extrabold" style={{ color: "#f0f4ff" }}>{feature.title}</h3>
                   </div>
                   <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{feature.description}</p>
@@ -192,16 +192,21 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
         {/* CTA band */}
         <section id="contact" className="px-6 pb-28" aria-label="Call to action">
           <div
-            className="mx-auto max-w-3xl rounded-3xl p-10 sm:p-14 text-center glass-card overflow-hidden relative"
-            style={{ borderColor: `${brand.color}55` }}
+            className="mx-auto max-w-3xl rounded-3xl p-10 sm:p-14 text-center glass-card-deep glass-shimmer overflow-hidden relative"
+            style={{ borderColor: `${brand.color}66` }}
           >
             {/* Brand color glow */}
             <div className="pointer-events-none absolute inset-0 rounded-3xl"
-              style={{ background: `radial-gradient(ellipse at 50% 0%, ${brand.color}22 0%, transparent 70%)` }}
+              style={{ background: `radial-gradient(ellipse at 50% 0%, ${brand.color}30 0%, transparent 65%)` }}
+              aria-hidden="true"
+            />
+            {/* Secondary color bottom glow */}
+            <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-40 w-80 rounded-full blur-[50px] opacity-25"
+              style={{ background: brand.secondaryColor }}
               aria-hidden="true"
             />
             {/* Top rainbow line */}
-            <div className="absolute top-0 left-0 right-0 h-1 rounded-t-3xl"
+            <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-3xl"
               style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
               aria-hidden="true"
             />

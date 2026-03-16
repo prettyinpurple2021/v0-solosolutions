@@ -50,14 +50,22 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center gap-8 text-center max-w-4xl mx-auto">
-        {/* Logo */}
+        {/* Deep glass backdrop behind all hero content */}
+        <div className="absolute inset-x-[-2rem] inset-y-[-3rem] rounded-3xl glass-card-deep glass-shimmer pointer-events-none" aria-hidden="true" />
+
+        <div className="relative z-10 flex flex-col items-center gap-8">
+        {/* Logo with glow ring */}
         <div className="relative">
+          <div className="absolute inset-0 rounded-full blur-[60px] opacity-40"
+            style={{ background: "radial-gradient(circle, #6B44A0 0%, #005FA3 50%, transparent 75%)" }}
+            aria-hidden="true"
+          />
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
             alt="SoloSuccess Solutions diamond logo"
             width={280}
             height={280}
-            className="object-contain"
+            className="relative object-contain drop-shadow-2xl"
             priority
           />
         </div>
@@ -110,12 +118,13 @@ export function HeroSection() {
             Meet the Founder
           </Link>
         </div>
-      </div>
+        </div>{/* end inner z-10 */}
+      </div>{/* end outer max-w */}
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40" aria-hidden="true">
-        <div className="h-8 w-px rounded-full" style={{ background: "linear-gradient(to bottom, #6B44A0, transparent)" }} />
-        <span className="font-display text-xs" style={{ color: "#9CA3AF" }}>scroll</span>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-50" aria-hidden="true">
+        <div className="h-10 w-[2px] rounded-full" style={{ background: "linear-gradient(to bottom, #6B44A0, #005FA3, transparent)" }} />
+        <span className="font-display text-xs tracking-widest uppercase" style={{ color: "#9CA3AF" }}>scroll</span>
       </div>
     </section>
   )

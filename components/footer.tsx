@@ -13,10 +13,9 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t px-6 py-12"
-      style={{ borderColor: "#ffffff14" }}>
-      {/* Rainbow border top */}
-      <div className="absolute top-0 left-0 right-0 h-px"
+    <footer className="relative glass-panel px-6 py-12">
+      {/* Rainbow border top — 3px */}
+      <div className="absolute top-0 left-0 right-0 h-[3px]"
         style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
         aria-hidden="true"
       />
