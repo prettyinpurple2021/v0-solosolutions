@@ -11,6 +11,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  outputFileTracingRoot: __dirname,
   turbopack: {
     root: __dirname,
   },
