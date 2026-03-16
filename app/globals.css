@@ -89,25 +89,90 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Anchor offset so fixed navbar doesn't cover section headings */
+  section[id] {
+    scroll-margin-top: 80px;
+  }
 }
 
-/* Glassmorphism utility */
+/* Body text — more readable default */
+.text-body {
+  color: oklch(0.72 0.025 250);
+}
+.text-body-dim {
+  color: oklch(0.58 0.025 250);
+}
+
+/* Glassmorphism — base card */
 .glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: oklch(0.14 0.022 265 / 0.55);
+  border: 1px solid oklch(0.60 0.055 270 / 0.22);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:
+    0 4px 32px oklch(0 0 0 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.07);
 }
 
-/* Glow utilities using logo colors */
+/* Deep glass — for hero panels, featured cards, CTA bands */
+.glass-card-deep {
+  background: oklch(0.12 0.025 265 / 0.65);
+  border: 1px solid oklch(0.65 0.060 270 / 0.28);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  box-shadow:
+    0 8px 48px oklch(0 0 0 / 0.50),
+    0 2px 12px oklch(0 0 0 / 0.25),
+    inset 0 1px 0 oklch(1 0 0 / 0.10),
+    inset 0 -1px 0 oklch(0 0 0 / 0.20);
+}
+
+/* Glass section panel — full-width frosted strips */
+.glass-panel {
+  background: oklch(0.11 0.018 265 / 0.48);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  border-top: 1px solid oklch(0.60 0.055 270 / 0.18);
+  border-bottom: 1px solid oklch(0.60 0.055 270 / 0.18);
+}
+
+/* Glow utilities */
 .glow-primary {
   box-shadow: 0 0 28px oklch(0.52 0.20 270 / 0.40), 0 0 70px oklch(0.52 0.20 270 / 0.14);
 }
 .glow-purple {
-  box-shadow: 0 0 24px #6B44A0AA, 0 0 64px #6B44A022;
+  box-shadow: 0 0 32px #6B44A0BB, 0 0 80px #6B44A033;
 }
 .glow-teal {
-  box-shadow: 0 0 24px #009B94AA, 0 0 64px #009B9422;
+  box-shadow: 0 0 32px #009B94BB, 0 0 80px #009B9433;
+}
+.glow-red {
+  box-shadow: 0 0 32px #D93025BB, 0 0 80px #D9302533;
+}
+.glow-green {
+  box-shadow: 0 0 32px #2D9E2ABB, 0 0 80px #2D9E2A33;
+}
+.glow-orange {
+  box-shadow: 0 0 32px #F07B1FBB, 0 0 80px #F07B1F33;
+}
+.glow-blue {
+  box-shadow: 0 0 32px #005FA3BB, 0 0 80px #005FA333;
+}
+
+/* Shimmer top highlight — add to any glass element for extra depth */
+.glass-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.06) 0%,
+    transparent 40%,
+    transparent 60%,
+    oklch(1 0 0 / 0.03) 100%
+  );
+  pointer-events: none;
 }
 
 /* Rainbow text gradient */
@@ -182,3 +247,36 @@
 .orb-e { animation: orb-drift-b 150s ease-in-out infinite 25s; }
 .orb-f { animation: orb-drift-c 170s ease-in-out infinite 50s; }
 .orb-g { animation: orb-drift-a 130s ease-in-out infinite 75s; }
+
+/* Scroll-reveal — sections fade up on enter */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.reveal.revealed {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger children inside a reveal container */
+.reveal-children > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-children.revealed > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.05s; }
+.reveal-children.revealed > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.15s; }
+.reveal-children.revealed > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.25s; }
+.reveal-children.revealed > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.35s; }
+.reveal-children.revealed > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.45s; }
+.reveal-children.revealed > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.55s; }

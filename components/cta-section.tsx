@@ -15,10 +15,25 @@ export function CtaSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-3xl text-center flex flex-col items-center gap-8">
+        {/* Deep glass card wraps everything */}
+        <div className="w-full rounded-3xl p-10 sm:p-14 glass-card-deep glass-shimmer relative overflow-hidden"
+          style={{ borderColor: "oklch(0.60 0.055 270 / 0.35)" }}>
+          {/* Rainbow top stripe */}
+          <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-3xl"
+            style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
+            aria-hidden="true"
+          />
+          {/* Inner purple/teal glow */}
+          <div className="pointer-events-none absolute -top-16 left-1/4 h-40 w-64 rounded-full blur-[50px] opacity-30"
+            style={{ background: "#6B44A0" }} aria-hidden="true" />
+          <div className="pointer-events-none absolute -bottom-10 right-1/4 h-36 w-56 rounded-full blur-[50px] opacity-25"
+            style={{ background: "#009B94" }} aria-hidden="true" />
+
+          <div className="relative z-10 flex flex-col items-center gap-8">
         {/* Icon */}
         <div
           className="inline-flex h-16 w-16 items-center justify-center rounded-2xl rainbow-border"
-          style={{ background: "linear-gradient(135deg, #6B44A022, #005FA322)" }}
+          style={{ background: "linear-gradient(135deg, #6B44A022, #005FA322)", boxShadow: "0 0 32px #6B44A066" }}
         >
           <Mail size={28} style={{ color: "#6B44A0" }} aria-hidden="true" />
         </div>
@@ -29,7 +44,7 @@ export function CtaSection() {
         </h2>
 
         {/* Subtext */}
-        <p className="max-w-lg text-base leading-relaxed" style={{ color: "#8a8fa8" }}>
+        <p className="max-w-lg text-base leading-relaxed" style={{ color: "#c4c8d4" }}>
           Whether you&apos;re interested in partnering, collaborating, investing, or just want to learn more about the
           SoloSuccess ecosystem — we&apos;d love to hear from you.
         </p>
@@ -52,6 +67,8 @@ export function CtaSection() {
             View Our Companies
           </Link>
         </div>
+          </div>{/* end relative z-10 */}
+        </div>{/* end glass card */}
       </div>
     </section>
   )

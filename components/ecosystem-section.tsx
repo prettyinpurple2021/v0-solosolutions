@@ -86,7 +86,7 @@ export function EcosystemSection() {
             ))}
             <span style={{ color: "#9CA3AF" }}>mission.</span>
           </h2>
-          <p className="max-w-lg text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
+          <p className="max-w-lg text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>
             Each company in the SoloSuccess family is purpose-built to serve a specific need of the solo entrepreneur
             — from AI tools to education, content, community, and copywriting.
           </p>
@@ -96,23 +96,23 @@ export function EcosystemSection() {
         {companies.filter((c) => c.featured).map((company) => (
           <div
             key={company.name}
-            className="group relative mb-6 flex flex-col sm:flex-row items-start gap-6 rounded-2xl p-8 glass-card overflow-hidden transition-all duration-700"
-            style={{ borderColor: `${company.color}44` }}
+            className="group relative mb-6 flex flex-col sm:flex-row items-start gap-6 rounded-2xl p-8 glass-card-deep glass-shimmer overflow-hidden transition-all duration-700"
+            style={{ borderColor: `${company.color}55` }}
           >
-            {/* Animated hover glow */}
+            {/* Hover glow — larger, more dramatic */}
             <div
-              className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-0 transition-opacity duration-900 group-hover:opacity-30 blur-[80px]"
+              className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-40 blur-[90px]"
               style={{ background: company.color }}
               aria-hidden="true"
             />
             {/* Rainbow top border line */}
-            <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+            <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
               style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
               aria-hidden="true"
             />
             <div
-              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl"
-              style={{ background: `${company.color}25`, border: `1px solid ${company.color}55` }}
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-105"
+              style={{ background: `${company.color}22`, border: `2px solid ${company.color}55`, boxShadow: `0 0 20px ${company.color}44` }}
             >
               <company.icon size={30} style={{ color: company.color }} aria-hidden="true" />
             </div>
@@ -127,7 +127,7 @@ export function EcosystemSection() {
                 </span>
               </div>
               <p className="text-sm font-semibold" style={{ color: `${company.color}cc` }}>{company.tagline}</p>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>{company.description}</p>
             </div>
             <Link
               href={company.href}
@@ -146,23 +146,23 @@ export function EcosystemSection() {
           {companies.filter((c) => !c.featured).map((company) => (
             <div
               key={company.name}
-              className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card overflow-hidden transition-all duration-700"
-              style={{ borderColor: `${company.color}33` }}
+              className="group relative flex flex-col gap-4 rounded-2xl p-7 glass-card glass-shimmer overflow-hidden transition-all duration-700 hover:glass-card-deep"
+              style={{ borderColor: `${company.color}44` }}
             >
               {/* Top accent line per company color */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl opacity-70"
+              <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
                 style={{ background: `linear-gradient(90deg, ${company.color}, transparent)` }}
                 aria-hidden="true"
               />
               <div
-                className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full opacity-0 transition-opacity duration-900 group-hover:opacity-30 blur-[60px]"
+                className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-35 blur-[60px]"
                 style={{ background: company.color }}
                 aria-hidden="true"
               />
               <div className="flex items-start justify-between gap-3">
                 <div
-                  className="flex h-12 w-12 items-center justify-center rounded-xl"
-                  style={{ background: `${company.color}22`, border: `1px solid ${company.color}44` }}
+                  className="flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-500 group-hover:scale-110"
+                  style={{ background: `${company.color}22`, border: `2px solid ${company.color}55`, boxShadow: `0 0 16px ${company.color}33` }}
                 >
                   <company.icon size={22} style={{ color: company.color }} aria-hidden="true" />
                 </div>
@@ -180,7 +180,7 @@ export function EcosystemSection() {
                 <h3 className="text-lg font-extrabold" style={{ color: company.color }}>{company.name}</h3>
                 <p className="text-xs font-semibold" style={{ color: `${company.color}cc` }}>{company.tagline}</p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{company.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>{company.description}</p>
 
               {/* Bottom accent line on hover */}
               <div

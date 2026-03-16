@@ -50,14 +50,19 @@ export function FeaturesSection() {
 
         {/* Founder bio card */}
         <div
-          className="mb-14 rounded-2xl p-8 sm:p-10 glass-card relative overflow-hidden"
-          style={{ borderColor: "#F07B1F33" }}
+          className="mb-14 rounded-2xl p-8 sm:p-10 glass-card-deep glass-shimmer relative overflow-hidden"
+          style={{ borderColor: "#F07B1F55" }}
         >
-          {/* Rainbow top border */}
-          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
-            style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
-            aria-hidden="true"
-          />
+            {/* Rainbow top border */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+              style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
+              aria-hidden="true"
+            />
+            {/* Warm inner glow */}
+            <div className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 h-48 w-96 rounded-full blur-[60px] opacity-20"
+              style={{ background: "#F07B1F" }}
+              aria-hidden="true"
+            />
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* Avatar */}
             <div
@@ -77,13 +82,13 @@ export function FeaturesSection() {
                   Founder &amp; CEO, SoloSuccess Solutions
                 </p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>
                 SoloSuccess Solutions was founded on a simple but powerful belief: that a single person with the right
                 tools, knowledge, and community can build something remarkable. The modern solo entrepreneur faces the
                 same challenges as a full enterprise — marketing, operations, technology, education, and community —
                 but without the team or budget to match.
               </p>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>
                 That gap is exactly what this ecosystem was designed to close. Each company under the SoloSuccess
                 umbrella was created to tackle one specific piece of that puzzle — giving solo builders access to
                 enterprise-level resources without the enterprise-level overhead.
@@ -97,22 +102,23 @@ export function FeaturesSection() {
           {values.map((val) => (
             <div
               key={val.title}
-              className="group relative rounded-2xl p-6 glass-card transition-all duration-700 overflow-hidden"
-              style={{ borderColor: `${val.color}33` }}
+              className="group relative rounded-2xl p-6 glass-card glass-shimmer transition-all duration-700 overflow-hidden hover:glass-card-deep"
+              style={{ borderColor: `${val.color}44` }}
             >
               {/* Top accent */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl"
+              <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
                 style={{ background: `linear-gradient(90deg, ${val.color}, transparent)` }}
                 aria-hidden="true"
               />
+              {/* Icon with glow */}
               <div
                 className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
-                style={{ background: `${val.color}22`, border: `1px solid ${val.color}44` }}
+                style={{ background: `${val.color}22`, border: `2px solid ${val.color}55`, boxShadow: `0 0 18px ${val.color}44` }}
               >
                 <val.icon size={20} style={{ color: val.color }} aria-hidden="true" />
               </div>
               <h3 className="mb-2 text-base font-extrabold" style={{ color: val.color }}>{val.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#8a8fa8" }}>{val.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#c4c8d4" }}>{val.description}</p>
 
               <div
                 className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-50"

@@ -39,9 +39,18 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled ? "glass-card border-b border-border" : "bg-transparent"
+        scrolled
+          ? "glass-card-deep border-b"
+          : "bg-transparent"
       }`}
+      style={scrolled ? { borderColor: "oklch(0.60 0.055 270 / 0.25)" } : {}}
     >
+      {/* Rainbow top stripe — always visible */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[3px]"
+        style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
+        aria-hidden="true"
+      />
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3" aria-label="Main navigation">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" aria-label="SoloSuccess Solutions home">
