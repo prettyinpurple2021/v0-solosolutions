@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
@@ -53,7 +54,14 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3" aria-label="Main navigation">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" aria-label="SoloSuccess Solutions home">
-          <span className="text-sm font-bold tracking-tight">
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
+            alt="SoloSuccess Solutions logo"
+            width={64}
+            height={64}
+            className="object-contain"
+          />
+          <span className="hidden sm:block text-sm font-bold tracking-tight">
             <RainbowText text="SoloSuccess" />
             <span className="ml-1" style={{ color: "#9CA3AF" }}>Solutions</span>
           </span>
