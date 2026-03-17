@@ -52,21 +52,15 @@ export function HeroSection() {
         <div className="absolute inset-x-[-2rem] inset-y-[-3rem] rounded-3xl glass-card-deep glass-shimmer pointer-events-none" aria-hidden="true" />
 
         <div className="relative z-10 flex flex-col items-center gap-7 w-full">
-          {/* Logo with glow ring */}
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full blur-[60px] opacity-40"
-              style={{ background: "radial-gradient(circle, #6B44A0 0%, #005FA3 50%, transparent 75%)" }}
-              aria-hidden="true"
-            />
-            <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
-              alt="SoloSuccess Solutions diamond logo"
-              width={280}
-              height={280}
-              className="relative object-contain drop-shadow-2xl"
-              priority
-            />
-          </div>
+          {/* Logo — clean and sharp */}
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
+            alt="SoloSuccess Solutions diamond logo"
+            width={320}
+            height={320}
+            className="object-contain"
+            priority
+          />
 
           {/* Tagline badge */}
           <div
