@@ -70,10 +70,10 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
             {brand.wordmark}
           </span>
           <Link
-            href="#contact"
-            className="rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
-            style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
-          >
+                href="#contact"
+                className="rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
+                style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
+              >
             {brand.ctaLabel}
           </Link>
         </nav>
@@ -138,7 +138,9 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4 mt-2">
               <Link
-                href="#contact"
+                href={brand.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
                 style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
               >
@@ -219,7 +221,9 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
                 Take the next step toward building your solo business with the tools, community, and support you need to succeed.
               </p>
               <Link
-                href="mailto:hello@solosuccesssolutions.com"
+                href={brand.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 rounded-xl px-10 py-4 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
                 style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
               >
