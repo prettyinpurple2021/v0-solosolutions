@@ -4,11 +4,11 @@ import Image from "next/image"
 const footerColors = ["#D93025", "#2D9E2A", "#F07B1F", "#009B94", "#6B44A0"]
 
 const footerLinks = [
-  { label: "SoloSuccess AI", href: "/brands/ai", color: "#005FA3" },
-  { label: "SoloSuccess Academy", href: "/brands/academy", color: "#2D9E2A" },
-  { label: "Content Factory", href: "/brands/content-factory", color: "#F07B1F" },
-  { label: "SoloSuccess Connect", href: "/brands/connect", color: "#D93025" },
-  { label: "SoloScribe", href: "/brands/soloscribe", color: "#6B44A0" },
+  { label: "SoloSuccess AI", href: "https://www.solosuccessai.fun", color: "#005FA3" },
+  { label: "SoloSuccess Academy", href: "https://www.solosuccessacademy.cloud", color: "#2D9E2A" },
+  { label: "Content Factory", href: "https://www.solosuccesscontentfactory.digital", color: "#F07B1F" },
+  { label: "SoloSuccess Connect", href: "https://www.solosuccessai.fun", color: "#D93025" },
+  { label: "SoloScribe", href: "https://www.soloscribe.buzz", color: "#6B44A0" },
   { label: "SoloDesign", href: "/brands/solodesign", color: "#FF6B9D" },
 ]
 
@@ -53,6 +53,8 @@ export function Footer() {
               <li key={link.label}>
                 <Link
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-xs font-semibold transition-opacity hover:opacity-70"
                   style={{ color: link.color }}
                 >
