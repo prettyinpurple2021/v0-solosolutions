@@ -10,6 +10,7 @@ const companies = [
       "Cutting-edge artificial intelligence tools designed specifically for solo founders and small teams. Automate workflows, generate content, analyze data, and make smarter business decisions — all without a full team behind you.",
     color: "#005FA3",
     href: "https://www.solosuccessai.fun",
+    external: true,
     featured: true,
   },
   {
@@ -20,6 +21,7 @@ const companies = [
       "Practical courses, coaching programs, and learning resources that teach real skills for building and scaling a solo business. No fluff — just actionable frameworks from founders who have done it.",
     color: "#2D9E2A",
     href: "https://www.solosuccessacademy.cloud",
+    external: true,
     featured: false,
   },
   {
@@ -30,6 +32,7 @@ const companies = [
       "Done-for-you and done-with-you content solutions that help entrepreneurs show up consistently across platforms. From short-form video to long-form articles, we turn your expertise into content that converts.",
     color: "#F07B1F",
     href: "https://www.solosuccesscontentfactory.digital",
+    external: true,
     featured: false,
   },
   {
@@ -39,7 +42,8 @@ const companies = [
     description:
       "A curated network of like-minded entrepreneurs, collaborators, and mentors. Find accountability partners, referral partners, and real relationships that accelerate your growth.",
     color: "#D93025",
-    href: "https://www.solosuccessai.fun",
+    href: "/brands/connect",
+    external: false,
     featured: false,
   },
   {
@@ -50,6 +54,7 @@ const companies = [
       "Professional writing services and tools for solo entrepreneurs who need compelling copy. Sales pages, email sequences, social content, and brand voice development — written to convert.",
     color: "#6B44A0",
     href: "https://www.soloscribe.buzz",
+    external: true,
     featured: false,
   },
 ]
@@ -131,8 +136,7 @@ export function EcosystemSection() {
             </div>
             <Link
               href={company.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...(company.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="mt-4 sm:mt-0 shrink-0 inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold transition-all duration-500 hover:opacity-80"
               style={{ color: company.color, border: `2px solid ${company.color}`, background: `${company.color}14` }}
               aria-label={`Learn more about ${company.name}`}
@@ -170,8 +174,7 @@ export function EcosystemSection() {
                 </div>
                 <Link
                   href={company.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(company.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-500 hover:opacity-80"
                   style={{ color: company.color, border: `2px solid ${company.color}`, background: `${company.color}14` }}
                   aria-label={`Learn more about ${company.name}`}
