@@ -1,9 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import Image from "next/image"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ArrowUpRight, BookOpen, Brain, Film, PenLine, Users } from "lucide-react"
 
+/* ────────────────────────────────────────────────────────────────────────────
+ * Ecosystem data — the five satellites that orbit the SoloSuccess core.
+ * Each has ONE confident accent color. No gradient stacks on the orbs.
+ * ──────────────────────────────────────────────────────────────────────── */
 type Satellite = {
   slug: string
   chip: string
@@ -11,16 +16,11 @@ type Satellite = {
   tagline: string
   desc: string
   href: string
-  color: string
+  accent: string
   Icon: typeof Brain
   startAngle: number
-  orbitSpeed: number
 }
 
-// Five satellites evenly distributed around the core.
-// Each owns a single accent color from the brand palette — used for the
-// subtle rim-light and the iridescent arc on hover so the visual reads as
-// "clean glass orb" instead of "muddy rainbow puddle".
 const SATELLITES: Satellite[] = [
   {
     slug: "ai",
@@ -29,10 +29,9 @@ const SATELLITES: Satellite[] = [
     tagline: "AI-Powered Productivity",
     desc: "Automations, content, and insight calibrated for solo operators.",
     href: "/brands/ai",
-    color: "#3AA6FF",
+    accent: "#00E5FF",
     Icon: Brain,
     startAngle: -Math.PI / 2,
-    orbitSpeed: 0.045,
   },
   {
     slug: "academy",
@@ -41,10 +40,9 @@ const SATELLITES: Satellite[] = [
     tagline: "Education for the Solo Journey",
     desc: "Courses, coaching, and playbooks that teach real-world skills.",
     href: "/brands/academy",
-    color: "#4FD37A",
+    accent: "#B6FF3C",
     Icon: BookOpen,
     startAngle: -Math.PI / 2 + (2 * Math.PI) / 5,
-    orbitSpeed: 0.04,
   },
   {
     slug: "content-factory",
@@ -53,10 +51,9 @@ const SATELLITES: Satellite[] = [
     tagline: "Story at Scale",
     desc: "Done-for-you content that helps you show up with confidence.",
     href: "/brands/content-factory",
-    color: "#FFA63A",
+    accent: "#FFC53D",
     Icon: Film,
     startAngle: -Math.PI / 2 + (4 * Math.PI) / 5,
-    orbitSpeed: 0.038,
   },
   {
     slug: "connect",
@@ -65,10 +62,9 @@ const SATELLITES: Satellite[] = [
     tagline: "Community & Networking",
     desc: "A curated circle of collaborators, mentors, and partners.",
     href: "/brands/connect",
-    color: "#FF5A6A",
+    accent: "#FF3DAE",
     Icon: Users,
     startAngle: -Math.PI / 2 + (6 * Math.PI) / 5,
-    orbitSpeed: 0.042,
   },
   {
     slug: "soloscribe",
@@ -77,23 +73,34 @@ const SATELLITES: Satellite[] = [
     tagline: "Writing That Converts",
     desc: "Copy, emails, and brand voice written to move readers.",
     href: "/brands/soloscribe",
-    color: "#B481FF",
+    accent: "#A78BFA",
     Icon: PenLine,
     startAngle: -Math.PI / 2 + (8 * Math.PI) / 5,
-    orbitSpeed: 0.047,
   },
 ]
 
+/* Physics constants — calm, deliberate motion. */
+const ORBIT_SPEED = 0.00016 // rad / ms
+const REPEL_RADIUS = 170
+const REPEL_STRENGTH = 0.48
+const SPRING = 0.02
+const DAMPING = 0.86
+const INITIAL_RADIUS = 240
+
 export function OrbitingEcosystem() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const stageRef = useRef<HTMLDivElement>(null)
-  const mercuryRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
   const orbRefs = useRef<Array<HTMLElement | null>>([])
+  const rippleRef = useRef<HTMLDivElement | null>(null)
+
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const [cardSide, setCardSide] = useState<"left" | "right">("right")
-  const hoveredRef = useRef<number | null>(null)
 
-  const INITIAL_RADIUS = 240
+  const pointerRef = useRef({ x: -9999, y: -9999, inside: false })
+  const rippleStateRef = useRef({ x: 0.5, y: 0.5 })
+  const hoveredRef = useRef<number | null>(null)
+  const radiusRef = useRef(INITIAL_RADIUS)
+
   const physicsRef = useRef(
     SATELLITES.map((s) => ({
       angle: s.startAngle,
@@ -103,106 +110,112 @@ export function OrbitingEcosystem() {
       velY: 0,
     })),
   )
-  const mouseRef = useRef({ x: 99999, y: 99999, inside: false })
-  const rippleRef = useRef({ x: 0, y: 0 })
-  const sizeRef = useRef({ width: 800, height: 600 })
+
+  const onPointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    const el = containerRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    pointerRef.current = {
+      x: e.clientX - rect.left - rect.width / 2,
+      y: e.clientY - rect.top - rect.height / 2,
+      inside: true,
+    }
+  }, [])
+
+  const onPointerLeave = useCallback(() => {
+    pointerRef.current = { x: -9999, y: -9999, inside: false }
+  }, [])
+
+  // Section-wide pointer for the mercury pool — tracks the whole backdrop.
+  const onSectionMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    const el = stageRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const nx = ((e.clientX - rect.left) / rect.width) * 100
+    const ny = ((e.clientY - rect.top) / rect.height) * 100
+    el.style.setProperty("--mx", `${nx}%`)
+    el.style.setProperty("--my", `${ny}%`)
+  }, [])
 
   useEffect(() => {
-    const stage = stageRef.current
     const el = containerRef.current
-    if (!el || !stage) return
-
-    const measure = () => {
-      const rect = el.getBoundingClientRect()
-      sizeRef.current = { width: rect.width, height: rect.height }
-    }
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(el)
-
-    const handleMove = (e: PointerEvent) => {
-      const stageRect = stage.getBoundingClientRect()
-      stage.style.setProperty("--mx", `${e.clientX - stageRect.left}px`)
-      stage.style.setProperty("--my", `${e.clientY - stageRect.top}px`)
-
-      const rect = el.getBoundingClientRect()
-      mouseRef.current = {
-        x: e.clientX - rect.left - rect.width / 2,
-        y: e.clientY - rect.top - rect.height / 2,
-        inside: true,
-      }
-    }
-    const handleLeave = () => {
-      mouseRef.current.inside = false
-      mouseRef.current.x = 99999
-      mouseRef.current.y = 99999
-    }
-    stage.addEventListener("pointermove", handleMove)
-    stage.addEventListener("pointerleave", handleLeave)
+    if (!el) return
 
     const reduceMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
+    const resize = () => {
+      const rect = el.getBoundingClientRect()
+      radiusRef.current = Math.max(140, Math.min(280, Math.min(rect.width, rect.height) * 0.36))
+    }
+    resize()
+    const ro = new ResizeObserver(resize)
+    ro.observe(el)
+
+    if (reduceMotion) {
+      physicsRef.current.forEach((p, i) => {
+        const sat = SATELLITES[i]
+        const r = radiusRef.current
+        const tx = Math.cos(sat.startAngle) * r
+        const ty = Math.sin(sat.startAngle) * r
+        p.currentX = tx
+        p.currentY = ty
+        const node = orbRefs.current[i]
+        if (node) node.style.transform = `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0)`
+      })
+      return () => ro.disconnect()
+    }
+
     let raf = 0
     let last = performance.now()
 
-    const tick = (t: number) => {
-      const dt = Math.min((t - last) / 1000, 0.04)
-      last = t
+    const tick = (now: number) => {
+      const dt = Math.min(48, now - last)
+      last = now
+      const radius = radiusRef.current
+      const { x: px, y: py, inside } = pointerRef.current
 
-      const { width, height } = sizeRef.current
-      const baseRadius = Math.max(150, Math.min(width, height) * 0.36)
+      physicsRef.current.forEach((p, i) => {
+        p.angle += ORBIT_SPEED * dt
+        const tx = Math.cos(p.angle) * radius
+        const ty = Math.sin(p.angle) * radius
 
-      if (mouseRef.current.inside) {
-        rippleRef.current.x += (mouseRef.current.x - rippleRef.current.x) * 0.06
-        rippleRef.current.y += (mouseRef.current.y - rippleRef.current.y) * 0.06
-      } else {
-        rippleRef.current.x *= 0.96
-        rippleRef.current.y *= 0.96
-      }
-      const mercury = mercuryRef.current
-      if (mercury) {
-        mercury.style.setProperty("--rx", `${rippleRef.current.x}px`)
-        mercury.style.setProperty("--ry", `${rippleRef.current.y}px`)
-      }
+        let ax = (tx - p.currentX) * SPRING
+        let ay = (ty - p.currentY) * SPRING
 
-      physicsRef.current.forEach((st, i) => {
-        if (!reduceMotion) {
-          st.angle += SATELLITES[i].orbitSpeed * dt
-        }
-
-        const rMod = baseRadius * (1 + Math.sin(t / 2400 + i * 1.3) * 0.025)
-        const tx = Math.cos(st.angle) * rMod
-        const ty = Math.sin(st.angle) * rMod
-
-        const k = 9
-        const damping = 0.82
-        let ax = (tx - st.currentX) * k
-        let ay = (ty - st.currentY) * k
-
-        if (!reduceMotion && mouseRef.current.inside && hoveredRef.current !== i) {
-          const dx = st.currentX - mouseRef.current.x
-          const dy = st.currentY - mouseRef.current.y
-          const d = Math.hypot(dx, dy)
-          const range = 150
-          if (d < range && d > 0.001) {
-            const strength = (1 - d / range) * 1100
-            ax += (dx / d) * strength
-            ay += (dy / d) * strength
+        if (inside && hoveredRef.current !== i) {
+          const dx = p.currentX - px
+          const dy = p.currentY - py
+          const dist = Math.hypot(dx, dy)
+          if (dist < REPEL_RADIUS && dist > 0.01) {
+            const falloff = 1 - dist / REPEL_RADIUS
+            const force = falloff * falloff * REPEL_STRENGTH
+            ax += (dx / dist) * force
+            ay += (dy / dist) * force
           }
         }
 
-        st.velX = (st.velX + ax * dt) * damping
-        st.velY = (st.velY + ay * dt) * damping
-        st.currentX += st.velX * dt
-        st.currentY += st.velY * dt
+        p.velX = (p.velX + ax) * DAMPING
+        p.velY = (p.velY + ay) * DAMPING
+        p.currentX += p.velX
+        p.currentY += p.velY
 
         const node = orbRefs.current[i]
         if (node) {
-          node.style.transform = `translate3d(calc(-50% + ${st.currentX}px), calc(-50% + ${st.currentY}px), 0)`
+          node.style.transform = `translate3d(calc(-50% + ${p.currentX}px), calc(-50% + ${p.currentY}px), 0)`
         }
       })
+
+      if (rippleRef.current && inside) {
+        const rect = el.getBoundingClientRect()
+        const targetX = (px + rect.width / 2) / rect.width
+        const targetY = (py + rect.height / 2) / rect.height
+        rippleStateRef.current.x += (targetX - rippleStateRef.current.x) * 0.08
+        rippleStateRef.current.y += (targetY - rippleStateRef.current.y) * 0.08
+        rippleRef.current.style.setProperty("--rx", `${rippleStateRef.current.x * 100}%`)
+        rippleRef.current.style.setProperty("--ry", `${rippleStateRef.current.y * 100}%`)
+      }
 
       raf = requestAnimationFrame(tick)
     }
@@ -211,102 +224,134 @@ export function OrbitingEcosystem() {
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
-      stage.removeEventListener("pointermove", handleMove)
-      stage.removeEventListener("pointerleave", handleLeave)
     }
   }, [])
 
-  const handleEnter = (i: number) => {
+  const handleEnter = useCallback((i: number) => {
     hoveredRef.current = i
-    const x = physicsRef.current[i].currentX
-    setCardSide(x >= 0 ? "left" : "right")
+    const p = physicsRef.current[i]
+    setCardSide(p.currentX > 0 ? "left" : "right")
     setHoveredIdx(i)
-  }
-  const handleLeave = () => {
+  }, [])
+
+  const handleLeaveOrb = useCallback(() => {
     hoveredRef.current = null
     setHoveredIdx(null)
-  }
+  }, [])
+
+  const stars = useMemo(
+    () =>
+      Array.from({ length: 48 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: Math.random() < 0.85 ? 1 : 1.5,
+        opacity: 0.12 + Math.random() * 0.2,
+      })),
+    [],
+  )
 
   return (
     <section
       ref={stageRef}
-      id="ecosystem"
+      onPointerMove={onSectionMove}
+      aria-label="SoloSuccess ecosystem"
       className="relative isolate w-full overflow-hidden"
       style={
         {
-          backgroundColor: "#0b0b0d",
+          backgroundColor: "#0B0B0D",
           ["--mx" as string]: "50%",
           ["--my" as string]: "50%",
         } as React.CSSProperties
       }
-      aria-label="SoloSuccess brand ecosystem"
     >
-      {/* Mercury pool — a single, very subtle cursor-following pool of light.
-          Intentionally low-contrast so it reads as atmosphere, not decoration. */}
+      {/* Mercury pool — quiet, single radial follows the cursor across the section */}
       <div
-        aria-hidden="true"
+        aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(600px circle at var(--mx) var(--my), rgba(180,200,230,0.06) 0%, rgba(90,110,140,0.03) 40%, transparent 70%)",
+            "radial-gradient(600px circle at var(--mx) var(--my), rgba(180,200,230,0.055) 0%, rgba(90,110,140,0.025) 42%, transparent 72%)",
         }}
       />
-      {/* One soft vignette for depth — no more, no grain texture */}
+      {/* Vignette */}
       <div
-        aria-hidden="true"
+        aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 45%, rgba(0,0,0,0.55) 100%)",
+            "radial-gradient(ellipse at 50% 45%, transparent 0%, transparent 50%, rgba(0,0,0,0.55) 100%)",
         }}
       />
+      {/* Stars */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        {stars.map((s) => (
+          <span
+            key={s.id}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${s.left}%`,
+              top: `${s.top}%`,
+              width: `${s.size}px`,
+              height: `${s.size}px`,
+              opacity: s.opacity,
+            }}
+          />
+        ))}
+      </div>
 
       <div className="relative mx-auto flex min-h-[100vh] max-w-7xl flex-col items-center justify-center px-6 py-24">
-        {/* Title block — Liquid Neo-Brutalism */}
+        {/* Header */}
         <div className="relative z-20 mb-12 flex flex-col items-center gap-5 text-center md:mb-14">
-          <NeoBadge>The Ecosystem</NeoBadge>
+          <span
+            className="inline-flex items-center gap-2 border border-white bg-[#0B0B0D] px-3 py-1.5 font-mono text-[10px] font-black uppercase tracking-[0.3em] text-white"
+            style={{ boxShadow: "4px 4px 0 0 #000" }}
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-white" />
+            The Ecosystem
+          </span>
           <h1
-            className="max-w-3xl text-balance text-4xl font-black leading-[1.02] tracking-tight text-white md:text-6xl"
+            className="max-w-3xl text-balance font-sans text-4xl font-black leading-[1.02] tracking-tight text-white md:text-6xl lg:text-7xl"
             style={{ textShadow: "4px 4px 0 #000" }}
           >
             A living system
             <br />
             for solo creators.
           </h1>
-          <p className="max-w-xl text-pretty text-sm leading-relaxed text-white/80 md:text-base">
-            Five brands drifting around a single idea — independence, amplified.
-            Hover a sphere to step inside.
+          <p className="max-w-xl text-pretty text-sm leading-relaxed text-white/85 md:text-base">
+            Five practices drifting around a single intelligent core. Hover a sphere to step inside.
           </p>
         </div>
 
         {/* Physics stage */}
         <div
           ref={containerRef}
-          className="relative z-10 aspect-square w-full max-w-[760px]"
+          onPointerMove={onPointerMove}
+          onPointerLeave={onPointerLeave}
+          className="relative z-10 aspect-square w-full max-w-[720px]"
         >
-          {/* Concentric mercury ripple — trails the eased ripple point */}
+          {/* Orbital guide ring */}
           <div
-            ref={mercuryRef}
-            aria-hidden="true"
+            aria-hidden
+            className="absolute left-1/2 top-1/2 aspect-square w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ border: "1px solid rgba(255,255,255,0.05)" }}
+          />
+          {/* Trailing mercury ripple */}
+          <div
+            ref={rippleRef}
+            aria-hidden
             className="pointer-events-none absolute inset-0"
             style={
               {
-                ["--rx" as string]: "0px",
-                ["--ry" as string]: "0px",
+                ["--rx" as string]: "50%",
+                ["--ry" as string]: "50%",
                 background:
-                  "radial-gradient(180px circle at calc(50% + var(--rx)) calc(50% + var(--ry)), rgba(160,180,210,0.08) 0%, rgba(80,100,130,0.03) 45%, transparent 70%)",
+                  "radial-gradient(260px circle at var(--rx) var(--ry), rgba(160,180,210,0.08) 0%, transparent 70%)",
               } as React.CSSProperties
             }
           />
 
-          {/* Orbit ring — one whisper-thin guide */}
-          <div
-            aria-hidden="true"
-            className="absolute left-1/2 top-1/2 aspect-square w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{ border: "1px solid rgba(255,255,255,0.04)" }}
-          />
-
-          <CentralOrb />
+          <CoreOrb />
 
           {SATELLITES.map((s, i) => {
             const ix = Math.cos(s.startAngle) * INITIAL_RADIUS
@@ -318,25 +363,25 @@ export function OrbitingEcosystem() {
                 ref={(el) => {
                   orbRefs.current[i] = el as unknown as HTMLElement | null
                 }}
-                className="absolute left-1/2 top-1/2 block rounded-full outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0b0d]"
+                className="group absolute left-1/2 top-1/2 block rounded-full outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0D]"
                 style={{
                   transform: `translate3d(calc(-50% + ${ix}px), calc(-50% + ${iy}px), 0)`,
                   willChange: "transform",
                 }}
                 onPointerEnter={() => handleEnter(i)}
-                onPointerLeave={handleLeave}
+                onPointerLeave={handleLeaveOrb}
                 onFocus={() => handleEnter(i)}
-                onBlur={handleLeave}
+                onBlur={handleLeaveOrb}
                 aria-label={`Enter ${s.name} — ${s.tagline}`}
               >
-                <SatelliteSphere sat={s} active={hoveredIdx === i} />
+                <SatelliteOrb sat={s} active={hoveredIdx === i} />
                 {hoveredIdx === i && <DataCard sat={s} side={cardSide} />}
               </Link>
             )
           })}
         </div>
 
-        <p className="relative z-10 mt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/50">
+        <p className="relative z-10 mt-12 font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-white/55">
           Drift&nbsp;&nbsp;·&nbsp;&nbsp;Hover&nbsp;&nbsp;·&nbsp;&nbsp;Explore
         </p>
       </div>
@@ -344,201 +389,143 @@ export function OrbitingEcosystem() {
   )
 }
 
-/* ---------- Pieces ---------- */
-
-function NeoBadge({ children }: { children: ReactNode }) {
-  return (
-    <div
-      className="inline-flex items-center gap-2 border border-white bg-[#0b0b0d] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-white"
-      style={{ boxShadow: "4px 4px 0 0 #000" }}
-    >
-      <span className="inline-block h-1.5 w-1.5 rounded-full bg-white" />
-      {children}
-    </div>
-  )
-}
-
-/* Central orb — a real glass sphere.
-   Structure (back to front):
-     1. slow iridescent halo behind the sphere
-     2. sphere body: dark radial with off-center highlight → reads as 3D
-     3. a single thin iridescent rim (anisotropic arc, not all-over streaks)
-     4. crisp white specular highlight at top-left
-     5. soft bottom shadow inside the sphere
-     6. centered wordmark */
-function CentralOrb() {
+/* ────────────────────────────────────────────────────────────────────────────
+ * CoreOrb — uses a real rendered iridescent glass sphere image.
+ * ──────────────────────────────────────────────────────────────────────── */
+function CoreOrb() {
   return (
     <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="relative">
-        {/* Slow ambient halo — one color at a time, rotates */}
+        {/* Ambient bloom around the core */}
         <div
-          aria-hidden="true"
-          className="absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-2xl md:h-[320px] md:w-[320px]"
+          aria-hidden
+          className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-3xl"
           style={{
             background:
-              "conic-gradient(from 0deg, rgba(58,166,255,0.35), rgba(180,129,255,0.35), rgba(255,90,106,0.30), rgba(255,166,58,0.30), rgba(79,211,122,0.30), rgba(58,166,255,0.35))",
+              "conic-gradient(from 0deg, rgba(0,229,255,0.25), rgba(255,61,174,0.25), rgba(182,255,60,0.20), rgba(255,197,61,0.22), rgba(0,229,255,0.25))",
             animation: "orb-spin 40s linear infinite",
           }}
         />
-        {/* Sphere body */}
+        {/* Orb body — real image */}
         <div
-          className="relative h-36 w-36 overflow-hidden rounded-full md:h-48 md:w-48"
+          className="relative h-40 w-40 overflow-hidden rounded-full md:h-52 md:w-52"
           style={{
-            background:
-              "radial-gradient(circle at 32% 28%, #2a2d36 0%, #16171c 42%, #0a0b0f 80%)",
             boxShadow:
-              "inset 0 -24px 40px rgba(0,0,0,0.9), inset 0 10px 24px rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.6)",
-            animation: "core-pulse 4.8s ease-in-out infinite",
+              "0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.18)",
+            animation: "core-pulse 5.6s ease-in-out infinite",
           }}
         >
-          {/* Thin iridescent rim — conic gradient, slow rotation.
-              This is the only place color lives on the orb body, so it reads
-              as a crisp metallic edge instead of a muddy surface. */}
+          <Image
+            src="/orb-core.jpg"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 768px) 160px, 208px"
+            className="object-cover"
+          />
+          {/* Crisp specular */}
           <div
-            aria-hidden="true"
-            className="absolute inset-0 rounded-full"
+            aria-hidden
+            className="absolute rounded-full bg-white"
             style={{
-              padding: "1px",
-              background:
-                "conic-gradient(from 0deg, #3AA6FF, #B481FF, #FF5A6A, #FFA63A, #4FD37A, #3AA6FF)",
-              WebkitMask:
-                "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-              WebkitMaskComposite: "xor",
-              maskComposite: "exclude",
-              opacity: 0.55,
-              animation: "orb-spin 18s linear infinite",
+              top: "16%",
+              left: "22%",
+              width: "18%",
+              height: "10%",
+              filter: "blur(3px)",
+              opacity: 0.7,
             }}
           />
-          {/* Specular highlight — the "this is glass" tell */}
-          <div
-            aria-hidden="true"
-            className="absolute h-8 w-16 rounded-full bg-white/70"
-            style={{
-              top: "14%",
-              left: "20%",
-              filter: "blur(8px)",
-              transform: "rotate(-24deg)",
-            }}
-          />
-          <div
-            aria-hidden="true"
-            className="absolute h-2 w-5 rounded-full bg-white"
-            style={{
-              top: "22%",
-              left: "30%",
-              filter: "blur(1.5px)",
-            }}
-          />
-          {/* Wordmark */}
-          <div className="absolute inset-0 grid place-items-center">
-            <span
-              className="font-black text-[10px] tracking-[0.32em] text-white md:text-[12px]"
-              style={{ textShadow: "1px 1px 0 rgba(0,0,0,0.9)" }}
-            >
-              SOLOSUCCESS
-            </span>
-          </div>
+        </div>
+        {/* Wordmark chip under core */}
+        <div
+          className="absolute left-1/2 top-[calc(100%+14px)] -translate-x-1/2 whitespace-nowrap border border-white bg-[#0B0B0D] px-3 py-1 font-mono text-[10px] font-black uppercase tracking-[0.32em] text-white"
+          style={{ boxShadow: "4px 4px 0 0 #000" }}
+        >
+          SoloSuccess · Core
         </div>
       </div>
     </div>
   )
 }
 
-/* Satellite sphere — same glass recipe as the core, scaled down, with:
-   - one accent-colored rim light that intensifies on hover
-   - a single sharp iridescent arc that rotates across the top on hover
-     (this is the anisotropic "streak" — ONE clean band, not five) */
-function SatelliteSphere({ sat, active }: { sat: Satellite; active: boolean }) {
+/* ────────────────────────────────────────────────────────────────────────────
+ * SatelliteOrb — dark glass sphere image, accent halo + icon on top.
+ * ──────────────────────────────────────────────────────────────────────── */
+function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
   const Icon = sat.Icon
-
   return (
     <div className="relative">
-      {/* Hover halo — tinted with the orb's accent color, crisp not muddy */}
+      {/* Accent halo — tinted with the orb's color, only on hover */}
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[150px] w-[150px] -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-300 md:h-[170px] md:w-[170px]"
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[170px] w-[170px] -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-400"
         style={{
-          opacity: active ? 0.9 : 0,
-          background: `radial-gradient(circle, ${sat.color}55 0%, ${sat.color}22 40%, transparent 70%)`,
-          filter: "blur(10px)",
+          opacity: active ? 1 : 0,
+          background: `radial-gradient(circle, ${sat.accent}55 0%, ${sat.accent}22 38%, transparent 70%)`,
+          filter: "blur(12px)",
         }}
       />
 
-      {/* Sphere body */}
+      {/* Orb body — real rendered sphere */}
       <div
-        className="relative h-[76px] w-[76px] overflow-hidden rounded-full transition-transform duration-300 md:h-[92px] md:w-[92px]"
+        className="relative h-[84px] w-[84px] overflow-hidden rounded-full transition-transform duration-400 ease-out md:h-[98px] md:w-[98px]"
         style={{
-          background:
-            "radial-gradient(circle at 32% 28%, #2a2d36 0%, #16171c 45%, #0a0b0f 85%)",
+          transform: active ? "scale(1.1)" : "scale(1)",
           boxShadow: active
-            ? `inset 0 -14px 22px rgba(0,0,0,0.85), inset 0 6px 14px rgba(255,255,255,0.12), 0 0 0 1px ${sat.color}aa, 0 18px 40px rgba(0,0,0,0.6)`
-            : "inset 0 -14px 22px rgba(0,0,0,0.85), inset 0 6px 14px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.55)",
-          transform: active ? "scale(1.08)" : "scale(1)",
+            ? `0 18px 40px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px ${sat.accent}cc`
+            : "0 16px 34px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.07)",
         }}
       >
-        {/* Iridescent rim — conic gradient, very thin, becomes prominent on hover */}
+        <Image
+          src="/orb-satellite.jpg"
+          alt=""
+          fill
+          sizes="(max-width: 768px) 84px, 98px"
+          className="object-cover"
+        />
+
+        {/* Accent color wash — blended onto the glass only when active */}
         <div
-          aria-hidden="true"
-          className="absolute inset-0 rounded-full transition-opacity duration-300"
+          aria-hidden
+          className="absolute inset-0 rounded-full transition-opacity duration-400"
           style={{
-            padding: "1px",
-            background:
-              "conic-gradient(from 0deg, #3AA6FF, #B481FF, #FF5A6A, #FFA63A, #4FD37A, #3AA6FF)",
-            WebkitMask:
-              "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-            WebkitMaskComposite: "xor",
-            maskComposite: "exclude",
-            opacity: active ? 0.85 : 0.25,
-            animation: `orb-spin ${active ? "6s" : "22s"} linear infinite`,
+            background: `radial-gradient(circle at 32% 30%, ${sat.accent}, transparent 65%)`,
+            mixBlendMode: "overlay",
+            opacity: active ? 0.75 : 0,
           }}
         />
 
-        {/* Anisotropic streak — a single sharp iridescent arc across the top.
-            Only appears on hover. Clipped to the sphere. */}
-        {active && (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 rounded-full"
-            style={{
-              background:
-                "linear-gradient(105deg, transparent 40%, rgba(58,166,255,0.9) 46%, rgba(180,129,255,0.9) 50%, rgba(255,90,106,0.9) 54%, rgba(255,166,58,0.9) 58%, transparent 64%)",
-              backgroundSize: "220% 100%",
-              mixBlendMode: "screen",
-              opacity: 0.7,
-              filter: "blur(0.5px)",
-              animation: "aniso-sweep 2.4s linear infinite",
-            }}
-          />
-        )}
-
-        {/* Specular highlight */}
+        {/* Crisp specular */}
         <div
-          aria-hidden="true"
-          className="absolute h-4 w-8 rounded-full bg-white/60"
+          aria-hidden
+          className="pointer-events-none absolute rounded-full bg-white"
           style={{
-            top: "14%",
+            top: "16%",
             left: "22%",
-            filter: "blur(4px)",
-            transform: "rotate(-24deg)",
+            width: "18%",
+            height: "10%",
+            filter: "blur(2px)",
+            opacity: 0.6,
           }}
         />
 
         {/* Icon */}
         <div className="absolute inset-0 grid place-items-center">
           <Icon
-            className="h-5 w-5 text-white/90 md:h-6 md:w-6"
+            className="h-5 w-5 text-white md:h-6 md:w-6"
             strokeWidth={1.75}
             style={{ filter: "drop-shadow(0 1px 0 rgba(0,0,0,0.9))" }}
           />
         </div>
       </div>
 
-      {/* Neo-brutalist chip label beneath the orb */}
+      {/* Chip label */}
       <div
-        className="absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap border border-white bg-[#0b0b0d] px-2 py-[3px] text-[9px] font-black uppercase tracking-[0.22em] text-white transition-opacity"
+        className="absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap border border-white bg-[#0B0B0D] px-2 py-[3px] font-mono text-[9px] font-black uppercase tracking-[0.22em] text-white transition-opacity"
         style={{
           boxShadow: "3px 3px 0 0 #000",
-          opacity: active ? 1 : 0.75,
+          opacity: active ? 1 : 0.78,
         }}
       >
         {sat.chip}
@@ -547,83 +534,47 @@ function SatelliteSphere({ sat, active }: { sat: Satellite; active: boolean }) {
   )
 }
 
-/* Data card — Neo-Brutalist glass with slow iridescent border cycle.
-   High contrast white-on-dark-glass for legibility. */
-function DataCard({
-  sat,
-  side,
-}: {
-  sat: Satellite
-  side: "left" | "right"
-}) {
+/* ────────────────────────────────────────────────────────────────────────────
+ * DataCard — Neo-Brutalist glass card with slow iridescent border cycle.
+ * ──────────────────────────────────────────────────────────────────────── */
+function DataCard({ sat, side }: { sat: Satellite; side: "left" | "right" }) {
   const isRight = side === "right"
   return (
     <div
-      className="pointer-events-none absolute top-1/2 z-30 w-[240px]"
+      role="tooltip"
+      className="pointer-events-none absolute top-1/2 z-30 w-[260px] border bg-[#0B0B0D]/92 p-4 backdrop-blur-md"
       style={{
-        [isRight ? "left" : "right"]: "calc(100% + 20px)",
+        [isRight ? "left" : "right"]: "calc(100% + 22px)",
         transform: "translateY(-50%)",
-        animation: `${isRight ? "card-snap-right" : "card-snap-left"} 180ms cubic-bezier(0.22, 1, 0.36, 1) forwards`,
+        animation: `${isRight ? "card-snap-right" : "card-snap-left"} 200ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards, border-iridescent 14s linear infinite`,
+        borderColor: sat.accent,
+        boxShadow: `6px 6px 0 0 #000, 0 0 0 1px ${sat.accent}`,
       }}
     >
+      {/* Accent stripe */}
       <div
-        className="relative border border-white p-4 text-white"
-        style={{
-          background: "rgba(12,13,16,0.88)",
-          backdropFilter: "blur(18px) saturate(160%)",
-          WebkitBackdropFilter: "blur(18px) saturate(160%)",
-          animation: "border-iridescent 14s linear infinite",
-        }}
+        aria-hidden
+        className="mb-3 h-[3px] w-10"
+        style={{ backgroundColor: sat.accent }}
+      />
+
+      <div className="mb-1 font-mono text-[10px] font-black uppercase tracking-[0.24em] text-white/70">
+        {sat.slug === "ai" ? "Intelligent Core" : "Practice"}
+      </div>
+      <div className="mb-1.5 font-sans text-lg font-black leading-tight text-white">
+        {sat.name}
+      </div>
+      <div
+        className="mb-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em]"
+        style={{ color: sat.accent }}
       >
-        {/* Pearlescent top highlight */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 28%)",
-          }}
-        />
-        {/* Thin accent stripe */}
-        <div
-          aria-hidden="true"
-          className="absolute left-0 top-0 h-full w-[3px]"
-          style={{ background: sat.color }}
-        />
+        {sat.tagline}
+      </div>
+      <p className="mb-3 text-sm leading-relaxed text-white/90">{sat.desc}</p>
 
-        <div className="relative flex items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 border border-white bg-black px-2 py-[2px] text-[9px] font-black uppercase tracking-[0.22em] text-white">
-            <span
-              className="inline-block h-1.5 w-1.5 rounded-full"
-              style={{ background: sat.color }}
-            />
-            {sat.chip}
-          </span>
-          <ArrowUpRight className="h-4 w-4 text-white" strokeWidth={2.5} />
-        </div>
-
-        <h3
-          className="relative mt-3 text-balance text-[15px] font-black leading-tight text-white"
-          style={{ textShadow: "2px 2px 0 #000" }}
-        >
-          {sat.name}
-        </h3>
-        <p className="relative mt-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-white/90">
-          {sat.tagline}
-        </p>
-        <p className="relative mt-3 text-[12px] leading-relaxed text-white/85">
-          {sat.desc}
-        </p>
-
-        <div className="relative mt-4 flex items-center gap-2 border-t border-white/25 pt-3">
-          <span className="text-[9px] font-black uppercase tracking-[0.28em] text-white">
-            Enter
-          </span>
-          <span className="h-px flex-1 bg-white/40" />
-          <span className="text-[9px] font-black uppercase tracking-[0.28em] text-white/70">
-            {sat.slug}
-          </span>
-        </div>
+      <div className="flex items-center gap-1.5 font-mono text-[11px] font-black uppercase tracking-[0.22em] text-white">
+        <span>Enter</span>
+        <ArrowUpRight className="h-3.5 w-3.5" style={{ color: sat.accent }} strokeWidth={2.5} />
       </div>
     </div>
   )
