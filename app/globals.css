@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* SoloSuccess Solutions — deep space dark, liquid chrome + iridescent spectrum */
-  --background: oklch(0.07 0.014 260);
+  /* SoloSuccess Solutions — deep space dark, rainbow-spectrum accents */
+  --background: oklch(0.08 0.015 260);
   --foreground: oklch(0.96 0.008 240);
   --card: oklch(0.13 0.018 260 / 0.50);
   --card-foreground: oklch(0.96 0.008 240);
@@ -35,7 +35,7 @@
   --input: oklch(0.17 0.022 260);
   --ring: oklch(0.52 0.20 270 / 0.5);
 
-  --radius: 0.875rem;
+  --radius: 0.75rem;
 
   /* Logo spectrum color tokens */
   --logo-red: #D93025;
@@ -45,17 +45,10 @@
   --logo-teal: #009B94;
   --logo-blue: #005FA3;
   --logo-purple: #6B44A0;
-  --logo-silver: #C8CED8;
+  --logo-silver: #9CA3AF;
 
-  /* Chrome / platinum tokens */
-  --chrome-highlight: #F4F6FA;
-  --chrome-light: #D8DDE6;
-  --chrome-mid: #9BA3B3;
-  --chrome-dark: #4A5160;
-  --chrome-shadow: #1F232D;
-
-  --glass-bg: oklch(0.14 0.020 265 / 0.42);
-  --glass-border: oklch(0.70 0.030 270 / 0.18);
+  --glass-bg: oklch(0.15 0.020 265 / 0.38);
+  --glass-border: oklch(0.55 0.055 270 / 0.18);
 }
 
 @theme inline {
@@ -95,118 +88,78 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Subtle film grain across the whole site */
-    background-image:
-      radial-gradient(ellipse at 20% -10%, oklch(0.28 0.08 280 / 0.28) 0%, transparent 55%),
-      radial-gradient(ellipse at 80% 110%, oklch(0.22 0.06 200 / 0.22) 0%, transparent 55%);
-    background-attachment: fixed;
   }
   /* Anchor offset so fixed navbar doesn't cover section headings */
   section[id] {
-    scroll-margin-top: 96px;
-  }
-  /* Clean selection */
-  ::selection {
-    background: oklch(0.55 0.18 280 / 0.45);
-    color: oklch(0.98 0 0);
+    scroll-margin-top: 80px;
   }
 }
 
 /* Body text — more readable default */
 .text-body {
-  color: oklch(0.78 0.020 250);
+  color: oklch(0.72 0.025 250);
 }
 .text-body-dim {
-  color: oklch(0.62 0.025 250);
+  color: oklch(0.58 0.025 250);
 }
 
-/* ───────────────────────────────────────────────
-   GLASSMORPHISM — refined, chrome-edged
-   ─────────────────────────────────────────────── */
-
+/* Glassmorphism — base card */
 .glass-card {
-  position: relative;
-  background: linear-gradient(
-    135deg,
-    oklch(0.16 0.022 265 / 0.55) 0%,
-    oklch(0.12 0.018 265 / 0.40) 100%
-  );
-  border: 1px solid oklch(0.70 0.040 270 / 0.18);
-  backdrop-filter: blur(28px) saturate(170%);
-  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  background: oklch(0.14 0.022 265 / 0.55);
+  border: 1px solid oklch(0.60 0.055 270 / 0.22);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   box-shadow:
-    0 8px 40px oklch(0 0 0 / 0.40),
-    0 1px 0 oklch(1 0 0 / 0.06) inset,
-    0 -1px 0 oklch(0 0 0 / 0.25) inset;
+    0 4px 32px oklch(0 0 0 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.07);
 }
 
+/* Deep glass — for hero panels, featured cards, CTA bands */
 .glass-card-deep {
-  position: relative;
-  background: linear-gradient(
-    135deg,
-    oklch(0.15 0.025 265 / 0.68) 0%,
-    oklch(0.10 0.020 265 / 0.55) 100%
-  );
-  border: 1px solid oklch(0.75 0.050 270 / 0.24);
-  backdrop-filter: blur(40px) saturate(185%);
-  -webkit-backdrop-filter: blur(40px) saturate(185%);
+  background: oklch(0.12 0.025 265 / 0.65);
+  border: 1px solid oklch(0.65 0.060 270 / 0.28);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
   box-shadow:
-    0 12px 60px oklch(0 0 0 / 0.55),
-    0 2px 14px oklch(0 0 0 / 0.30),
-    0 1px 0 oklch(1 0 0 / 0.10) inset,
-    0 -1px 0 oklch(0 0 0 / 0.25) inset;
+    0 8px 48px oklch(0 0 0 / 0.50),
+    0 2px 12px oklch(0 0 0 / 0.25),
+    inset 0 1px 0 oklch(1 0 0 / 0.10),
+    inset 0 -1px 0 oklch(0 0 0 / 0.20);
 }
 
+/* Glass section panel — full-width frosted strips */
 .glass-panel {
-  background: linear-gradient(
-    180deg,
-    oklch(0.12 0.018 265 / 0.55) 0%,
-    oklch(0.09 0.015 265 / 0.45) 100%
-  );
-  backdrop-filter: blur(32px) saturate(160%);
-  -webkit-backdrop-filter: blur(32px) saturate(160%);
-  border-top: 1px solid oklch(0.70 0.040 270 / 0.16);
-  border-bottom: 1px solid oklch(0.70 0.040 270 / 0.16);
+  background: oklch(0.11 0.018 265 / 0.48);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  border-top: 1px solid oklch(0.60 0.055 270 / 0.18);
+  border-bottom: 1px solid oklch(0.60 0.055 270 / 0.18);
 }
 
-/* Chrome edge — crisp metallic highlight on top & bottom of cards */
-.chrome-edge {
-  position: relative;
+/* Glow utilities */
+.glow-primary {
+  box-shadow: 0 0 28px oklch(0.52 0.20 270 / 0.40), 0 0 70px oklch(0.52 0.20 270 / 0.14);
 }
-.chrome-edge::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    oklch(1 0 0 / 0.45) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-  border-radius: inherit;
+.glow-purple {
+  box-shadow: 0 0 32px #6B44A0BB, 0 0 80px #6B44A033;
 }
-.chrome-edge::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 20%; right: 20%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    oklch(0.70 0.04 270 / 0.25) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-  border-radius: inherit;
+.glow-teal {
+  box-shadow: 0 0 32px #009B94BB, 0 0 80px #009B9433;
+}
+.glow-red {
+  box-shadow: 0 0 32px #D93025BB, 0 0 80px #D9302533;
+}
+.glow-green {
+  box-shadow: 0 0 32px #2D9E2ABB, 0 0 80px #2D9E2A33;
+}
+.glow-orange {
+  box-shadow: 0 0 32px #F07B1FBB, 0 0 80px #F07B1F33;
+}
+.glow-blue {
+  box-shadow: 0 0 32px #005FA3BB, 0 0 80px #005FA333;
 }
 
-/* Shimmer highlight — diagonal light streak inside glass */
-.glass-shimmer {
-  position: relative;
-  overflow: hidden;
-}
+/* Shimmer top highlight — add to any glass element for extra depth */
 .glass-shimmer::before {
   content: '';
   position: absolute;
@@ -214,312 +167,50 @@
   border-radius: inherit;
   background: linear-gradient(
     135deg,
-    oklch(1 0 0 / 0.08) 0%,
-    transparent 38%,
-    transparent 62%,
-    oklch(1 0 0 / 0.04) 100%
+    oklch(1 0 0 / 0.06) 0%,
+    transparent 40%,
+    transparent 60%,
+    oklch(1 0 0 / 0.03) 100%
   );
   pointer-events: none;
 }
 
-/* Shimmer sweep — animated light sweep on hover */
-@keyframes shimmer-sweep {
-  0%   { transform: translateX(-120%) skewX(-12deg); }
-  100% { transform: translateX(220%) skewX(-12deg); }
-}
-.shimmer-sweep {
-  position: relative;
-  overflow: hidden;
-}
-.shimmer-sweep > .sweep {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 55%;
-  background: linear-gradient(
-    100deg,
-    transparent 0%,
-    oklch(1 0 0 / 0.14) 45%,
-    oklch(1 0 0 / 0.22) 50%,
-    oklch(1 0 0 / 0.14) 55%,
-    transparent 100%
-  );
-  transform: translateX(-120%) skewX(-12deg);
-  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-.shimmer-sweep:hover > .sweep {
-  transform: translateX(220%) skewX(-12deg);
-}
-
-/* ───────────────────────────────────────────────
-   LIQUID CHROME — animated metallic gradients
-   ─────────────────────────────────────────────── */
-
-/* Silver/platinum chrome text with slow sheen travel */
-@keyframes chrome-sheen {
-  0%   { background-position:   0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-.chrome-text {
-  background: linear-gradient(
-    100deg,
-    #8E96A6 0%,
-    #D8DDE6 12%,
-    #F4F6FA 22%,
-    #8E96A6 35%,
-    #5A6172 48%,
-    #D8DDE6 62%,
-    #F4F6FA 72%,
-    #8E96A6 85%,
-    #5A6172 100%
-  );
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: chrome-sheen 9s linear infinite;
-  filter: drop-shadow(0 1px 0 oklch(0 0 0 / 0.35));
-}
-
-/* Iridescent chrome — the full rainbow oil-slick flowing through chrome */
-.chrome-iridescent {
-  background: linear-gradient(
-    100deg,
-    #6B44A0 0%,
-    #005FA3 8%,
-    #F4F6FA 16%,
-    #009B94 24%,
-    #D8DDE6 33%,
-    #2D9E2A 42%,
-    #F4F6FA 52%,
-    #F5C400 60%,
-    #D8DDE6 70%,
-    #F07B1F 78%,
-    #F4F6FA 88%,
-    #D93025 96%,
-    #6B44A0 100%
-  );
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: chrome-sheen 14s linear infinite;
-}
-
-/* Chrome surface — for buttons & badges — metallic pill */
-.chrome-surface {
-  position: relative;
-  background:
-    linear-gradient(
-      180deg,
-      oklch(0.32 0.020 265) 0%,
-      oklch(0.18 0.018 265) 50%,
-      oklch(0.28 0.020 265) 100%
-    );
-  border: 1px solid oklch(0.70 0.040 270 / 0.30);
-  box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.22) inset,
-    0 -1px 0 oklch(0 0 0 / 0.40) inset,
-    0 8px 24px oklch(0 0 0 / 0.45),
-    0 2px 6px oklch(0 0 0 / 0.30);
-  color: oklch(0.96 0 0);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.chrome-surface:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.28) inset,
-    0 -1px 0 oklch(0 0 0 / 0.40) inset,
-    0 14px 36px oklch(0 0 0 / 0.55),
-    0 4px 10px oklch(0 0 0 / 0.40);
-}
-
-/* Iridescent chrome button — primary CTA */
-@keyframes iridescent-flow {
-  0%   { background-position:   0% 50%; }
-  100% { background-position: 300% 50%; }
-}
-.btn-iridescent {
-  position: relative;
-  background: linear-gradient(
-    100deg,
-    #6B44A0 0%,
-    #005FA3 12%,
-    #009B94 24%,
-    #2D9E2A 36%,
-    #F5C400 48%,
-    #F07B1F 60%,
-    #D93025 72%,
-    #6B44A0 88%,
-    #005FA3 100%
-  );
-  background-size: 300% 100%;
-  animation: iridescent-flow 10s linear infinite;
-  color: #fff;
-  border: 1px solid oklch(1 0 0 / 0.18);
-  box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.35) inset,
-    0 -1px 0 oklch(0 0 0 / 0.35) inset,
-    0 10px 30px oklch(0.20 0.15 280 / 0.45),
-    0 3px 10px oklch(0 0 0 / 0.40);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  overflow: hidden;
-}
-.btn-iridescent:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.40) inset,
-    0 -1px 0 oklch(0 0 0 / 0.35) inset,
-    0 18px 44px oklch(0.20 0.15 280 / 0.55),
-    0 6px 16px oklch(0 0 0 / 0.45);
-}
-.btn-iridescent::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    oklch(1 0 0 / 0.20) 0%,
-    transparent 45%,
-    transparent 55%,
-    oklch(0 0 0 / 0.15) 100%
-  );
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-/* Chrome outline — ghost variant CTA */
-.btn-chrome-ghost {
-  position: relative;
-  background: linear-gradient(
-    180deg,
-    oklch(0.20 0.018 265 / 0.55) 0%,
-    oklch(0.11 0.015 265 / 0.55) 100%
-  );
-  border: 1px solid oklch(0.70 0.040 270 / 0.30);
-  backdrop-filter: blur(18px);
-  color: oklch(0.88 0.010 260);
-  box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.14) inset,
-    0 -1px 0 oklch(0 0 0 / 0.30) inset,
-    0 6px 18px oklch(0 0 0 / 0.35);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.btn-chrome-ghost:hover {
-  transform: translateY(-1px);
-  border-color: oklch(0.80 0.060 270 / 0.50);
-  box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.22) inset,
-    0 -1px 0 oklch(0 0 0 / 0.30) inset,
-    0 12px 30px oklch(0 0 0 / 0.45);
-}
-
-/* Chrome ring — circular metallic frame for icons/avatars */
-.chrome-ring {
-  position: relative;
-  background:
-    conic-gradient(
-      from 210deg,
-      #4A5160 0deg,
-      #D8DDE6 45deg,
-      #F4F6FA 90deg,
-      #8E96A6 140deg,
-      #2C313C 200deg,
-      #8E96A6 250deg,
-      #F4F6FA 300deg,
-      #4A5160 360deg
-    );
-  padding: 2px;
-}
-.chrome-ring > * {
-  background: oklch(0.10 0.018 265);
-  border-radius: inherit;
-}
-
-/* Iridescent chrome ring — rainbow oil-slick conic frame */
-.iridescent-ring {
-  position: relative;
-  background:
-    conic-gradient(
-      from 180deg,
-      #D93025 0deg,
-      #F07B1F 40deg,
-      #F5C400 80deg,
-      #2D9E2A 130deg,
-      #009B94 180deg,
-      #005FA3 230deg,
-      #6B44A0 290deg,
-      #D93025 360deg
-    );
-  padding: 2px;
-  animation: iridescent-ring-spin 20s linear infinite;
-}
-@keyframes iridescent-ring-spin {
-  to { transform: rotate(360deg); }
-}
-.iridescent-ring > * {
-  background: oklch(0.10 0.018 265);
-  border-radius: inherit;
-  animation: iridescent-ring-spin 20s linear infinite reverse;
-}
-
-/* Rainbow top stripe — used for navbar, panels */
-.rainbow-stripe {
-  background: linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0);
-  background-size: 200% 100%;
-  animation: iridescent-flow 18s linear infinite;
-}
-
-/* Legacy rainbow helpers — kept for compatibility */
+/* Rainbow text gradient */
 .rainbow-text {
   background: linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0);
-  background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: chrome-sheen 12s linear infinite;
 }
 
-/* ───────────────────────────────────────────────
-   LIQUID BLOB — morphing iridescent shape
-   ─────────────────────────────────────────────── */
-
-@keyframes liquid-morph-a {
-  0%, 100% { border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; transform: translate(0,0) rotate(0deg) scale(1); }
-  25%      { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(30px,-20px) rotate(90deg) scale(1.05); }
-  50%      { border-radius: 70% 30% 50% 50% / 60% 40% 60% 40%; transform: translate(-15px,20px) rotate(180deg) scale(0.95); }
-  75%      { border-radius: 50% 50% 30% 70% / 30% 60% 40% 70%; transform: translate(-25px,-10px) rotate(270deg) scale(1.02); }
-}
-@keyframes liquid-morph-b {
-  0%, 100% { border-radius: 58% 42% 45% 55% / 48% 58% 42% 52%; transform: translate(0,0) rotate(0deg) scale(1); }
-  33%      { border-radius: 65% 35% 70% 30% / 55% 45% 55% 45%; transform: translate(-28px,18px) rotate(-120deg) scale(1.08); }
-  66%      { border-radius: 35% 65% 40% 60% / 60% 40% 60% 40%; transform: translate(22px,-22px) rotate(-240deg) scale(0.94); }
-}
-
-.liquid-blob-a { animation: liquid-morph-a 28s ease-in-out infinite; }
-.liquid-blob-b { animation: liquid-morph-b 34s ease-in-out infinite; }
-
-/* ───────────────────────────────────────────────
-   NOISE OVERLAY — adds film-grain depth
-   ─────────────────────────────────────────────── */
-.noise-overlay {
+/* Rainbow border — thick visible ring */
+.rainbow-border {
+  border: 3px solid transparent;
+  background-clip: padding-box;
   position: relative;
 }
-.noise-overlay::after {
+.rainbow-border::before {
   content: '';
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  inset: -3px;
   border-radius: inherit;
+  background: linear-gradient(135deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0);
+  z-index: -1;
+}
+
+/* Rainbow underline for section headings */
+.rainbow-underline {
+  position: relative;
+}
+.rainbow-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0);
 }
 
 /* Henny Penny display font utility */
@@ -527,9 +218,7 @@
   font-family: var(--font-display);
 }
 
-/* ───────────────────────────────────────────────
-   BACKGROUND ORB DRIFT — subtle
-   ─────────────────────────────────────────────── */
+/* Slow background orb drift animations — cloud-like, no scale flash */
 @keyframes orb-drift-a {
   0%   { transform: translate(0px, 0px); }
   25%  { transform: translate(30px, -20px); }
@@ -544,16 +233,31 @@
   75%  { transform: translate(-10px, 25px); }
   100% { transform: translate(0px, 0px); }
 }
+@keyframes orb-drift-c {
+  0%   { transform: translate(0px, 0px); }
+  33%  { transform: translate(22px, 28px); }
+  66%  { transform: translate(-15px, 15px); }
+  100% { transform: translate(0px, 0px); }
+}
 
 .orb-a { animation: orb-drift-a 140s ease-in-out infinite; }
 .orb-b { animation: orb-drift-b 160s ease-in-out infinite; }
+.orb-c { animation: orb-drift-c 120s ease-in-out infinite; }
+.orb-d { animation: orb-drift-a 180s ease-in-out infinite reverse; }
+.orb-e { animation: orb-drift-b 150s ease-in-out infinite 25s; }
+.orb-f { animation: orb-drift-c 170s ease-in-out infinite 50s; }
+.orb-g { animation: orb-drift-a 130s ease-in-out infinite 75s; }
 
-/* ───────────────────────────────────────────────
-   SCROLL REVEAL
-   ─────────────────────────────────────────────── */
+/* Scroll-reveal — sections fade up on enter */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .reveal {
@@ -561,69 +265,18 @@
   transform: translateY(32px);
 }
 .reveal.revealed {
-  animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* Stagger children inside a reveal container */
 .reveal-children > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-children.revealed > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.05s; }
-.reveal-children.revealed > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.13s; }
-.reveal-children.revealed > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.21s; }
-.reveal-children.revealed > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.29s; }
-.reveal-children.revealed > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.37s; }
-.reveal-children.revealed > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.45s; }
-
-/* Magnetic hover lift for cards */
-.magnetic-hover {
-  transition:
-    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-.magnetic-hover:hover {
-  transform: translateY(-4px);
-}
-
-/* Underline rise — elegant link underline */
-.link-rise {
-  position: relative;
-}
-.link-rise::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  bottom: -4px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    currentColor 50%,
-    transparent 100%
-  );
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.link-rise:hover::after {
-  transform: scaleX(1);
-}
-
-/* Smooth rotate utility — used for slow drifting elements */
-@keyframes slow-spin {
-  to { transform: rotate(360deg); }
-}
-.slow-spin { animation: slow-spin 60s linear infinite; }
-.slow-spin-reverse { animation: slow-spin 80s linear infinite reverse; }
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
+.reveal-children.revealed > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.15s; }
+.reveal-children.revealed > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.25s; }
+.reveal-children.revealed > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.35s; }
+.reveal-children.revealed > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.45s; }
+.reveal-children.revealed > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.55s; }

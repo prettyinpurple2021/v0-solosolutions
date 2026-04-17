@@ -27,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${hennyPenny.variable} ${raleway.variable} bg-background`} data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body className="font-sans antialiased bg-background text-foreground">
+    <html lang="en" className={`${hennyPenny.variable} ${raleway.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body className="font-sans antialiased">
         {children}
         <Analytics />
       </body>

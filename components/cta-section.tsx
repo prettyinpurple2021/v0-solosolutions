@@ -1,88 +1,74 @@
 import Link from "next/link"
 import { Mail, ArrowRight } from "lucide-react"
-import { LiquidBlob } from "@/components/liquid-blob"
 
 export function CtaSection() {
   return (
-    <section id="connect" className="relative overflow-hidden px-6 py-28 sm:py-36">
-      {/* Decorative liquid blobs */}
-      <LiquidBlob
-        size={720}
-        variant="a"
-        opacity={0.26}
-        blur={120}
-        className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
-      <LiquidBlob size={420} variant="b" opacity={0.18} blur={100} className="-top-20 right-10" />
-      <LiquidBlob size={380} variant="a" opacity={0.18} blur={100} className="-bottom-20 left-10" />
+    <section id="connect" className="relative overflow-hidden px-6 py-24 sm:py-32">
+      {/* Full-spectrum background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full opacity-15 blur-[150px]"
+          style={{ background: "radial-gradient(circle, #6B44A0 0%, #005FA3 30%, #009B94 55%, transparent 80%)" }} />
+        <div className="absolute -bottom-20 left-1/4 h-[400px] w-[400px] rounded-full opacity-12 blur-[120px]"
+          style={{ background: "radial-gradient(circle, #D93025, transparent 65%)" }} />
+        <div className="absolute -top-20 right-1/4 h-[400px] w-[400px] rounded-full opacity-12 blur-[120px]"
+          style={{ background: "radial-gradient(circle, #F07B1F, transparent 65%)" }} />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-3xl text-center flex flex-col items-center gap-8">
         {/* Deep glass card wraps everything */}
-        <div className="w-full rounded-[2rem] p-10 sm:p-16 glass-card-deep glass-shimmer chrome-edge relative overflow-hidden">
-          {/* Iridescent hairline */}
-          <div className="absolute top-0 left-0 right-0 h-px rainbow-stripe" aria-hidden="true" />
-          {/* Inner iridescent glows */}
-          <div
-            className="pointer-events-none absolute -top-24 left-1/4 h-56 w-80 rounded-full blur-[80px] opacity-30"
-            style={{ background: "#6B44A0" }}
+        <div className="w-full rounded-3xl p-10 sm:p-14 glass-card-deep glass-shimmer relative overflow-hidden"
+          style={{ borderColor: "oklch(0.60 0.055 270 / 0.35)" }}>
+          {/* Rainbow top stripe */}
+          <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-3xl"
+            style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
             aria-hidden="true"
           />
-          <div
-            className="pointer-events-none absolute -bottom-16 right-1/4 h-48 w-72 rounded-full blur-[70px] opacity-25"
-            style={{ background: "#009B94" }}
-            aria-hidden="true"
-          />
+          {/* Inner purple/teal glow */}
+          <div className="pointer-events-none absolute -top-16 left-1/4 h-40 w-64 rounded-full blur-[50px] opacity-30"
+            style={{ background: "#6B44A0" }} aria-hidden="true" />
+          <div className="pointer-events-none absolute -bottom-10 right-1/4 h-36 w-56 rounded-full blur-[50px] opacity-25"
+            style={{ background: "#009B94" }} aria-hidden="true" />
 
           <div className="relative z-10 flex flex-col items-center gap-8">
-            {/* Iconic chrome chip */}
-            <div className="relative iridescent-ring rounded-2xl h-16 w-16">
-              <div className="flex h-full w-full items-center justify-center rounded-2xl">
-                <Mail size={24} className="text-[#C8CED8]" aria-hidden="true" />
-              </div>
-            </div>
-
-            {/* Label */}
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 glass-card chrome-edge">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#6B44A0]" aria-hidden="true" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.28em] chrome-text">
-                Let&apos;s Talk
-              </span>
-            </div>
-
-            {/* Heading */}
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-[-0.03em] text-balance leading-[1.05] chrome-iridescent">
-              Let&apos;s build something together.
-            </h2>
-
-            {/* Subtext */}
-            <p className="max-w-lg text-base leading-relaxed text-body">
-              Whether you&apos;re interested in partnering, collaborating, investing, or just want
-              to learn more about the SoloSuccess ecosystem — we&apos;d love to hear from you.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Link
-                href="mailto:hello@solosuccesssolutions.com"
-                className="btn-iridescent shimmer-sweep group relative inline-flex items-center gap-2 rounded-xl px-8 py-4 text-sm font-bold"
-              >
-                <span className="sweep" aria-hidden="true" />
-                <span className="relative">Send a Message</span>
-                <ArrowRight
-                  size={16}
-                  className="relative transition-transform duration-500 group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </Link>
-              <Link
-                href="#companies"
-                className="btn-chrome-ghost inline-flex items-center gap-2 rounded-xl px-8 py-4 text-sm font-semibold tracking-wide"
-              >
-                View Our Companies
-              </Link>
-            </div>
-          </div>
+        {/* Icon */}
+        <div
+          className="inline-flex h-16 w-16 items-center justify-center rounded-2xl rainbow-border"
+          style={{ background: "linear-gradient(135deg, #6B44A022, #005FA322)", boxShadow: "0 0 32px #6B44A066" }}
+        >
+          <Mail size={28} style={{ color: "#6B44A0" }} aria-hidden="true" />
         </div>
+
+        {/* Heading */}
+        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-balance leading-tight rainbow-text">
+          Let&apos;s build something together.
+        </h2>
+
+        {/* Subtext */}
+        <p className="max-w-lg text-base leading-relaxed" style={{ color: "#c4c8d4" }}>
+          Whether you&apos;re interested in partnering, collaborating, investing, or just want to learn more about the
+          SoloSuccess ecosystem — we&apos;d love to hear from you.
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <Link
+            href="mailto:hello@solosuccesssolutions.com"
+            className="group relative inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
+            style={{ background: "linear-gradient(135deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
+          >
+            Send a Message
+              <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
+          <Link
+            href="#companies"
+            className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold transition-all duration-500 hover:opacity-80"
+            style={{ color: "#9CA3AF", border: "2px solid #9CA3AF", background: "oklch(0.15 0.020 265 / 0.38)", backdropFilter: "blur(16px)" }}
+          >
+            View Our Companies
+          </Link>
+        </div>
+          </div>{/* end relative z-10 */}
+        </div>{/* end glass card */}
       </div>
     </section>
   )
