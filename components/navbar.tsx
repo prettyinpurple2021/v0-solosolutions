@@ -11,21 +11,6 @@ const navLinks = [
   { label: "Connect", href: "#connect" },
 ]
 
-// Per-letter colors cycling through the full spectrum
-const spectrumColors = ["#D93025", "#F07B1F", "#F5C400", "#2D9E2A", "#009B94", "#005FA3", "#6B44A0"]
-
-function RainbowText({ text }: { text: string }) {
-  return (
-    <>
-      {text.split("").map((char, i) => (
-        <span key={i} style={{ color: spectrumColors[i % spectrumColors.length] }}>
-          {char}
-        </span>
-      ))}
-    </>
-  )
-}
-
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -33,48 +18,57 @@ export function Navbar() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
     window.addEventListener("scroll", onScroll, { passive: true })
+    onScroll()
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled
-          ? "glass-card-deep border-b"
-          : "bg-transparent"
+        scrolled ? "glass-card-deep chrome-edge" : "bg-transparent"
       }`}
-      style={scrolled ? { borderColor: "oklch(0.60 0.055 270 / 0.25)" } : {}}
     >
-      {/* Rainbow top stripe — always visible */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[3px]"
-        style={{ background: "linear-gradient(90deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)" }}
-        aria-hidden="true"
-      />
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3" aria-label="Main navigation">
+      {/* Animated iridescent hairline at the top */}
+      <div className="absolute top-0 left-0 right-0 h-px rainbow-stripe opacity-80" aria-hidden="true" />
+
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3"
+        aria-label="Main navigation"
+      >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3" aria-label="SoloSuccess Solutions home">
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
-            alt="SoloSuccess Solutions logo"
-            width={64}
-            height={64}
-            className="object-contain"
-          />
-          <span className="hidden sm:block text-sm font-bold tracking-tight">
-            <RainbowText text="SoloSuccess" />
-            <span className="ml-1" style={{ color: "#9CA3AF" }}>Solutions</span>
+        <Link href="/" className="flex items-center gap-3 group" aria-label="SoloSuccess Solutions home">
+          <div className="relative">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-full blur-lg opacity-40 transition-opacity duration-500 group-hover:opacity-60"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, #6B44A0, #005FA3, #009B94, #2D9E2A, #F5C400, #F07B1F, #D93025, #6B44A0)",
+              }}
+            />
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Remove%20background%20fr-AT1vFZKy7exyjmPCvKO3QfUfGKzUub.png"
+              alt="SoloSuccess Solutions logo"
+              width={48}
+              height={48}
+              className="relative object-contain"
+            />
+          </div>
+          <span className="hidden sm:flex flex-col leading-tight">
+            <span className="text-sm font-bold tracking-tight chrome-iridescent">SoloSuccess</span>
+            <span className="text-[10px] font-medium uppercase tracking-[0.32em] chrome-text">
+              Solutions
+            </span>
           </span>
         </Link>
 
         {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-8" role="list">
-          {navLinks.map((link, i) => (
+        <ul className="hidden md:flex items-center gap-10" role="list">
+          {navLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-semibold transition-colors duration-500 hover:opacity-80"
-                style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
+                className="link-rise text-sm font-semibold uppercase tracking-[0.16em] text-body transition-colors duration-500 hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -86,17 +80,16 @@ export function Navbar() {
         <div className="hidden md:flex items-center">
           <Link
             href="#connect"
-            className="relative rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
-            style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
+            className="btn-iridescent shimmer-sweep relative rounded-xl px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em]"
           >
-            Get in Touch
+            <span className="sweep" aria-hidden="true" />
+            <span className="relative">Get in Touch</span>
           </Link>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden transition-colors p-1"
-          style={{ color: "#F07B1F" }}
+          className="md:hidden p-1 text-body transition-colors hover:text-foreground"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -107,14 +100,13 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden glass-card border-t border-border px-6 pb-6 pt-2">
+        <div className="md:hidden glass-panel border-t border-border px-6 pb-6 pt-3">
           <ul className="flex flex-col gap-4" role="list">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="block text-sm font-semibold py-1 transition-opacity hover:opacity-75"
-                  style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
+                  className="block text-sm font-semibold uppercase tracking-[0.16em] text-body py-1 transition-colors hover:text-foreground"
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
@@ -124,8 +116,7 @@ export function Navbar() {
             <li>
               <Link
                 href="#connect"
-                className="mt-2 block w-full rounded-xl px-5 py-2.5 text-center text-sm font-bold text-white rainbow-border"
-                style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
+                className="btn-iridescent mt-2 block w-full rounded-xl px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.14em]"
                 onClick={() => setMobileOpen(false)}
               >
                 Get in Touch
