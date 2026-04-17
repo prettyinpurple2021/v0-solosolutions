@@ -266,6 +266,27 @@
   100% { opacity: 1; transform: translate3d(0, -50%, 0) scale(1); }
 }
 
+/* Anisotropic streak — slides a narrow iridescent band across a brushed surface.
+   Paired with a brushed-metal repeating gradient on the sphere body to sell the
+   "brushed titanium" look. */
+@keyframes aniso-sweep {
+  0%   { background-position: -180% 0; }
+  100% { background-position: 280% 0; }
+}
+
+/* Slow iridescent border cycle — walks through the SoloSuccess logo palette.
+   Used on glass-morphism cards for a whisper of life without soft glow. */
+@keyframes border-iridescent {
+  0%   { border-color: #D93025; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #D93025, inset 0 1px 0 rgba(255,255,255,0.22); }
+  14%  { border-color: #F07B1F; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #F07B1F, inset 0 1px 0 rgba(255,255,255,0.22); }
+  28%  { border-color: #F5C400; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #F5C400, inset 0 1px 0 rgba(255,255,255,0.22); }
+  42%  { border-color: #2D9E2A; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #2D9E2A, inset 0 1px 0 rgba(255,255,255,0.22); }
+  56%  { border-color: #009B94; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #009B94, inset 0 1px 0 rgba(255,255,255,0.22); }
+  70%  { border-color: #005FA3; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #005FA3, inset 0 1px 0 rgba(255,255,255,0.22); }
+  84%  { border-color: #6B44A0; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #6B44A0, inset 0 1px 0 rgba(255,255,255,0.22); }
+  100% { border-color: #D93025; box-shadow: 6px 6px 0 0 #000, 0 0 0 1px #D93025, inset 0 1px 0 rgba(255,255,255,0.22); }
+}
+
 /* Scroll-reveal — sections fade up on enter */
 @keyframes fadeUp {
   from {
