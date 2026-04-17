@@ -79,13 +79,15 @@ const SATELLITES: Satellite[] = [
   },
 ]
 
-/* Physics constants — calm, deliberate motion. */
-const ORBIT_SPEED = 0.00016 // rad / ms
+/* Physics constants — calm, deliberate motion.
+   TILT flattens the circle into a horizontal carousel disc seen at an angle. */
+const ORBIT_SPEED = 0.00022 // rad / ms
 const REPEL_RADIUS = 170
 const REPEL_STRENGTH = 0.48
 const SPRING = 0.02
 const DAMPING = 0.86
-const INITIAL_RADIUS = 240
+const INITIAL_RADIUS = 260
+const TILT = 0.32 // vertical squish of the orbit path (1 = flat circle, 0.32 ≈ carousel disc)
 
 export function OrbitingEcosystem() {
   const stageRef = useRef<HTMLDivElement | null>(null)
@@ -105,7 +107,7 @@ export function OrbitingEcosystem() {
     SATELLITES.map((s) => ({
       angle: s.startAngle,
       currentX: Math.cos(s.startAngle) * INITIAL_RADIUS,
-      currentY: Math.sin(s.startAngle) * INITIAL_RADIUS,
+      currentY: Math.sin(s.startAngle) * INITIAL_RADIUS * TILT,
       velX: 0,
       velY: 0,
     })),
@@ -158,11 +160,18 @@ export function OrbitingEcosystem() {
         const sat = SATELLITES[i]
         const r = radiusRef.current
         const tx = Math.cos(sat.startAngle) * r
-        const ty = Math.sin(sat.startAngle) * r
+        const ty = Math.sin(sat.startAngle) * r * TILT
         p.currentX = tx
         p.currentY = ty
         const node = orbRefs.current[i]
-        if (node) node.style.transform = `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0)`
+        if (node) {
+          const depth = (Math.sin(sat.startAngle) + 1) / 2 // 0 = back, 1 = front
+          const scale = 0.62 + depth * 0.56
+          node.style.transform = `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0)`
+          node.style.setProperty("--s", String(scale))
+          node.style.setProperty("--o", String(0.55 + depth * 0.45))
+          node.style.zIndex = String(Math.round(depth * 20))
+        }
       })
       return () => ro.disconnect()
     }
@@ -178,8 +187,9 @@ export function OrbitingEcosystem() {
 
       physicsRef.current.forEach((p, i) => {
         p.angle += ORBIT_SPEED * dt
+        // Carousel math: ellipse wider than tall, seen at a tilt.
         const tx = Math.cos(p.angle) * radius
-        const ty = Math.sin(p.angle) * radius
+        const ty = Math.sin(p.angle) * radius * TILT
 
         let ax = (tx - p.currentX) * SPRING
         let ay = (ty - p.currentY) * SPRING
@@ -201,9 +211,25 @@ export function OrbitingEcosystem() {
         p.currentX += p.velX
         p.currentY += p.velY
 
+        // Depth from the angle itself (not the displaced position) so hover
+        // repulsion doesn't flicker the scale.
+        const depth = (Math.sin(p.angle) + 1) / 2 // 0 = back of disc, 1 = front
+        const baseScale = 0.62 + depth * 0.56 // 0.62 at back → 1.18 at front
+        const baseOpacity = 0.55 + depth * 0.45
+        const z = Math.round(depth * 20) // back orbs slide behind the core (z=10)
+        // Hovered orb pops to full readable size regardless of carousel position.
+        const isHovered = hoveredRef.current === i
+        const scale = isHovered ? Math.max(1.15, baseScale) : baseScale
+        const opacity = isHovered ? 1 : baseOpacity
+
         const node = orbRefs.current[i]
         if (node) {
+          // Translate on the link itself; scale + opacity handed to an inner
+          // wrapper via CSS vars so the hover data-card isn't scaled with it.
           node.style.transform = `translate3d(calc(-50% + ${p.currentX}px), calc(-50% + ${p.currentY}px), 0)`
+          node.style.setProperty("--s", String(scale))
+          node.style.setProperty("--o", String(opacity))
+          node.style.zIndex = String(isHovered ? 30 : z)
         }
       })
 
@@ -330,11 +356,15 @@ export function OrbitingEcosystem() {
           onPointerLeave={onPointerLeave}
           className="relative z-10 aspect-square w-full max-w-[720px]"
         >
-          {/* Orbital guide ring */}
+          {/* Carousel guide ring — flattened ellipse matching the disc tilt */}
           <div
             aria-hidden
-            className="absolute left-1/2 top-1/2 aspect-square w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{ border: "1px solid rgba(255,255,255,0.05)" }}
+            className="absolute left-1/2 top-1/2 w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
+            style={{
+              height: `${78 * TILT}%`,
+              border: "1px solid rgba(255,255,255,0.06)",
+              boxShadow: "inset 0 0 60px rgba(255,255,255,0.02)",
+            }}
           />
           {/* Trailing mercury ripple */}
           <div
@@ -355,7 +385,11 @@ export function OrbitingEcosystem() {
 
           {SATELLITES.map((s, i) => {
             const ix = Math.cos(s.startAngle) * INITIAL_RADIUS
-            const iy = Math.sin(s.startAngle) * INITIAL_RADIUS
+            const iy = Math.sin(s.startAngle) * INITIAL_RADIUS * TILT
+            const depth = (Math.sin(s.startAngle) + 1) / 2
+            const iScale = 0.62 + depth * 0.56
+            const iZ = Math.round(depth * 20)
+            const iOpacity = 0.55 + depth * 0.45
             return (
               <Link
                 key={s.slug}
@@ -364,17 +398,33 @@ export function OrbitingEcosystem() {
                   orbRefs.current[i] = el as unknown as HTMLElement | null
                 }}
                 className="group absolute left-1/2 top-1/2 block rounded-full outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0D]"
-                style={{
-                  transform: `translate3d(calc(-50% + ${ix}px), calc(-50% + ${iy}px), 0)`,
-                  willChange: "transform",
-                }}
+                style={
+                  {
+                    transform: `translate3d(calc(-50% + ${ix}px), calc(-50% + ${iy}px), 0)`,
+                    zIndex: iZ,
+                    willChange: "transform",
+                    ["--s" as string]: iScale,
+                    ["--o" as string]: iOpacity,
+                  } as React.CSSProperties
+                }
                 onPointerEnter={() => handleEnter(i)}
                 onPointerLeave={handleLeaveOrb}
                 onFocus={() => handleEnter(i)}
                 onBlur={handleLeaveOrb}
                 aria-label={`Enter ${s.name} — ${s.tagline}`}
               >
-                <SatelliteOrb sat={s} active={hoveredIdx === i} />
+                {/* Inner wrapper carries the carousel depth scale + opacity so
+                    the data-card (a sibling) stays at full readable size. */}
+                <div
+                  className="transition-[transform,opacity] duration-300 ease-out"
+                  style={{
+                    transform: "scale(var(--s, 1))",
+                    opacity: "var(--o, 1)" as unknown as number,
+                    willChange: "transform, opacity",
+                  }}
+                >
+                  <SatelliteOrb sat={s} active={hoveredIdx === i} />
+                </div>
                 {hoveredIdx === i && <DataCard sat={s} side={cardSide} />}
               </Link>
             )
@@ -394,7 +444,10 @@ export function OrbitingEcosystem() {
  * ──────────────────────────────────────────────────────────────────────── */
 function CoreOrb() {
   return (
-    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div
+      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      style={{ zIndex: 10 }}
+    >
       <div className="relative">
         {/* Ambient bloom around the core */}
         <div
