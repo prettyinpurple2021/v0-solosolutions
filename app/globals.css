@@ -248,6 +248,24 @@
 .orb-f { animation: orb-drift-c 170s ease-in-out infinite 50s; }
 .orb-g { animation: orb-drift-a 130s ease-in-out infinite 75s; }
 
+/* Orbiting Ecosystem — physics-stage animations */
+@keyframes orb-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes core-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes card-snap-right {
+  0% { opacity: 0; transform: translate3d(-14px, -50%, 0) scale(0.96); }
+  100% { opacity: 1; transform: translate3d(0, -50%, 0) scale(1); }
+}
+@keyframes card-snap-left {
+  0% { opacity: 0; transform: translate3d(14px, -50%, 0) scale(0.96); }
+  100% { opacity: 1; transform: translate3d(0, -50%, 0) scale(1); }
+}
+
 /* Scroll-reveal — sections fade up on enter */
 @keyframes fadeUp {
   from {
