@@ -563,6 +563,7 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
             className="object-contain p-1 opacity-85 transition-opacity duration-400"
             style={{
               opacity: active ? 1 : 0.65,
+              mixBlendMode: "multiply",
             }}
           />
         )}
@@ -616,7 +617,7 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
   )
 }
 
-/* ────────────────────────────────────────────────────────────────────────────
+/* ────────────────────────────────────────���───────────────────────────────────
  * DataCard — Neo-Brutalist glass card with slow iridescent border cycle.
  * ──────────────────────────────────────────────────────────────────────── */
 function DataCard({ sat, side }: { sat: Satellite; side: "left" | "right" }) {
