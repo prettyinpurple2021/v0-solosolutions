@@ -19,6 +19,7 @@ type Satellite = {
   accent: string
   Icon: typeof Brain
   startAngle: number
+  logo?: string
 }
 
 const SATELLITES: Satellite[] = [
@@ -65,6 +66,7 @@ const SATELLITES: Satellite[] = [
     accent: "#FF3DAE",
     Icon: Users,
     startAngle: -Math.PI / 2 + (6 * Math.PI) / 6,
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloConnect_20260419_231708_0000-hKH1sNaJ21M3ZCGoIZxmdvQudL2yge.png",
   },
   {
     slug: "soloscribe",
@@ -76,6 +78,7 @@ const SATELLITES: Satellite[] = [
     accent: "#A78BFA",
     Icon: PenLine,
     startAngle: -Math.PI / 2 + (8 * Math.PI) / 6,
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloScribe_20260419_233306_0000-uJWqRWTz2PtywX6BwVDfY6H2Qc9rNF.png",
   },
   {
     slug: "solodesign",
@@ -87,6 +90,7 @@ const SATELLITES: Satellite[] = [
     accent: "#FF6B9D",
     Icon: Palette,
     startAngle: -Math.PI / 2 + (10 * Math.PI) / 6,
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
   },
 ]
 
@@ -548,6 +552,20 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
           sizes="(max-width: 768px) 84px, 98px"
           className="object-cover"
         />
+
+        {/* Logo overlay — if satellite has a logo, display it as a subtle centered emblem */}
+        {sat.logo && (
+          <Image
+            src={sat.logo}
+            alt={sat.name}
+            fill
+            sizes="(max-width: 768px) 84px, 98px"
+            className="object-contain p-1 opacity-85 transition-opacity duration-400"
+            style={{
+              opacity: active ? 1 : 0.65,
+            }}
+          />
+        )}
 
         {/* Accent color wash — blended onto the glass only when active */}
         <div
