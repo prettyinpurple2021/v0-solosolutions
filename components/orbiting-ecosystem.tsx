@@ -3,10 +3,10 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ArrowUpRight, BookOpen, Brain, Film, PenLine, Users } from "lucide-react"
+import { ArrowUpRight, BookOpen, Brain, Film, PenLine, Users, Palette } from "lucide-react"
 
 /* ────────────────────────────────────────────────────────────────────────────
- * Ecosystem data — the five satellites that orbit the SoloSuccess core.
+ * Ecosystem data — the six satellites that orbit the SoloSuccess core.
  * Each has ONE confident accent color. No gradient stacks on the orbs.
  * ──────────────────────────────────────────────────────────────────────── */
 type Satellite = {
@@ -42,7 +42,7 @@ const SATELLITES: Satellite[] = [
     href: "/brands/academy",
     accent: "#B6FF3C",
     Icon: BookOpen,
-    startAngle: -Math.PI / 2 + (2 * Math.PI) / 5,
+    startAngle: -Math.PI / 2 + (2 * Math.PI) / 6,
   },
   {
     slug: "content-factory",
@@ -53,7 +53,7 @@ const SATELLITES: Satellite[] = [
     href: "/brands/content-factory",
     accent: "#FFC53D",
     Icon: Film,
-    startAngle: -Math.PI / 2 + (4 * Math.PI) / 5,
+    startAngle: -Math.PI / 2 + (4 * Math.PI) / 6,
   },
   {
     slug: "connect",
@@ -64,7 +64,7 @@ const SATELLITES: Satellite[] = [
     href: "/brands/connect",
     accent: "#FF3DAE",
     Icon: Users,
-    startAngle: -Math.PI / 2 + (6 * Math.PI) / 5,
+    startAngle: -Math.PI / 2 + (6 * Math.PI) / 6,
   },
   {
     slug: "soloscribe",
@@ -75,7 +75,18 @@ const SATELLITES: Satellite[] = [
     href: "/brands/soloscribe",
     accent: "#A78BFA",
     Icon: PenLine,
-    startAngle: -Math.PI / 2 + (8 * Math.PI) / 5,
+    startAngle: -Math.PI / 2 + (8 * Math.PI) / 6,
+  },
+  {
+    slug: "solodesign",
+    chip: "Design",
+    name: "SoloDesign",
+    tagline: "Visual Excellence",
+    desc: "Brand, web, and creative design that stands out.",
+    href: "/brands/solodesign",
+    accent: "#FF6B9D",
+    Icon: Palette,
+    startAngle: -Math.PI / 2 + (10 * Math.PI) / 6,
   },
 ]
 
