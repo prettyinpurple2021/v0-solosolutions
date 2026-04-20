@@ -9,6 +9,7 @@ const footerLinks = [
   { label: "Content Factory", href: "/brands/content-factory", color: "#F07B1F" },
   { label: "SoloSuccess Connect", href: "/brands/connect", color: "#D93025" },
   { label: "SoloScribe", href: "/brands/soloscribe", color: "#6B44A0" },
+  { label: "SoloDesign", href: "/brands/solodesign", color: "#FF6B9D" },
 ]
 
 export function Footer() {

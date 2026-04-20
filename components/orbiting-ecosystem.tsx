@@ -432,7 +432,7 @@ export function OrbitingEcosystem() {
             for solo creators.
           </h1>
           <p className="max-w-xl text-pretty text-sm leading-relaxed text-white/85 md:text-base">
-            Five practices drifting around a single intelligent core. Hover a sphere to step inside.
+            Six practices drifting around a single intelligent core. Hover a sphere to step inside.
           </p>
         </div>
 
