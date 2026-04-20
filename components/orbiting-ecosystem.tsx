@@ -33,6 +33,7 @@ const SATELLITES: Satellite[] = [
     accent: "#00E5FF",
     Icon: Brain,
     startAngle: -Math.PI / 2,
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685256545-smPzRBOjF1SY6bfuokfIeKPFelkiuR.png",
   },
   {
     slug: "academy",
@@ -44,6 +45,7 @@ const SATELLITES: Satellite[] = [
     accent: "#B6FF3C",
     Icon: BookOpen,
     startAngle: -Math.PI / 2 + (2 * Math.PI) / 6,
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685248518-Wkl6uOdwhlotAqnP5moVCgbRnI5Aj7.png",
   },
   {
     slug: "content-factory",
@@ -55,6 +57,7 @@ const SATELLITES: Satellite[] = [
     accent: "#FFC53D",
     Icon: Film,
     startAngle: -Math.PI / 2 + (4 * Math.PI) / 6,
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685242602-ZK0BIdZxkzJDeuRUUiB6eUc0R1C5P9.png",
   },
   {
     slug: "connect",
@@ -491,6 +494,20 @@ function CoreOrb() {
             sizes="(max-width: 768px) 160px, 208px"
             className="object-cover"
           />
+
+          {/* SoloSuccess Solutions logo overlay */}
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685267325-EQZR6T6PrrQwPdbCwgoXueun8g3Ml9.png"
+            alt="SoloSuccess Solutions"
+            fill
+            sizes="(max-width: 768px) 160px, 208px"
+            className="object-contain p-4"
+            style={{
+              opacity: 0.8,
+              mixBlendMode: "screen",
+            }}
+          />
+
           {/* Crisp specular */}
           <div
             aria-hidden
@@ -617,7 +634,7 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
   )
 }
 
-/* ────────────────────────────────────────���───────────────────────────────────
+/* ──────────────────────────��─────────────���───────────────────────────────────
  * DataCard — Neo-Brutalist glass card with slow iridescent border cycle.
  * ──────────────────────────────────────────────────────────────────────── */
 function DataCard({ sat, side }: { sat: Satellite; side: "left" | "right" }) {
