@@ -9,6 +9,7 @@ const footerLinks = [
   { label: "Content Factory", href: "/brands/content-factory", color: "#F07B1F" },
   { label: "SoloSuccess Connect", href: "/brands/connect", color: "#D93025" },
   { label: "SoloScribe", href: "/brands/soloscribe", color: "#6B44A0" },
+  { label: "SoloDesign", href: "/brands/solodesign", color: "#FF6B9D" },
 ]
 
 export function Footer() {
@@ -67,8 +68,8 @@ export function Footer() {
           <nav aria-label="Footer legal links">
             <ul className="flex gap-4" role="list">
               {[
-                { label: "Privacy", href: "#", color: "#009B94" },
-                { label: "Terms", href: "#", color: "#F07B1F" },
+                { label: "Privacy", href: "/privacy", color: "#009B94" },
+                { label: "Terms", href: "/terms", color: "#F07B1F" },
               ].map((l) => (
                 <li key={l.label}>
                   <Link href={l.href} className="text-xs font-semibold transition-opacity hover:opacity-70"

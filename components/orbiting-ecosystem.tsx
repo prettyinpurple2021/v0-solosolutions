@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ArrowUpRight, BookOpen, Brain, Film, PenLine, Users, Palette } from "lucide-react"
+import { ArrowUpRight, BookOpen, Brain, Film, PenLine, Users, Palette, ChevronDown } from "lucide-react"
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Ecosystem data — the six satellites that orbit the SoloSuccess core.
@@ -120,6 +120,10 @@ export function OrbitingEcosystem() {
   const rippleStateRef = useRef({ x: 0.5, y: 0.5 })
   const hoveredRef = useRef<number | null>(null)
   const radiusRef = useRef(INITIAL_RADIUS)
+  const pausedRef = useRef(false)
+  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null)
+  const [focusedIdx, setFocusedIdx] = useState<number | null>(null)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
 
   const physicsRef = useRef(
     SATELLITES.map((s) => ({
@@ -204,7 +208,10 @@ export function OrbitingEcosystem() {
       const { x: px, y: py, inside } = pointerRef.current
 
       physicsRef.current.forEach((p, i) => {
-        p.angle += ORBIT_SPEED * dt
+        // Pause carousel rotation when hovering any satellite
+        if (!pausedRef.current) {
+          p.angle += ORBIT_SPEED * dt
+        }
         // Carousel math: ellipse wider than tall, seen at a tilt.
         const tx = Math.cos(p.angle) * radius
         const ty = Math.sin(p.angle) * radius * TILT
@@ -273,6 +280,7 @@ export function OrbitingEcosystem() {
 
   const handleEnter = useCallback((i: number) => {
     hoveredRef.current = i
+    pausedRef.current = true
     const p = physicsRef.current[i]
     setCardSide(p.currentX > 0 ? "left" : "right")
     setHoveredIdx(i)
@@ -280,7 +288,68 @@ export function OrbitingEcosystem() {
 
   const handleLeaveOrb = useCallback(() => {
     hoveredRef.current = null
+    pausedRef.current = false
     setHoveredIdx(null)
+  }, [])
+
+  // Keyboard navigation — arrow keys cycle through satellites
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault()
+      const next = focusedIdx === null ? 0 : (focusedIdx + 1) % SATELLITES.length
+      setFocusedIdx(next)
+      orbRefs.current[next]?.focus()
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault()
+      const prev = focusedIdx === null ? SATELLITES.length - 1 : (focusedIdx - 1 + SATELLITES.length) % SATELLITES.length
+      setFocusedIdx(prev)
+      orbRefs.current[prev]?.focus()
+    } else if (e.key === "Escape") {
+      pausedRef.current = false
+      setHoveredIdx(null)
+      setFocusedIdx(null)
+    }
+  }, [focusedIdx])
+
+  // Touch gestures — swipe to rotate carousel
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY, time: Date.now() }
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (!touchStartRef.current) return
+    const touch = e.changedTouches[0]
+    const dx = touch.clientX - touchStartRef.current.x
+    const dt = Date.now() - touchStartRef.current.time
+    touchStartRef.current = null
+
+    // Only count as swipe if horizontal movement > 50px and < 500ms
+    if (Math.abs(dx) > 50 && dt < 500) {
+      const direction = dx > 0 ? -1 : 1
+      // Rotate all orbs by ~60 degrees (one satellite position)
+      physicsRef.current.forEach((p) => {
+        p.angle += direction * (Math.PI / 3)
+      })
+    }
+  }, [])
+
+  // Preload orb images
+  useEffect(() => {
+    const images = ["/orb-core.jpg", "/orb-satellite.jpg"]
+    let loaded = 0
+    images.forEach((src) => {
+      const img = new window.Image()
+      img.onload = () => {
+        loaded++
+        if (loaded === images.length) setImagesLoaded(true)
+      }
+      img.onerror = () => {
+        loaded++
+        if (loaded === images.length) setImagesLoaded(true)
+      }
+      img.src = src
+    })
   }, [])
 
   const stars = useMemo(
@@ -363,7 +432,7 @@ export function OrbitingEcosystem() {
             for solo creators.
           </h1>
           <p className="max-w-xl text-pretty text-sm leading-relaxed text-white/85 md:text-base">
-            Five practices drifting around a single intelligent core. Hover a sphere to step inside.
+            Six practices drifting around a single intelligent core. Hover a sphere to step inside.
           </p>
         </div>
 
@@ -372,8 +441,27 @@ export function OrbitingEcosystem() {
           ref={containerRef}
           onPointerMove={onPointerMove}
           onPointerLeave={onPointerLeave}
-          className="relative z-10 aspect-square w-full max-w-[720px]"
+          onKeyDown={handleKeyDown}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          tabIndex={0}
+          role="region"
+          aria-label="Interactive ecosystem carousel. Use arrow keys to navigate between brands, or swipe on touch devices."
+          className="relative z-10 aspect-square w-full max-w-[720px] outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-4 focus-visible:ring-offset-[#0B0B0D]"
         >
+          {/* Loading shimmer overlay */}
+          {!imagesLoaded && (
+            <div className="absolute inset-0 z-50 flex items-center justify-center">
+              <div
+                className="h-40 w-40 animate-pulse rounded-full md:h-52 md:w-52"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.08) 100%)",
+                  backgroundSize: "200% 200%",
+                  animation: "shimmer 1.5s ease-in-out infinite",
+                }}
+              />
+            </div>
+          )}
           {/* Carousel guide ring — flattened ellipse matching the disc tilt */}
           <div
             aria-hidden
@@ -452,6 +540,21 @@ export function OrbitingEcosystem() {
         <p className="relative z-10 mt-12 font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-white/55">
           Drift&nbsp;&nbsp;·&nbsp;&nbsp;Hover&nbsp;&nbsp;·&nbsp;&nbsp;Explore
         </p>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2">
+          <button
+            onClick={() => {
+              const nextSection = document.querySelector("section:nth-of-type(2)")
+              nextSection?.scrollIntoView({ behavior: "smooth" })
+            }}
+            className="group flex flex-col items-center gap-2 text-white/50 transition-colors hover:text-white/80 focus:outline-none focus-visible:text-white"
+            aria-label="Scroll to next section"
+          >
+            <span className="font-mono text-[9px] uppercase tracking-[0.3em]">Scroll</span>
+            <ChevronDown className="h-5 w-5 animate-bounce" style={{ animationDuration: "2s" }} />
+          </button>
+        </div>
       </div>
     </section>
   )
@@ -477,48 +580,37 @@ function CoreOrb() {
             animation: "orb-spin 40s linear infinite",
           }}
         />
-        {/* Orb body — real image */}
+        {/* Orb body — clean dark glass with logo */}
         <div
           className="relative h-40 w-40 overflow-hidden rounded-full md:h-52 md:w-52"
           style={{
+            background: "radial-gradient(ellipse at 30% 20%, #2a2a30 0%, #0f0f12 50%, #080809 100%)",
             boxShadow:
               "0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.18)",
             animation: "core-pulse 5.6s ease-in-out infinite",
           }}
         >
-          <Image
-            src="/orb-core.jpg"
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 768px) 160px, 208px"
-            className="object-cover"
-          />
-
-          {/* SoloSuccess Solutions logo overlay */}
+          {/* SoloSuccess Solutions logo — direct on dark glass, no blend */}
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685267325-EQZR6T6PrrQwPdbCwgoXueun8g3Ml9.png"
             alt="SoloSuccess Solutions"
             fill
+            priority
             sizes="(max-width: 768px) 160px, 208px"
-            className="object-contain p-4"
-            style={{
-              opacity: 0.8,
-              mixBlendMode: "screen",
-            }}
+            className="object-contain p-5"
           />
 
-          {/* Crisp specular */}
+          {/* Subtle specular highlight */}
           <div
             aria-hidden
             className="absolute rounded-full bg-white"
             style={{
-              top: "16%",
-              left: "22%",
-              width: "18%",
-              height: "10%",
-              filter: "blur(3px)",
-              opacity: 0.7,
+              top: "12%",
+              left: "18%",
+              width: "22%",
+              height: "12%",
+              filter: "blur(5px)",
+              opacity: 0.2,
             }}
           />
         </div>
@@ -552,35 +644,40 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
         }}
       />
 
-      {/* Orb body — real rendered sphere */}
+      {/* Orb body — clean dark glass with logo, or sphere image as fallback */}
       <div
         className="relative h-[84px] w-[84px] overflow-hidden rounded-full transition-transform duration-400 ease-out md:h-[98px] md:w-[98px]"
         style={{
           transform: active ? "scale(1.1)" : "scale(1)",
+          background: sat.logo
+            ? "radial-gradient(ellipse at 30% 20%, #2a2a30 0%, #0f0f12 50%, #080809 100%)"
+            : undefined,
           boxShadow: active
             ? `0 18px 40px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px ${sat.accent}cc`
             : "0 16px 34px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.07)",
         }}
       >
-        <Image
-          src="/orb-satellite.jpg"
-          alt=""
-          fill
-          sizes="(max-width: 768px) 84px, 98px"
-          className="object-cover"
-        />
+        {/* Only show orb-satellite.jpg if no logo — otherwise use clean dark glass */}
+        {!sat.logo && (
+          <Image
+            src="/orb-satellite.jpg"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 84px, 98px"
+            className="object-cover"
+          />
+        )}
 
-        {/* Logo overlay — if satellite has a logo, display it as a subtle centered emblem */}
+        {/* Logo — displayed directly on clean dark glass, no blend mode needed */}
         {sat.logo && (
           <Image
             src={sat.logo}
             alt={sat.name}
             fill
             sizes="(max-width: 768px) 84px, 98px"
-            className="object-contain p-1 opacity-85 transition-opacity duration-400"
+            className="object-contain p-2 transition-opacity duration-400"
             style={{
-              opacity: active ? 1 : 0.65,
-              mixBlendMode: "screen",
+              opacity: active ? 1 : 0.85,
             }}
           />
         )}
@@ -592,21 +689,21 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
           style={{
             background: `radial-gradient(circle at 32% 30%, ${sat.accent}, transparent 65%)`,
             mixBlendMode: "overlay",
-            opacity: active ? 0.75 : 0,
+            opacity: active ? 0.5 : 0,
           }}
         />
 
-        {/* Crisp specular */}
+        {/* Crisp specular highlight */}
         <div
           aria-hidden
           className="pointer-events-none absolute rounded-full bg-white"
           style={{
-            top: "16%",
-            left: "22%",
-            width: "18%",
-            height: "10%",
-            filter: "blur(2px)",
-            opacity: 0.6,
+            top: "12%",
+            left: "18%",
+            width: "22%",
+            height: "12%",
+            filter: "blur(4px)",
+            opacity: sat.logo ? 0.25 : 0.6,
           }}
         />
 
