@@ -28,6 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${hennyPenny.variable} ${raleway.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        {/* Preload critical orb images for faster first paint */}
+        <link rel="preload" href="/orb-core.jpg" as="image" />
+        <link rel="preload" href="/orb-satellite.jpg" as="image" />
+      </head>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
