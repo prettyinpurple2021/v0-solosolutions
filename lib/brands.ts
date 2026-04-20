@@ -1,4 +1,4 @@
-import { Brain, BookOpen, Film, Users, PenLine } from "lucide-react"
+import { Brain, BookOpen, Film, Users, PenLine, Palette } from "lucide-react"
 
 export type Brand = {
   slug: string
@@ -141,6 +141,32 @@ export const brands: Brand[] = [
       { stat: "100%", label: "Brand-Voice Matched" },
     ],
     ctaLabel: "Get Your Copy Written",
+  },
+  {
+    slug: "solodesign",
+    name: "SoloDesign",
+    wordmark: "SoloDesign",
+    tagline: "Visual Excellence for Solo Entrepreneurs",
+    description:
+      "Premium brand, web, and creative design services built for solo founders. From logos and brand identity to websites and marketing materials — designs that make you stand out and communicate your value at a glance.",
+    color: "#FF6B9D",
+    secondaryColor: "#FF8FB3",
+    icon: Palette,
+    logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
+    features: [
+      { title: "Brand Identity Design", description: "Logo, color palette, typography, and complete visual identity systems." },
+      { title: "Website Design", description: "Custom website designs that convert visitors into customers — landing pages to full sites." },
+      { title: "Social Media Graphics", description: "Scroll-stopping templates and custom graphics for every platform." },
+      { title: "Presentation Design", description: "Pitch decks, keynotes, and sales presentations that close deals." },
+      { title: "Marketing Collateral", description: "Business cards, flyers, lead magnets, and print materials that leave an impression." },
+      { title: "Brand Guidelines", description: "A comprehensive style guide ensuring consistency across all your touchpoints." },
+    ],
+    benefits: [
+      { stat: "72hr", label: "First Concepts" },
+      { stat: "Unlimited", label: "Revisions" },
+      { stat: "100%", label: "Ownership Rights" },
+    ],
+    ctaLabel: "Start Your Design Project",
   },
 ]
 
