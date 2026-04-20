@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { PDFDownloadButton } from "@/components/pdf-download-button"
 import { ArrowLeft } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -30,9 +31,25 @@ export default function TermsOfService() {
             <h1 className="text-3xl md:text-4xl font-bold mb-4 rainbow-text font-display">
               Terms of Service
             </h1>
-            <p className="text-muted-foreground">
-              Last updated: <time dateTime="2026-04-20">{/* USER_INPUT: UPDATE_DATE */}[UPDATE WITH CURRENT DATE]</time>
-            </p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              <span className="inline-block px-3 py-1.5 text-xs font-semibold rounded" style={{ background: "#D9302533", color: "#D93025" }}>
+                Legally Binding
+              </span>
+              <span className="inline-block px-3 py-1.5 text-xs font-semibold rounded" style={{ background: "#F07B1F33", color: "#F07B1F" }}>
+                Fair Terms
+              </span>
+              <span className="inline-block px-3 py-1.5 text-xs font-semibold rounded" style={{ background: "#6B44A033", color: "#6B44A0" }}>
+                User-Friendly
+              </span>
+            </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+              <div>
+                <p className="text-muted-foreground">
+                  Last updated: <time dateTime="2026-04-20">{/* USER_INPUT: UPDATE_DATE */}[UPDATE WITH CURRENT DATE]</time>
+                </p>
+              </div>
+              <PDFDownloadButton filename="solosuccess-terms-of-service.pdf" documentTitle="Terms of Service" />
+            </div>
           </header>
 
           {/* Content */}
@@ -268,6 +285,32 @@ export default function TermsOfService() {
               </div>
             </section>
           </div>
+
+          {/* Version History */}
+          <aside className="mt-16 pt-12 border-t border-white/10">
+            <h2 className="text-lg font-bold mb-6 text-foreground">Terms Version History</h2>
+            <div className="space-y-4">
+              {[
+                { date: "April 20, 2026", version: "1.0", changes: "Initial publication on launch" },
+              ].map((entry, idx) => (
+                <div key={idx} className="glass-card rounded-lg p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{entry.date}</p>
+                      <p className="text-xs text-muted-foreground">Version {entry.version}</p>
+                    </div>
+                    <span className="inline-block px-2 py-1 text-xs font-medium rounded" style={{ background: "#005FA333", color: "#005FA3" }}>
+                      Current
+                    </span>
+                  </div>
+                  <p className="text-sm text-body mt-2">{entry.changes}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-body-dim mt-6">
+              All historical versions are archived and available upon request. We will notify you of material changes to these terms.
+            </p>
+          </aside>
         </article>
       </main>
       <Footer />

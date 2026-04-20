@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { Mail, ArrowRight, Check, Loader2 } from "lucide-react"
 
 export function NewsletterSection() {
@@ -117,6 +118,10 @@ export function NewsletterSection() {
           <span>Weekly tips</span>
           <span className="hidden sm:inline">·</span>
           <span>100% free</span>
+          <span className="hidden sm:inline">·</span>
+          <Link href="/email-preferences" className="hover:text-white/60 transition-colors">
+            Manage preferences
+          </Link>
         </div>
       </div>
     </section>

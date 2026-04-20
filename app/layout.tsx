@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Henny_Penny, Raleway } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { CookieConsentBanner } from '@/components/cookie-consent-banner'
 import './globals.css'
 
 const hennyPenny = Henny_Penny({
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         {children}
         <Analytics />
+        <CookieConsentBanner />
       </body>
     </html>
   )

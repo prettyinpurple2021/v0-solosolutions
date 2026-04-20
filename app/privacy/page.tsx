@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { PDFDownloadButton } from "@/components/pdf-download-button"
 import { ArrowLeft } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -30,9 +31,25 @@ export default function PrivacyPolicy() {
             <h1 className="text-3xl md:text-4xl font-bold mb-4 rainbow-text font-display">
               Privacy Policy
             </h1>
-            <p className="text-muted-foreground">
-              Last updated: <time dateTime="2026-04-20">{/* USER_INPUT: UPDATE_DATE */}[UPDATE WITH CURRENT DATE]</time>
-            </p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              <span className="inline-block px-3 py-1.5 text-xs font-semibold rounded" style={{ background: "#009B9433", color: "#009B94" }}>
+                GDPR Compliant
+              </span>
+              <span className="inline-block px-3 py-1.5 text-xs font-semibold rounded" style={{ background: "#005FA333", color: "#005FA3" }}>
+                CCPA Compliant
+              </span>
+              <span className="inline-block px-3 py-1.5 text-xs font-semibold rounded" style={{ background: "#2D9E2A33", color: "#2D9E2A" }}>
+                Privacy First
+              </span>
+            </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+              <div>
+                <p className="text-muted-foreground">
+                  Last updated: <time dateTime="2026-04-20">{/* USER_INPUT: UPDATE_DATE */}[UPDATE WITH CURRENT DATE]</time>
+                </p>
+              </div>
+              <PDFDownloadButton filename="solosuccess-privacy-policy.pdf" documentTitle="Privacy Policy" />
+            </div>
           </header>
 
           {/* Content */}
@@ -167,7 +184,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Correction:</strong> Request correction of inaccurate or incomplete information</li>
                 <li><strong>Deletion:</strong> Request deletion of your personal information</li>
                 <li><strong>Portability:</strong> Request a copy of your data in a portable format</li>
-                <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
+                <li><strong>Opt-out:</strong> Unsubscribe from marketing communications — manage preferences <Link href="/email-preferences" className="underline hover:text-foreground transition-colors">here</Link></li>
                 <li><strong>Restriction:</strong> Request that we limit how we use your information</li>
               </ul>
               <p className="text-body leading-relaxed">
@@ -232,6 +249,32 @@ export default function PrivacyPolicy() {
               </div>
             </section>
           </div>
+
+          {/* Version History */}
+          <aside className="mt-16 pt-12 border-t border-white/10">
+            <h2 className="text-lg font-bold mb-6 text-foreground">Policy Version History</h2>
+            <div className="space-y-4">
+              {[
+                { date: "April 20, 2026", version: "1.0", changes: "Initial publication on launch" },
+              ].map((entry, idx) => (
+                <div key={idx} className="glass-card rounded-lg p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{entry.date}</p>
+                      <p className="text-xs text-muted-foreground">Version {entry.version}</p>
+                    </div>
+                    <span className="inline-block px-2 py-1 text-xs font-medium rounded" style={{ background: "#2D9E2A33", color: "#2D9E2A" }}>
+                      Current
+                    </span>
+                  </div>
+                  <p className="text-sm text-body mt-2">{entry.changes}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-body-dim mt-6">
+              All historical versions are archived and available upon request. Significant changes will be highlighted in the changelog.
+            </p>
+          </aside>
         </article>
       </main>
       <Footer />
