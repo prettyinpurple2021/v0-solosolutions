@@ -68,8 +68,8 @@ export function Footer() {
           <nav aria-label="Footer legal links">
             <ul className="flex gap-4" role="list">
               {[
-                { label: "Privacy", href: "#", color: "#009B94" },
-                { label: "Terms", href: "#", color: "#F07B1F" },
+                { label: "Privacy", href: "/privacy", color: "#009B94" },
+                { label: "Terms", href: "/terms", color: "#F07B1F" },
               ].map((l) => (
                 <li key={l.label}>
                   <Link href={l.href} className="text-xs font-semibold transition-opacity hover:opacity-70"
