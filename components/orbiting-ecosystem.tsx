@@ -580,48 +580,37 @@ function CoreOrb() {
             animation: "orb-spin 40s linear infinite",
           }}
         />
-        {/* Orb body — real image */}
+        {/* Orb body — clean dark glass with logo */}
         <div
           className="relative h-40 w-40 overflow-hidden rounded-full md:h-52 md:w-52"
           style={{
+            background: "radial-gradient(ellipse at 30% 20%, #2a2a30 0%, #0f0f12 50%, #080809 100%)",
             boxShadow:
               "0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.18)",
             animation: "core-pulse 5.6s ease-in-out infinite",
           }}
         >
-          <Image
-            src="/orb-core.jpg"
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 768px) 160px, 208px"
-            className="object-cover"
-          />
-
-          {/* SoloSuccess Solutions logo overlay */}
+          {/* SoloSuccess Solutions logo — direct on dark glass, no blend */}
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685267325-EQZR6T6PrrQwPdbCwgoXueun8g3Ml9.png"
             alt="SoloSuccess Solutions"
             fill
+            priority
             sizes="(max-width: 768px) 160px, 208px"
-            className="object-contain p-4"
-            style={{
-              opacity: 0.8,
-              mixBlendMode: "screen",
-            }}
+            className="object-contain p-5"
           />
 
-          {/* Crisp specular */}
+          {/* Subtle specular highlight */}
           <div
             aria-hidden
             className="absolute rounded-full bg-white"
             style={{
-              top: "16%",
-              left: "22%",
-              width: "18%",
-              height: "10%",
-              filter: "blur(3px)",
-              opacity: 0.7,
+              top: "12%",
+              left: "18%",
+              width: "22%",
+              height: "12%",
+              filter: "blur(5px)",
+              opacity: 0.2,
             }}
           />
         </div>
@@ -655,35 +644,40 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
         }}
       />
 
-      {/* Orb body — real rendered sphere */}
+      {/* Orb body — clean dark glass with logo, or sphere image as fallback */}
       <div
         className="relative h-[84px] w-[84px] overflow-hidden rounded-full transition-transform duration-400 ease-out md:h-[98px] md:w-[98px]"
         style={{
           transform: active ? "scale(1.1)" : "scale(1)",
+          background: sat.logo
+            ? "radial-gradient(ellipse at 30% 20%, #2a2a30 0%, #0f0f12 50%, #080809 100%)"
+            : undefined,
           boxShadow: active
             ? `0 18px 40px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px ${sat.accent}cc`
             : "0 16px 34px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.07)",
         }}
       >
-        <Image
-          src="/orb-satellite.jpg"
-          alt=""
-          fill
-          sizes="(max-width: 768px) 84px, 98px"
-          className="object-cover"
-        />
+        {/* Only show orb-satellite.jpg if no logo — otherwise use clean dark glass */}
+        {!sat.logo && (
+          <Image
+            src="/orb-satellite.jpg"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 84px, 98px"
+            className="object-cover"
+          />
+        )}
 
-        {/* Logo overlay — if satellite has a logo, display it as a subtle centered emblem */}
+        {/* Logo — displayed directly on clean dark glass, no blend mode needed */}
         {sat.logo && (
           <Image
             src={sat.logo}
             alt={sat.name}
             fill
             sizes="(max-width: 768px) 84px, 98px"
-            className="object-contain p-1 opacity-85 transition-opacity duration-400"
+            className="object-contain p-2 transition-opacity duration-400"
             style={{
-              opacity: active ? 1 : 0.65,
-              mixBlendMode: "screen",
+              opacity: active ? 1 : 0.85,
             }}
           />
         )}
@@ -695,21 +689,21 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
           style={{
             background: `radial-gradient(circle at 32% 30%, ${sat.accent}, transparent 65%)`,
             mixBlendMode: "overlay",
-            opacity: active ? 0.75 : 0,
+            opacity: active ? 0.5 : 0,
           }}
         />
 
-        {/* Crisp specular */}
+        {/* Crisp specular highlight */}
         <div
           aria-hidden
           className="pointer-events-none absolute rounded-full bg-white"
           style={{
-            top: "16%",
-            left: "22%",
-            width: "18%",
-            height: "10%",
-            filter: "blur(2px)",
-            opacity: 0.6,
+            top: "12%",
+            left: "18%",
+            width: "22%",
+            height: "12%",
+            filter: "blur(4px)",
+            opacity: sat.logo ? 0.25 : 0.6,
           }}
         />
 
