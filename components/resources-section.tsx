@@ -12,7 +12,7 @@ const RESOURCES = [
     category: "Guide",
     readTime: "15 min read",
     color: "#B6FF3C",
-    href: "#",
+    href: "/resources/solo-founder-playbook",
   },
   {
     type: "video",
@@ -22,7 +22,7 @@ const RESOURCES = [
     category: "Video Series",
     readTime: "6 episodes",
     color: "#FFC53D",
-    href: "#",
+    href: "/resources/content-strategy-masterclass",
   },
   {
     type: "template",
@@ -32,7 +32,7 @@ const RESOURCES = [
     category: "Template",
     readTime: "Free download",
     color: "#A78BFA",
-    href: "#",
+    href: "/resources/brand-voice-worksheet",
   },
 ]
 

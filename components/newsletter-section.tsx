@@ -113,9 +113,9 @@ export function NewsletterSection() {
 
         {/* Trust indicators */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
-          <span>Join 2,500+ solopreneurs</span>
+          <span>Weekly insights</span>
           <span className="hidden sm:inline">·</span>
-          <span>Weekly tips</span>
+          <span>No spam ever</span>
           <span className="hidden sm:inline">·</span>
           <span>100% free</span>
           <span className="hidden sm:inline">·</span>
