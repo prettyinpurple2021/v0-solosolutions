@@ -19,7 +19,6 @@ type Satellite = {
   accent: string
   Icon: typeof Brain
   startAngle: number
-  logo?: string
 }
 
 const SATELLITES: Satellite[] = [
@@ -33,7 +32,6 @@ const SATELLITES: Satellite[] = [
     accent: "#00E5FF",
     Icon: Brain,
     startAngle: -Math.PI / 2,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685256545-smPzRBOjF1SY6bfuokfIeKPFelkiuR.png",
   },
   {
     slug: "academy",
@@ -45,7 +43,6 @@ const SATELLITES: Satellite[] = [
     accent: "#B6FF3C",
     Icon: BookOpen,
     startAngle: -Math.PI / 2 + (2 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685248518-Wkl6uOdwhlotAqnP5moVCgbRnI5Aj7.png",
   },
   {
     slug: "content-factory",
@@ -57,7 +54,6 @@ const SATELLITES: Satellite[] = [
     accent: "#FFC53D",
     Icon: Film,
     startAngle: -Math.PI / 2 + (4 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685242602-ZK0BIdZxkzJDeuRUUiB6eUc0R1C5P9.png",
   },
   {
     slug: "connect",
@@ -69,7 +65,6 @@ const SATELLITES: Satellite[] = [
     accent: "#FF3DAE",
     Icon: Users,
     startAngle: -Math.PI / 2 + (6 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloConnect_20260419_231708_0000-hKH1sNaJ21M3ZCGoIZxmdvQudL2yge.png",
   },
   {
     slug: "soloscribe",
@@ -81,7 +76,6 @@ const SATELLITES: Satellite[] = [
     accent: "#A78BFA",
     Icon: PenLine,
     startAngle: -Math.PI / 2 + (8 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloScribe_20260419_233306_0000-uJWqRWTz2PtywX6BwVDfY6H2Qc9rNF.png",
   },
   {
     slug: "solodesign",
@@ -93,7 +87,6 @@ const SATELLITES: Satellite[] = [
     accent: "#FF6B9D",
     Icon: Palette,
     startAngle: -Math.PI / 2 + (10 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
   },
 ]
 
@@ -580,39 +573,78 @@ function CoreOrb() {
             animation: "orb-spin 40s linear infinite",
           }}
         />
-        {/* Orb body — clean dark glass with logo */}
+        {/* Orb body — iridescent rainbow glass sphere */}
         <div
           className="relative h-40 w-40 overflow-hidden rounded-full md:h-52 md:w-52"
           style={{
-            background: "radial-gradient(ellipse at 30% 20%, #2a2a30 0%, #0f0f12 50%, #080809 100%)",
+            background: "radial-gradient(ellipse at 30% 20%, #3a3a44 0%, #1a1a1e 40%, #0a0a0c 100%)",
             boxShadow:
-              "0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.18)",
+              "0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.12), inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -20px 40px -15px rgba(147,51,234,0.3), 0 0 60px rgba(147,51,234,0.15)",
             animation: "core-pulse 5.6s ease-in-out infinite",
           }}
         >
-          {/* SoloSuccess Solutions logo — direct on dark glass, no blend */}
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685267325-EQZR6T6PrrQwPdbCwgoXueun8g3Ml9.png"
-            alt="SoloSuccess Solutions"
-            fill
-            priority
-            sizes="(max-width: 768px) 160px, 208px"
-            className="object-contain p-5"
+          {/* Rainbow gradient overlay */}
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: "conic-gradient(from 180deg, #D9302522, #F07B1F22, #F5C40022, #2D9E2A22, #009B9422, #005FA322, #6B44A022, #D9302522)",
+              animation: "orb-spin 20s linear infinite",
+            }}
           />
 
-          {/* Subtle specular highlight */}
+          {/* Inner glow */}
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: "radial-gradient(ellipse at 50% 110%, rgba(147,51,234,0.4) 0%, transparent 45%)",
+            }}
+          />
+
+          {/* Top highlight arc */}
+          <div
+            aria-hidden
+            className="absolute rounded-full"
+            style={{
+              top: "6%",
+              left: "12%",
+              width: "76%",
+              height: "35%",
+              background: "linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%)",
+              filter: "blur(3px)",
+            }}
+          />
+
+          {/* Crisp specular dot */}
           <div
             aria-hidden
             className="absolute rounded-full bg-white"
             style={{
-              top: "12%",
-              left: "18%",
-              width: "22%",
-              height: "12%",
-              filter: "blur(5px)",
-              opacity: 0.2,
+              top: "14%",
+              left: "22%",
+              width: "16%",
+              height: "10%",
+              filter: "blur(2px)",
+              opacity: 0.75,
             }}
           />
+
+          {/* Center S letterform */}
+          <div className="absolute inset-0 grid place-items-center">
+            <span 
+              className="font-display text-5xl font-bold md:text-6xl"
+              style={{
+                background: "linear-gradient(135deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
+              }}
+            >
+              S
+            </span>
+          </div>
         </div>
         {/* Wordmark chip under core */}
         <div
@@ -644,75 +676,63 @@ function SatelliteOrb({ sat, active }: { sat: Satellite; active: boolean }) {
         }}
       />
 
-      {/* Orb body — clean dark glass with logo, or sphere image as fallback */}
+      {/* Orb body — iridescent glass sphere with brand accent */}
       <div
         className="relative h-[84px] w-[84px] overflow-hidden rounded-full transition-transform duration-400 ease-out md:h-[98px] md:w-[98px]"
         style={{
           transform: active ? "scale(1.1)" : "scale(1)",
-          background: sat.logo
-            ? "radial-gradient(ellipse at 30% 20%, #2a2a30 0%, #0f0f12 50%, #080809 100%)"
-            : undefined,
+          background: `radial-gradient(ellipse at 30% 20%, ${sat.accent}44 0%, #1a1a1e 35%, #0a0a0c 100%)`,
           boxShadow: active
-            ? `0 18px 40px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px ${sat.accent}cc`
-            : "0 16px 34px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.07)",
+            ? `0 18px 40px -12px rgba(0,0,0,0.9), inset 0 2px 0 rgba(255,255,255,0.15), inset 0 -8px 20px -8px ${sat.accent}66, 0 0 0 1px ${sat.accent}cc, 0 0 24px ${sat.accent}44`
+            : `0 16px 34px -12px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -6px 16px -6px ${sat.accent}33, 0 0 0 1px rgba(255,255,255,0.07)`,
         }}
       >
-        {/* Only show orb-satellite.jpg if no logo — otherwise use clean dark glass */}
-        {!sat.logo && (
-          <Image
-            src="/orb-satellite.jpg"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 84px, 98px"
-            className="object-cover"
-          />
-        )}
-
-        {/* Logo — displayed directly on clean dark glass, no blend mode needed */}
-        {sat.logo && (
-          <Image
-            src={sat.logo}
-            alt={sat.name}
-            fill
-            sizes="(max-width: 768px) 84px, 98px"
-            className="object-contain p-2 transition-opacity duration-400"
-            style={{
-              opacity: active ? 1 : 0.85,
-            }}
-          />
-        )}
-
-        {/* Accent color wash — blended onto the glass only when active */}
+        {/* Inner glow from bottom */}
         <div
           aria-hidden
-          className="absolute inset-0 rounded-full transition-opacity duration-400"
+          className="absolute inset-0 rounded-full"
           style={{
-            background: `radial-gradient(circle at 32% 30%, ${sat.accent}, transparent 65%)`,
-            mixBlendMode: "overlay",
-            opacity: active ? 0.5 : 0,
+            background: `radial-gradient(ellipse at 50% 120%, ${sat.accent}55 0%, transparent 50%)`,
           }}
         />
 
-        {/* Crisp specular highlight */}
+        {/* Top highlight arc */}
+        <div
+          aria-hidden
+          className="absolute rounded-full"
+          style={{
+            top: "8%",
+            left: "15%",
+            width: "70%",
+            height: "30%",
+            background: `linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 100%)`,
+            filter: "blur(2px)",
+          }}
+        />
+
+        {/* Crisp specular dot */}
         <div
           aria-hidden
           className="pointer-events-none absolute rounded-full bg-white"
           style={{
-            top: "12%",
-            left: "18%",
-            width: "22%",
-            height: "12%",
-            filter: "blur(4px)",
-            opacity: sat.logo ? 0.25 : 0.6,
+            top: "18%",
+            left: "24%",
+            width: "12%",
+            height: "8%",
+            filter: "blur(1px)",
+            opacity: 0.7,
           }}
         />
 
-        {/* Icon */}
+        {/* Icon centered */}
         <div className="absolute inset-0 grid place-items-center">
           <Icon
-            className="h-5 w-5 text-white md:h-6 md:w-6"
-            strokeWidth={1.75}
-            style={{ filter: "drop-shadow(0 1px 0 rgba(0,0,0,0.9))" }}
+            className="h-7 w-7 md:h-8 md:w-8 transition-all duration-300"
+            strokeWidth={1.5}
+            style={{ 
+              color: active ? sat.accent : "rgba(255,255,255,0.9)",
+              filter: active ? `drop-shadow(0 0 8px ${sat.accent})` : "drop-shadow(0 1px 2px rgba(0,0,0,0.8))",
+            }}
           />
         </div>
       </div>
