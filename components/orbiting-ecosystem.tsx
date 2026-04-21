@@ -33,7 +33,7 @@ const SATELLITES: Satellite[] = [
     accent: "#00E5FF",
     Icon: Brain,
     startAngle: -Math.PI / 2,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685256545-smPzRBOjF1SY6bfuokfIeKPFelkiuR.png",
+    logo: "/logo-soloai-clean.png",
   },
   {
     slug: "academy",
@@ -45,7 +45,7 @@ const SATELLITES: Satellite[] = [
     accent: "#B6FF3C",
     Icon: BookOpen,
     startAngle: -Math.PI / 2 + (2 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685248518-Wkl6uOdwhlotAqnP5moVCgbRnI5Aj7.png",
+    logo: "/logo-soloacademy-clean.png",
   },
   {
     slug: "content-factory",
@@ -57,7 +57,7 @@ const SATELLITES: Satellite[] = [
     accent: "#FFC53D",
     Icon: Film,
     startAngle: -Math.PI / 2 + (4 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685242602-ZK0BIdZxkzJDeuRUUiB6eUc0R1C5P9.png",
+    logo: "/logo-solofactory-clean.png",
   },
   {
     slug: "connect",
@@ -69,7 +69,7 @@ const SATELLITES: Satellite[] = [
     accent: "#FF3DAE",
     Icon: Users,
     startAngle: -Math.PI / 2 + (6 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloConnect_20260419_231708_0000-hKH1sNaJ21M3ZCGoIZxmdvQudL2yge.png",
+    logo: "/logo-soloconnect-clean.png",
   },
   {
     slug: "soloscribe",
@@ -81,7 +81,7 @@ const SATELLITES: Satellite[] = [
     accent: "#A78BFA",
     Icon: PenLine,
     startAngle: -Math.PI / 2 + (8 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloScribe_20260419_233306_0000-uJWqRWTz2PtywX6BwVDfY6H2Qc9rNF.png",
+    logo: "/logo-soloscribe-clean.png",
   },
   {
     slug: "solodesign",
@@ -93,7 +93,7 @@ const SATELLITES: Satellite[] = [
     accent: "#FF6B9D",
     Icon: Palette,
     startAngle: -Math.PI / 2 + (10 * Math.PI) / 6,
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
+    logo: "/logo-solodesign-clean.png",
   },
 ]
 
@@ -592,7 +592,7 @@ function CoreOrb() {
         >
           {/* SoloSuccess Solutions logo — direct on dark glass, no blend */}
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1776685267325-EQZR6T6PrrQwPdbCwgoXueun8g3Ml9.png"
+            src="/logo-solosuccess-solutions-clean.png"
             alt="SoloSuccess Solutions"
             fill
             priority
