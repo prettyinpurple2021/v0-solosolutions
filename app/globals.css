@@ -261,6 +261,160 @@
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* Solar System Animations */
+@keyframes orbit-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes planet-pulse {
+  0%, 100% { box-shadow: 0 0 20px var(--glow-color, rgba(255,255,255,0.3)); }
+  50% { box-shadow: 0 0 40px var(--glow-color, rgba(255,255,255,0.5)); }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes sun-corona {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0.9; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-orbit { animation: orbit-rotate var(--orbit-duration, 30s) linear infinite; }
+.animate-planet-pulse { animation: planet-pulse 3s ease-in-out infinite; }
+.animate-star-twinkle { animation: star-twinkle 2s ease-in-out infinite; }
+.animate-sun-corona { animation: sun-corona 4s ease-in-out infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* Iridescent horizontal line shimmer */
+@keyframes iridescent-shimmer {
+  0% {
+    background-position: -200% 50%;
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    background-position: 200% 50%;
+    opacity: 0.4;
+  }
+}
+
+/* Nebula drift animations */
+@keyframes nebula-drift-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translate(30px, -20px) scale(1.05);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(-20px, 15px) scale(0.95);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(15px, 25px) scale(1.02);
+    opacity: 0.18;
+  }
+}
+
+@keyframes nebula-drift-2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.12;
+  }
+  33% {
+    transform: translate(-40px, 30px) rotate(5deg);
+    opacity: 0.22;
+  }
+  66% {
+    transform: translate(25px, -35px) rotate(-3deg);
+    opacity: 0.16;
+  }
+}
+
+@keyframes nebula-pulse {
+  0%, 100% {
+    opacity: 0.1;
+    filter: blur(60px);
+  }
+  50% {
+    opacity: 0.2;
+    filter: blur(80px);
+  }
+}
+
+@keyframes cosmic-glow {
+  0%, 100% {
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.2), 0 0 120px rgba(236, 72, 153, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 80px rgba(139, 92, 246, 0.3), 0 0 160px rgba(236, 72, 153, 0.15);
+  }
+}
+
+.animate-iridescent-shimmer {
+  animation: iridescent-shimmer 8s ease-in-out infinite;
+}
+
+.animate-nebula-drift-1 {
+  animation: nebula-drift-1 60s ease-in-out infinite;
+}
+
+.animate-nebula-drift-2 {
+  animation: nebula-drift-2 80s ease-in-out infinite;
+}
+
+.animate-nebula-pulse {
+  animation: nebula-pulse 12s ease-in-out infinite;
+}
+
+.animate-cosmic-glow {
+  animation: cosmic-glow 6s ease-in-out infinite;
+}
+
+/* Twinkle animation for stars */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Spin animation - centered */
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Pulse animation for corona */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
 @keyframes card-snap-right {
   0% { opacity: 0; transform: translate3d(-14px, -50%, 0) scale(0.96); }
   100% { opacity: 1; transform: translate3d(0, -50%, 0) scale(1); }

@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${hennyPenny.variable} ${raleway.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" className={`${hennyPenny.variable} ${raleway.variable} bg-[#030308]`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Preload critical orb images for faster first paint */}
         <link rel="preload" href="/orb-core.jpg" as="image" />
