@@ -265,7 +265,21 @@
 /* Solar System Animations */
 @keyframes orbit-rotate {
   from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/*
+  orbit-depth: runs in sync with orbit-rotate (same duration + delay).
+  Planet starts at 12-o'clock (top = far side of sun).
+  0 % → 50 %  : rotating through the back half  → behind the sun  (z-index 10)
+  50 % → 100 % : rotating through the front half → in front of sun (z-index 30)
+  The near-instant jump at 49.9 % → 50 % is effectively a hard step.
+*/
+@keyframes orbit-depth {
+  0%    { z-index: 10; }
+  49.9% { z-index: 10; }
+  50%   { z-index: 30; }
+  100%  { z-index: 30; }
 }
 
 @keyframes planet-pulse {

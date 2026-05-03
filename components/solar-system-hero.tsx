@@ -342,14 +342,16 @@ export function SolarSystemHero() {
                 style={{
                   width: `${app.orbitRadius * 2}px`,
                   height: `${app.orbitRadius * 2}px`,
-                  animation: `orbit-rotate ${app.orbitDuration}s linear infinite`,
-                  animationDelay: `${delaySeconds}s`,
+                  // Two animations share identical duration + delay so z-index
+                  // flips exactly when the planet crosses the sun's equator.
+                  animation: `orbit-rotate ${app.orbitDuration}s linear infinite, orbit-depth ${app.orbitDuration}s linear infinite`,
+                  animationDelay: `${delaySeconds}s, ${delaySeconds}s`,
                 }}
               >
                 {/* Planet at top of its orbit ring */}
                 <Link
                   href={app.href}
-                  className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 block transition-all duration-300 group"
+                  className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 block transition-all duration-300 group"
                   style={{
                     animation: `orbit-rotate ${app.orbitDuration}s linear infinite reverse`,
                     animationDelay: `${delaySeconds}s`,
