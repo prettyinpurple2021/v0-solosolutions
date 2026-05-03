@@ -319,8 +319,9 @@ export function SolarSystemHero() {
 
           {/* Orbiting Planets */}
           {APPS.map((app, index) => {
-            const startOffset = (index / APPS.length) * 100
             const isHovered = hoveredApp === app.slug
+            // Each planet starts at a different point in its orbit using negative animation-delay
+            const delayOffset = (index / APPS.length) * app.orbitDuration
             
             return (
               <div
@@ -332,17 +333,16 @@ export function SolarSystemHero() {
                   marginLeft: `-${app.orbitRadius}%`,
                   marginTop: `-${app.orbitRadius}%`,
                   animation: `orbit-rotate ${app.orbitDuration}s linear infinite`,
-                  animationDelay: `-${(startOffset / 100) * app.orbitDuration}s`,
+                  animationDelay: `-${delayOffset}s`,
                 }}
               >
-                {/* Planet at top of orbit, counter-rotates to stay upright */}
+                {/* Planet positioned at top center of orbit ring, counter-rotates to stay upright */}
                 <Link
                   href={app.href}
-                  className="absolute left-1/2 top-0 z-10 block -translate-x-1/2 -translate-y-1/2 transition-transform duration-300"
+                  className="absolute left-1/2 top-0 z-10 block -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 hover:scale-110"
                   style={{
                     animation: `orbit-rotate ${app.orbitDuration}s linear infinite reverse`,
-                    animationDelay: `-${(startOffset / 100) * app.orbitDuration}s`,
-                    transform: `translateX(-50%) translateY(-50%) scale(${isHovered ? 1.15 : 1})`,
+                    animationDelay: `-${delayOffset}s`,
                   }}
                   onMouseEnter={() => setHoveredApp(app.slug)}
                   onMouseLeave={() => setHoveredApp(null)}
