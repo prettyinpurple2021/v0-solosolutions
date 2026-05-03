@@ -383,6 +383,38 @@
 .animate-cosmic-glow {
   animation: cosmic-glow 6s ease-in-out infinite;
 }
+
+/* Twinkle animation for stars */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Spin animation - centered */
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Pulse animation for corona */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
 @keyframes card-snap-right {
   0% { opacity: 0; transform: translate3d(-14px, -50%, 0) scale(0.96); }
   100% { opacity: 1; transform: translate3d(0, -50%, 0) scale(1); }

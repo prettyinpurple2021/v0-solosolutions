@@ -8,6 +8,7 @@ import { CtaSection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
+  console.log("[v0] Home page rendering")
   return (
     <div className="min-h-screen bg-[#030308] font-sans relative">
       <div className="relative" style={{ zIndex: 1 }}>

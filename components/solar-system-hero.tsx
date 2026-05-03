@@ -111,8 +111,14 @@ export function SolarSystemHero() {
   const [selectedApp, setSelectedApp] = useState<string | null>(null)
   const [isPaused, setIsPaused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const animationRef = useRef<number>(0)
   const anglesRef = useRef<number[]>(APPS.map((app) => app.startAngle))
+
+  // Handle hydration
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Track container dimensions and mobile state
   useEffect(() => {
@@ -161,19 +167,22 @@ export function SolarSystemHero() {
     return () => cancelAnimationFrame(animationRef.current)
   }, [isPaused])
 
-  // Generate stars
-  const stars = useMemo(
-    () =>
-      Array.from({ length: 120 }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        size: Math.random() < 0.7 ? 1 : Math.random() < 0.9 ? 1.5 : 2,
-        opacity: 0.15 + Math.random() * 0.35,
-        animationDelay: Math.random() * 3,
-      })),
-    []
-  )
+  // Generate stars - use seeded positions to avoid hydration mismatch
+  const stars = useMemo(() => {
+    // Use deterministic pseudo-random positions based on index
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed * 9999) * 10000
+      return x - Math.floor(x)
+    }
+    return Array.from({ length: 120 }, (_, i) => ({
+      id: i,
+      left: seededRandom(i * 1.1) * 100,
+      top: seededRandom(i * 2.2) * 100,
+      size: seededRandom(i * 3.3) < 0.7 ? 1 : seededRandom(i * 3.3) < 0.9 ? 1.5 : 2,
+      opacity: 0.15 + seededRandom(i * 4.4) * 0.35,
+      animationDelay: seededRandom(i * 5.5) * 3,
+    }))
+  }, [])
 
   // Calculate center point
   const centerX = dimensions.width / 2
@@ -655,37 +664,6 @@ export function SolarSystemHero() {
         </button>
       </div>
 
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes twinkle {
-          0%,
-          100% {
-            opacity: 0.2;
-          }
-          50% {
-            opacity: 0.8;
-          }
-        }
-        @keyframes spin {
-          from {
-            transform: translate(-50%, -50%) rotate(0deg);
-          }
-          to {
-            transform: translate(-50%, -50%) rotate(360deg);
-          }
-        }
-        @keyframes pulse {
-          0%,
-          100% {
-            transform: scale(1);
-            opacity: 0.5;
-          }
-          50% {
-            transform: scale(1.1);
-            opacity: 0.8;
-          }
-        }
-      `}</style>
     </section>
   )
 }
