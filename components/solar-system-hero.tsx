@@ -196,13 +196,99 @@ export function SolarSystemHero() {
         }}
       />
 
-      {/* Nebula glow */}
+      {/* Animated nebula clouds */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Nebula cloud 1 - purple */}
+        <div
+          className="absolute animate-nebula-drift-1"
+          style={{
+            width: "600px",
+            height: "400px",
+            left: "10%",
+            top: "20%",
+            background: "radial-gradient(ellipse, rgba(139,92,246,0.15) 0%, rgba(139,92,246,0.05) 40%, transparent 70%)",
+            filter: "blur(60px)",
+            borderRadius: "50%",
+          }}
+        />
+        {/* Nebula cloud 2 - pink/magenta */}
+        <div
+          className="absolute animate-nebula-drift-2"
+          style={{
+            width: "500px",
+            height: "350px",
+            right: "5%",
+            top: "40%",
+            background: "radial-gradient(ellipse, rgba(236,72,153,0.12) 0%, rgba(236,72,153,0.04) 45%, transparent 70%)",
+            filter: "blur(70px)",
+            borderRadius: "50%",
+          }}
+        />
+        {/* Nebula cloud 3 - cyan/teal */}
+        <div
+          className="absolute animate-nebula-pulse"
+          style={{
+            width: "450px",
+            height: "300px",
+            left: "50%",
+            bottom: "10%",
+            transform: "translateX(-50%)",
+            background: "radial-gradient(ellipse, rgba(0,229,255,0.08) 0%, rgba(0,155,148,0.04) 50%, transparent 70%)",
+            filter: "blur(50px)",
+            borderRadius: "50%",
+          }}
+        />
+        {/* Nebula cloud 4 - golden/orange accent */}
+        <div
+          className="absolute animate-nebula-drift-1"
+          style={{
+            width: "350px",
+            height: "250px",
+            right: "20%",
+            top: "15%",
+            background: "radial-gradient(ellipse, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.03) 50%, transparent 70%)",
+            filter: "blur(55px)",
+            borderRadius: "50%",
+            animationDelay: "-30s",
+          }}
+        />
+      </div>
+
+      {/* Iridescent horizontal line */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2"
+        style={{ height: "2px" }}
+      >
+        <div
+          className="h-full w-full animate-iridescent-shimmer"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #D93025 10%, #F07B1F 20%, #F5C400 30%, #2D9E2A 40%, #009B94 50%, #005FA3 60%, #6B44A0 70%, #D93025 80%, transparent 100%)",
+            backgroundSize: "200% 100%",
+            opacity: 0.6,
+            filter: "blur(1px)",
+          }}
+        />
+        {/* Glow layer for the line */}
+        <div
+          className="absolute inset-0 animate-iridescent-shimmer"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #D93025 10%, #F07B1F 20%, #F5C400 30%, #2D9E2A 40%, #009B94 50%, #005FA3 60%, #6B44A0 70%, #D93025 80%, transparent 100%)",
+            backgroundSize: "200% 100%",
+            filter: "blur(8px)",
+            opacity: 0.4,
+            animationDelay: "-2s",
+          }}
+        />
+      </div>
+
+      {/* Static nebula glow - subtle base layer */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-30"
         style={{
           background:
-            "radial-gradient(800px circle at 30% 40%, rgba(139,92,246,0.08) 0%, transparent 50%), radial-gradient(600px circle at 70% 60%, rgba(236,72,153,0.06) 0%, transparent 45%)",
+            "radial-gradient(800px circle at 30% 40%, rgba(139,92,246,0.1) 0%, transparent 50%), radial-gradient(600px circle at 70% 60%, rgba(236,72,153,0.08) 0%, transparent 45%)",
         }}
       />
 
@@ -266,26 +352,62 @@ export function SolarSystemHero() {
             }
           }}
         >
-          {/* Orbit rings */}
-          {APPS.map((app, i) => (
-            <div
-              key={`orbit-${app.slug}`}
-              aria-hidden
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-500"
-              style={{
-                width: `${app.orbitRadius * 200}%`,
-                height: `${app.orbitRadius * 200}%`,
-                borderColor:
-                  hoveredApp === app.slug
-                    ? `${app.accent}40`
-                    : "rgba(255,255,255,0.06)",
-                boxShadow:
-                  hoveredApp === app.slug
-                    ? `0 0 30px ${app.accent}20, inset 0 0 30px ${app.accent}10`
-                    : "none",
-              }}
-            />
-          ))}
+          {/* Orbit rings - SVG for precise dashed paths */}
+          <svg
+            aria-hidden
+            className="absolute inset-0 h-full w-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <defs>
+              {APPS.map((app) => (
+                <linearGradient
+                  key={`grad-${app.slug}`}
+                  id={`orbit-grad-${app.slug}`}
+                  gradientUnits="userSpaceOnUse"
+                  x1="0%" y1="50%" x2="100%" y2="50%"
+                >
+                  <stop offset="0%" stopColor={app.accent} stopOpacity="0.1" />
+                  <stop offset="50%" stopColor={app.accent} stopOpacity="0.3" />
+                  <stop offset="100%" stopColor={app.accent} stopOpacity="0.1" />
+                </linearGradient>
+              ))}
+            </defs>
+            {APPS.map((app) => {
+              const isActive = hoveredApp === app.slug || selectedApp === app.slug
+              const radius = app.orbitRadius * 50
+              return (
+                <g key={`orbit-${app.slug}`}>
+                  {/* Base orbit path */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r={radius}
+                    fill="none"
+                    stroke={isActive ? app.accent : "rgba(255,255,255,0.08)"}
+                    strokeWidth={isActive ? "0.3" : "0.15"}
+                    strokeDasharray={isActive ? "none" : "1 2"}
+                    className="transition-all duration-500"
+                    style={{
+                      filter: isActive ? `drop-shadow(0 0 4px ${app.accent})` : "none",
+                    }}
+                  />
+                  {/* Glow orbit when active */}
+                  {isActive && (
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r={radius}
+                      fill="none"
+                      stroke={`url(#orbit-grad-${app.slug})`}
+                      strokeWidth="1"
+                      opacity="0.5"
+                    />
+                  )}
+                </g>
+              )
+            })}
+          </svg>
 
           {/* Central Sun */}
           <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
