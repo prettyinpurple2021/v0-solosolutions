@@ -2,13 +2,9 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ArrowUpRight, ChevronDown } from "lucide-react"
+import { useEffect, useState } from "react"
+import { ArrowUpRight } from "lucide-react"
 
-/* ────────────────────────────────────────────────────────────────────────────
- * App data — the six apps that orbit the SoloSuccess sun.
- * Placeholder images will be replaced with transparent logo images.
- * ──────────────────────────────────────────────────────────────────────── */
 type AppPlanet = {
   slug: string
   name: string
@@ -16,11 +12,10 @@ type AppPlanet = {
   desc: string
   href: string
   accent: string
-  orbitRadius: number // relative to container (0-1)
-  orbitDuration: number // seconds for full orbit
-  startAngle: number // radians
-  size: number // pixel size of the planet
-  placeholder: string // placeholder image path
+  orbitRadius: number
+  orbitDuration: number
+  size: number
+  placeholder: string
 }
 
 const APPS: AppPlanet[] = [
@@ -31,10 +26,9 @@ const APPS: AppPlanet[] = [
     desc: "Automations, content, and insight calibrated for solo operators.",
     href: "/brands/ai",
     accent: "#00E5FF",
-    orbitRadius: 0.18,
-    orbitDuration: 25,
-    startAngle: 0,
-    size: 56,
+    orbitRadius: 22,
+    orbitDuration: 20,
+    size: 48,
     placeholder: "/logos/ai-placeholder.jpg",
   },
   {
@@ -44,10 +38,9 @@ const APPS: AppPlanet[] = [
     desc: "Courses, coaching, and playbooks that teach real-world skills.",
     href: "/brands/academy",
     accent: "#B6FF3C",
-    orbitRadius: 0.28,
-    orbitDuration: 35,
-    startAngle: Math.PI / 3,
-    size: 64,
+    orbitRadius: 32,
+    orbitDuration: 28,
+    size: 52,
     placeholder: "/logos/academy-placeholder.jpg",
   },
   {
@@ -57,10 +50,9 @@ const APPS: AppPlanet[] = [
     desc: "Done-for-you content that helps you show up with confidence.",
     href: "/brands/content-factory",
     accent: "#FFC53D",
-    orbitRadius: 0.38,
-    orbitDuration: 45,
-    startAngle: (2 * Math.PI) / 3,
-    size: 72,
+    orbitRadius: 42,
+    orbitDuration: 36,
+    size: 56,
     placeholder: "/logos/content-factory-placeholder.jpg",
   },
   {
@@ -70,10 +62,9 @@ const APPS: AppPlanet[] = [
     desc: "A curated circle of collaborators, mentors, and partners.",
     href: "/brands/connect",
     accent: "#FF3DAE",
-    orbitRadius: 0.48,
-    orbitDuration: 55,
-    startAngle: Math.PI,
-    size: 68,
+    orbitRadius: 52,
+    orbitDuration: 44,
+    size: 52,
     placeholder: "/logos/connect-placeholder.jpg",
   },
   {
@@ -83,10 +74,9 @@ const APPS: AppPlanet[] = [
     desc: "Copy, emails, and brand voice written to move readers.",
     href: "/brands/soloscribe",
     accent: "#A78BFA",
-    orbitRadius: 0.58,
-    orbitDuration: 65,
-    startAngle: (4 * Math.PI) / 3,
-    size: 60,
+    orbitRadius: 62,
+    orbitDuration: 52,
+    size: 48,
     placeholder: "/logos/soloscribe-placeholder.jpg",
   },
   {
@@ -96,574 +86,233 @@ const APPS: AppPlanet[] = [
     desc: "Brand, web, and creative design that stands out.",
     href: "/brands/solodesign",
     accent: "#FF6B9D",
-    orbitRadius: 0.68,
-    orbitDuration: 75,
-    startAngle: (5 * Math.PI) / 3,
-    size: 64,
+    orbitRadius: 72,
+    orbitDuration: 60,
+    size: 52,
     placeholder: "/logos/solodesign-placeholder.jpg",
   },
 ]
 
 export function SolarSystemHero() {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [hoveredApp, setHoveredApp] = useState<string | null>(null)
-  const [selectedApp, setSelectedApp] = useState<string | null>(null)
-  const [isPaused, setIsPaused] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const animationRef = useRef<number>(0)
-  const anglesRef = useRef<number[]>(APPS.map((app) => app.startAngle))
 
-  // Handle hydration
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // Track container dimensions and mobile state
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect()
-        setDimensions({ width: rect.width, height: rect.height })
-      }
-      setIsMobile(window.innerWidth < 768)
-    }
-    updateDimensions()
-    window.addEventListener("resize", updateDimensions)
-    return () => window.removeEventListener("resize", updateDimensions)
-  }, [])
-
-  // Animation loop
-  useEffect(() => {
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
-    if (reduceMotion) return
-
-    let lastTime = performance.now()
-
-    const animate = (time: number) => {
-      const delta = (time - lastTime) / 1000 // Convert to seconds
-      lastTime = time
-
-      if (!isPaused) {
-        anglesRef.current = anglesRef.current.map((angle, i) => {
-          const speed = (2 * Math.PI) / APPS[i].orbitDuration
-          return angle + speed * delta
-        })
-      }
-
-      // Force re-render
-      if (containerRef.current) {
-        containerRef.current.style.setProperty("--tick", String(time))
-      }
-
-      animationRef.current = requestAnimationFrame(animate)
-    }
-
-    animationRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationRef.current)
-  }, [isPaused])
-
-  // Generate stars - use seeded positions to avoid hydration mismatch
-  const stars = useMemo(() => {
-    // Use deterministic pseudo-random positions based on index
-    const seededRandom = (seed: number) => {
-      const x = Math.sin(seed * 9999) * 10000
-      return x - Math.floor(x)
-    }
-    return Array.from({ length: 120 }, (_, i) => ({
-      id: i,
-      left: seededRandom(i * 1.1) * 100,
-      top: seededRandom(i * 2.2) * 100,
-      size: seededRandom(i * 3.3) < 0.7 ? 1 : seededRandom(i * 3.3) < 0.9 ? 1.5 : 2,
-      opacity: 0.15 + seededRandom(i * 4.4) * 0.35,
-      animationDelay: seededRandom(i * 5.5) * 3,
-    }))
-  }, [])
-
-  // Calculate center point
-  const centerX = dimensions.width / 2
-  const centerY = dimensions.height / 2
-  const maxRadius = Math.min(dimensions.width, dimensions.height) / 2
-
   return (
-    <section
-      aria-label="SoloSuccess Solar System"
-      className="relative min-h-screen w-full overflow-hidden"
-      style={{ backgroundColor: "#030308" }}
-    >
-      {/* Deep space background */}
+    <section className="relative min-h-screen w-full overflow-hidden bg-[#050510]">
+      {/* Gradient background */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          background:
-            "radial-gradient(ellipse at 50% 30%, rgba(20,10,40,0.4) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(10,20,40,0.3) 0%, transparent 40%), radial-gradient(ellipse at 20% 70%, rgba(30,10,30,0.2) 0%, transparent 35%)",
+          background: `
+            radial-gradient(ellipse 80% 50% at 50% 50%, rgba(120, 80, 200, 0.15) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 70% 60%, rgba(200, 100, 150, 0.1) 0%, transparent 40%),
+            radial-gradient(ellipse 50% 30% at 30% 40%, rgba(50, 150, 200, 0.08) 0%, transparent 35%)
+          `,
         }}
       />
 
-      {/* Animated nebula clouds */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Nebula cloud 1 - purple */}
-        <div
-          className="absolute animate-nebula-drift-1"
-          style={{
-            width: "600px",
-            height: "400px",
-            left: "10%",
-            top: "20%",
-            background: "radial-gradient(ellipse, rgba(139,92,246,0.15) 0%, rgba(139,92,246,0.05) 40%, transparent 70%)",
-            filter: "blur(60px)",
-            borderRadius: "50%",
-          }}
-        />
-        {/* Nebula cloud 2 - pink/magenta */}
-        <div
-          className="absolute animate-nebula-drift-2"
-          style={{
-            width: "500px",
-            height: "350px",
-            right: "5%",
-            top: "40%",
-            background: "radial-gradient(ellipse, rgba(236,72,153,0.12) 0%, rgba(236,72,153,0.04) 45%, transparent 70%)",
-            filter: "blur(70px)",
-            borderRadius: "50%",
-          }}
-        />
-        {/* Nebula cloud 3 - cyan/teal */}
-        <div
-          className="absolute animate-nebula-pulse"
-          style={{
-            width: "450px",
-            height: "300px",
-            left: "50%",
-            bottom: "10%",
-            transform: "translateX(-50%)",
-            background: "radial-gradient(ellipse, rgba(0,229,255,0.08) 0%, rgba(0,155,148,0.04) 50%, transparent 70%)",
-            filter: "blur(50px)",
-            borderRadius: "50%",
-          }}
-        />
-        {/* Nebula cloud 4 - golden/orange accent */}
-        <div
-          className="absolute animate-nebula-drift-1"
-          style={{
-            width: "350px",
-            height: "250px",
-            right: "20%",
-            top: "15%",
-            background: "radial-gradient(ellipse, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.03) 50%, transparent 70%)",
-            filter: "blur(55px)",
-            borderRadius: "50%",
-            animationDelay: "-30s",
-          }}
-        />
-      </div>
-
-      {/* Iridescent horizontal line */}
+      {/* Subtle iridescent horizontal line */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2"
-        style={{ height: "2px" }}
+        className="pointer-events-none absolute left-0 right-0 top-1/2 h-px -translate-y-1/2"
       >
         <div
-          className="h-full w-full animate-iridescent-shimmer"
+          className="h-full w-full"
           style={{
-            background: "linear-gradient(90deg, transparent 0%, #D93025 10%, #F07B1F 20%, #F5C400 30%, #2D9E2A 40%, #009B94 50%, #005FA3 60%, #6B44A0 70%, #D93025 80%, transparent 100%)",
-            backgroundSize: "200% 100%",
-            opacity: 0.6,
-            filter: "blur(1px)",
+            background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(150,200,255,0.2) 35%, rgba(200,150,255,0.2) 50%, rgba(255,200,150,0.2) 65%, rgba(255,255,255,0.1) 80%, transparent 100%)",
           }}
         />
-        {/* Glow layer for the line */}
         <div
-          className="absolute inset-0 animate-iridescent-shimmer"
+          className="absolute inset-0"
           style={{
-            background: "linear-gradient(90deg, transparent 0%, #D93025 10%, #F07B1F 20%, #F5C400 30%, #2D9E2A 40%, #009B94 50%, #005FA3 60%, #6B44A0 70%, #D93025 80%, transparent 100%)",
-            backgroundSize: "200% 100%",
-            filter: "blur(8px)",
-            opacity: 0.4,
-            animationDelay: "-2s",
+            background: "linear-gradient(90deg, transparent 0%, rgba(150,200,255,0.15) 30%, rgba(200,150,255,0.15) 50%, rgba(255,200,150,0.15) 70%, transparent 100%)",
+            filter: "blur(4px)",
           }}
         />
       </div>
 
-      {/* Static nebula glow - subtle base layer */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-30"
-        style={{
-          background:
-            "radial-gradient(800px circle at 30% 40%, rgba(139,92,246,0.1) 0%, transparent 50%), radial-gradient(600px circle at 70% 60%, rgba(236,72,153,0.08) 0%, transparent 45%)",
-        }}
-      />
-
-      {/* Stars layer */}
+      {/* Stars */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        {stars.map((s) => (
-          <span
-            key={s.id}
-            className="absolute rounded-full"
-            style={{
-              left: `${s.left}%`,
-              top: `${s.top}%`,
-              width: `${s.size}px`,
-              height: `${s.size}px`,
-              backgroundColor: "#fff",
-              opacity: s.opacity,
-              animation: `twinkle 3s ease-in-out infinite`,
-              animationDelay: `${s.animationDelay}s`,
-            }}
-          />
-        ))}
+        {isMounted && Array.from({ length: 80 }).map((_, i) => {
+          const seed = (n: number) => {
+            const x = Math.sin(n * 12345) * 54321
+            return x - Math.floor(x)
+          }
+          return (
+            <span
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{
+                left: `${seed(i * 1.1) * 100}%`,
+                top: `${seed(i * 2.3) * 100}%`,
+                width: seed(i * 3.7) < 0.7 ? 1 : 2,
+                height: seed(i * 3.7) < 0.7 ? 1 : 2,
+                opacity: 0.3 + seed(i * 4.9) * 0.4,
+              }}
+            />
+          )
+        })}
       </div>
 
       {/* Main content */}
-      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 py-16 md:px-6">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-20">
         {/* Header */}
-        <div className="relative z-20 mb-8 flex flex-col items-center gap-4 text-center md:mb-12">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/70 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+        <div className="mb-12 text-center md:mb-16">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/60">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
             The Ecosystem
           </span>
-          <h1 className="max-w-4xl text-balance font-sans text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl xl:text-7xl">
-            Your Universe of
-            <span className="block bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-amber-400 bg-clip-text text-transparent">
+          <h1 className="mx-auto mt-4 max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
+            Your Universe of{" "}
+            <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-amber-400 bg-clip-text text-transparent">
               Solo Success
             </span>
           </h1>
-          <p className="max-w-xl text-pretty text-sm leading-relaxed text-white/60 md:text-base">
-            Six powerful apps orbiting around your entrepreneurial core. Hover to explore each world.
+          <p className="mx-auto mt-4 max-w-lg text-pretty text-sm text-white/50 md:text-base">
+            Six powerful apps orbiting around your entrepreneurial core.
           </p>
         </div>
 
-        {/* Solar system container */}
-        <div
-          ref={containerRef}
-          className="relative aspect-square w-full max-w-[min(90vw,700px)]"
-          onMouseEnter={() => {
-            if (!isMobile) setIsPaused(true)
-          }}
-          onMouseLeave={() => {
-            if (!isMobile) {
-              setIsPaused(false)
-              setHoveredApp(null)
-            }
-          }}
-          onClick={(e) => {
-            // Deselect on tap outside planets (mobile)
-            if (isMobile && e.target === e.currentTarget) {
-              setSelectedApp(null)
-              setIsPaused(false)
-            }
-          }}
-        >
-          {/* Orbit rings - SVG for precise dashed paths */}
-          <svg
-            aria-hidden
-            className="absolute inset-0 h-full w-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <defs>
-              {APPS.map((app) => (
-                <linearGradient
-                  key={`grad-${app.slug}`}
-                  id={`orbit-grad-${app.slug}`}
-                  gradientUnits="userSpaceOnUse"
-                  x1="0%" y1="50%" x2="100%" y2="50%"
-                >
-                  <stop offset="0%" stopColor={app.accent} stopOpacity="0.1" />
-                  <stop offset="50%" stopColor={app.accent} stopOpacity="0.3" />
-                  <stop offset="100%" stopColor={app.accent} stopOpacity="0.1" />
-                </linearGradient>
-              ))}
-            </defs>
-            {APPS.map((app) => {
-              const isActive = hoveredApp === app.slug || selectedApp === app.slug
-              const radius = app.orbitRadius * 50
-              return (
-                <g key={`orbit-${app.slug}`}>
-                  {/* Base orbit path */}
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r={radius}
-                    fill="none"
-                    stroke={isActive ? app.accent : "rgba(255,255,255,0.08)"}
-                    strokeWidth={isActive ? "0.3" : "0.15"}
-                    strokeDasharray={isActive ? "none" : "1 2"}
-                    className="transition-all duration-500"
-                    style={{
-                      filter: isActive ? `drop-shadow(0 0 4px ${app.accent})` : "none",
-                    }}
-                  />
-                  {/* Glow orbit when active */}
-                  {isActive && (
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r={radius}
-                      fill="none"
-                      stroke={`url(#orbit-grad-${app.slug})`}
-                      strokeWidth="1"
-                      opacity="0.5"
-                    />
-                  )}
-                </g>
-              )
-            })}
-          </svg>
+        {/* Solar System */}
+        <div className="relative aspect-square w-full max-w-[500px] md:max-w-[600px]">
+          {/* Orbit rings */}
+          {APPS.map((app) => (
+            <div
+              key={`ring-${app.slug}`}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-300"
+              style={{
+                width: `${app.orbitRadius * 2}%`,
+                height: `${app.orbitRadius * 2}%`,
+                borderColor: hoveredApp === app.slug ? `${app.accent}40` : "rgba(255,255,255,0.06)",
+              }}
+            />
+          ))}
 
           {/* Central Sun */}
           <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-            {/* Sun glow layers */}
+            {/* Outer glow */}
             <div
-              aria-hidden
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-pulse"
-              style={{
-                width: "200px",
-                height: "200px",
-                background:
-                  "radial-gradient(circle, rgba(255,200,100,0.3) 0%, rgba(255,150,50,0.15) 40%, transparent 70%)",
-                filter: "blur(20px)",
-              }}
-            />
-            <div
-              aria-hidden
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{
-                width: "160px",
-                height: "160px",
-                background:
-                  "conic-gradient(from 0deg, #D93025, #F07B1F, #F5C400, #2D9E2A, #009B94, #005FA3, #6B44A0, #D93025)",
-                opacity: 0.4,
-                filter: "blur(30px)",
-                animation: "spin 30s linear infinite",
+                width: 140,
+                height: 140,
+                background: "radial-gradient(circle, rgba(251,191,36,0.3) 0%, rgba(251,191,36,0.1) 50%, transparent 70%)",
+                filter: "blur(10px)",
               }}
             />
-
             {/* Sun body */}
             <div
-              className="relative h-28 w-28 rounded-full md:h-36 md:w-36"
+              className="relative flex h-20 w-20 items-center justify-center rounded-full md:h-24 md:w-24"
               style={{
-                background:
-                  "radial-gradient(circle at 35% 25%, #fff 0%, #fef3c7 10%, #fbbf24 30%, #f59e0b 50%, #d97706 70%, #92400e 100%)",
-                boxShadow:
-                  "0 0 60px rgba(251,191,36,0.5), 0 0 120px rgba(251,191,36,0.3), inset 0 -20px 40px rgba(146,64,14,0.5), inset 0 10px 30px rgba(255,255,255,0.3)",
+                background: "radial-gradient(circle at 35% 30%, #fef3c7 0%, #fbbf24 40%, #f59e0b 70%, #b45309 100%)",
+                boxShadow: "0 0 40px rgba(251,191,36,0.5), 0 0 80px rgba(251,191,36,0.25)",
               }}
             >
-              {/* Corona effect */}
-              <div
-                aria-hidden
-                className="absolute inset-[-20px] rounded-full"
-                style={{
-                  background:
-                    "radial-gradient(circle, transparent 35%, rgba(251,191,36,0.1) 50%, transparent 70%)",
-                  animation: "pulse 4s ease-in-out infinite",
-                }}
-              />
-
-              {/* Center logo area */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span
-                  className="font-display text-4xl font-bold md:text-5xl"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #fff 0%, #fef3c7 50%, #fbbf24 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
-                  }}
-                >
-                  S
-                </span>
-              </div>
-
-              {/* Surface details */}
-              <div
-                aria-hidden
-                className="absolute inset-0 rounded-full opacity-20"
-                style={{
-                  background:
-                    "radial-gradient(circle at 70% 30%, transparent 0%, rgba(0,0,0,0.3) 100%)",
-                }}
-              />
+              <span className="text-3xl font-bold text-white drop-shadow-lg md:text-4xl">S</span>
             </div>
-
-            {/* Label */}
-            <div className="absolute left-1/2 top-full mt-4 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+            <p className="absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap text-[10px] font-medium uppercase tracking-wider text-white/50">
               SoloSuccess Core
-            </div>
+            </p>
           </div>
 
-          {/* Orbiting planets (apps) */}
-          {dimensions.width > 0 &&
-            APPS.map((app, i) => {
-              const angle = anglesRef.current[i]
-              const radius = maxRadius * app.orbitRadius
-              const x = Math.cos(angle) * radius
-              const y = Math.sin(angle) * radius
-              const isActive = isMobile ? selectedApp === app.slug : hoveredApp === app.slug
-
-              return (
+          {/* Orbiting Planets */}
+          {APPS.map((app, index) => {
+            const startOffset = (index / APPS.length) * 100
+            return (
+              <div
+                key={app.slug}
+                className="absolute left-1/2 top-1/2"
+                style={{
+                  width: `${app.orbitRadius * 2}%`,
+                  height: `${app.orbitRadius * 2}%`,
+                  marginLeft: `-${app.orbitRadius}%`,
+                  marginTop: `-${app.orbitRadius}%`,
+                  animation: `orbit-rotate ${app.orbitDuration}s linear infinite`,
+                  animationDelay: `-${(startOffset / 100) * app.orbitDuration}s`,
+                }}
+              >
+                {/* Planet positioned at edge of orbit */}
                 <Link
-                  key={app.slug}
-                  href={isActive && !isMobile ? app.href : "#"}
-                  onClick={(e) => {
-                    if (isMobile) {
-                      e.preventDefault()
-                      if (selectedApp === app.slug) {
-                        // Second tap - navigate
-                        window.location.href = app.href
-                      } else {
-                        // First tap - select and show info
-                        setSelectedApp(app.slug)
-                        setIsPaused(true)
-                      }
-                    }
-                  }}
-                  className="group absolute left-1/2 top-1/2 z-20 block transition-transform duration-300"
+                  href={app.href}
+                  className="absolute left-1/2 top-0 block -translate-x-1/2 -translate-y-1/2 transition-transform duration-200 hover:scale-110"
                   style={{
-                    transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${isActive ? 1.15 : 1})`,
+                    animation: `orbit-rotate ${app.orbitDuration}s linear infinite reverse`,
+                    animationDelay: `-${(startOffset / 100) * app.orbitDuration}s`,
                   }}
-                  onMouseEnter={() => {
-                    if (!isMobile) {
-                      setHoveredApp(app.slug)
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (!isMobile) {
-                      setHoveredApp(null)
-                    }
-                  }}
-                  aria-label={`${app.name} - ${app.tagline}`}
+                  onMouseEnter={() => setHoveredApp(app.slug)}
+                  onMouseLeave={() => setHoveredApp(null)}
                 >
-                  {/* Planet glow */}
+                  {/* Glow */}
                   <div
-                    aria-hidden
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-200"
                     style={{
-                      width: app.size * 2,
-                      height: app.size * 2,
-                      background: `radial-gradient(circle, ${app.accent}${isActive ? "50" : "20"} 0%, transparent 70%)`,
-                      filter: "blur(10px)",
+                      width: app.size * 1.8,
+                      height: app.size * 1.8,
+                      background: `radial-gradient(circle, ${app.accent}30 0%, transparent 70%)`,
+                      filter: "blur(8px)",
+                      opacity: hoveredApp === app.slug ? 1 : 0.5,
                     }}
                   />
-
-                  {/* Planet body with placeholder image */}
+                  {/* Planet body */}
                   <div
-                    className="relative overflow-hidden rounded-full transition-all duration-300"
+                    className="relative overflow-hidden rounded-full"
                     style={{
                       width: app.size,
                       height: app.size,
-                      background: `radial-gradient(circle at 30% 25%, ${app.accent}99 0%, ${app.accent}66 40%, ${app.accent}33 100%)`,
-                      boxShadow: isActive
-                        ? `0 0 30px ${app.accent}60, 0 0 60px ${app.accent}30, inset 0 -10px 20px rgba(0,0,0,0.5), inset 0 5px 15px rgba(255,255,255,0.3)`
-                        : `0 10px 30px rgba(0,0,0,0.5), inset 0 -8px 16px rgba(0,0,0,0.4), inset 0 4px 12px rgba(255,255,255,0.2)`,
+                      background: `radial-gradient(circle at 30% 30%, ${app.accent} 0%, ${app.accent}99 50%, ${app.accent}66 100%)`,
+                      boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.4), inset 2px 2px 8px rgba(255,255,255,0.2), 0 4px 16px rgba(0,0,0,0.3)`,
                     }}
                   >
-                    {/* Logo image - placeholder that will be replaced with transparent logos */}
-                    <div className="absolute inset-1 overflow-hidden rounded-full">
-                      <Image
-                        src={app.placeholder}
-                        alt={`${app.name} logo`}
-                        fill
-                        className="object-cover opacity-90 mix-blend-lighten"
-                        sizes={`${app.size}px`}
-                      />
-                    </div>
-
-                    {/* Highlight */}
-                    <div
-                      aria-hidden
-                      className="absolute left-[15%] top-[10%] h-[30%] w-[40%] rounded-full bg-white/30"
-                      style={{ filter: "blur(4px)" }}
+                    <Image
+                      src={app.placeholder}
+                      alt={app.name}
+                      fill
+                      className="object-cover opacity-80"
+                      sizes={`${app.size}px`}
                     />
                   </div>
-
-                  {/* Planet label */}
-                  <div
-                    className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider transition-all duration-300"
+                  {/* Label */}
+                  <span
+                    className="absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded px-1.5 py-0.5 text-[8px] font-medium uppercase tracking-wide transition-colors duration-200"
                     style={{
-                      backgroundColor: isActive ? app.accent : "rgba(0,0,0,0.6)",
-                      color: isActive ? "#000" : "#fff",
-                      opacity: isActive ? 1 : 0.7,
+                      backgroundColor: hoveredApp === app.slug ? app.accent : "rgba(0,0,0,0.5)",
+                      color: hoveredApp === app.slug ? "#000" : "#fff",
                     }}
                   >
-                    {app.name.split(" ").pop()}
-                  </div>
+                    {app.name.replace("SoloSuccess ", "").replace("Solo", "")}
+                  </span>
 
-                  {/* Info card on hover/tap - positioned based on planet location */}
-                  {isActive && (
+                  {/* Tooltip on hover */}
+                  {hoveredApp === app.slug && (
                     <div
-                      className="absolute z-30 w-48 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-xl sm:w-56 sm:p-4"
-                      style={{
-                        boxShadow: `0 0 40px ${app.accent}20`,
-                        // Position card based on where the planet is
-                        ...(x > 0
-                          ? { right: "100%", marginRight: "12px" }
-                          : { left: "100%", marginLeft: "12px" }),
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                      }}
+                      className="absolute left-full top-1/2 z-30 ml-3 w-44 -translate-y-1/2 rounded-lg border border-white/10 bg-black/90 p-3 backdrop-blur"
+                      style={{ boxShadow: `0 0 20px ${app.accent}20` }}
                     >
-                      <div
-                        className="mb-2 h-1 w-8 rounded-full"
-                        style={{ backgroundColor: app.accent }}
-                      />
-                      <h3 className="mb-1 text-sm font-bold text-white">
-                        {app.name}
-                      </h3>
-                      <p
-                        className="mb-2 text-xs font-medium"
-                        style={{ color: app.accent }}
-                      >
-                        {app.tagline}
-                      </p>
-                      <p className="mb-3 text-xs leading-relaxed text-white/70">
-                        {app.desc}
-                      </p>
-                      <div className="flex items-center gap-1 text-xs font-semibold text-white">
-                        Explore
-                        <ArrowUpRight className="h-3 w-3" />
+                      <div className="mb-1.5 h-0.5 w-6 rounded" style={{ backgroundColor: app.accent }} />
+                      <p className="text-xs font-semibold text-white">{app.name}</p>
+                      <p className="mt-0.5 text-[10px] font-medium" style={{ color: app.accent }}>{app.tagline}</p>
+                      <p className="mt-1.5 text-[10px] leading-relaxed text-white/60">{app.desc}</p>
+                      <div className="mt-2 flex items-center gap-1 text-[10px] font-medium text-white">
+                        Explore <ArrowUpRight className="h-3 w-3" />
                       </div>
                     </div>
                   )}
                 </Link>
-              )
-            })}
+              </div>
+            )
+          })}
         </div>
 
         {/* Subtitle */}
-        <p className="relative z-10 mt-8 text-center text-xs font-medium uppercase tracking-widest text-white/40">
-          <span className="hidden sm:inline">Hover to pause</span>
-          <span className="sm:hidden">Tap to explore</span>
-          <span className="hidden sm:inline"> &bull; Click to enter</span>
-          <span className="sm:hidden"> &bull; Tap again to enter</span>
+        <p className="mt-10 text-center text-xs font-medium uppercase tracking-widest text-white/30">
+          Hover to explore each app
         </p>
-
-        {/* Scroll indicator */}
-        <button
-          onClick={() => {
-            const nextSection = document.querySelector("section:nth-of-type(2)")
-            nextSection?.scrollIntoView({ behavior: "smooth" })
-          }}
-          className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 transition-colors hover:text-white/70"
-          aria-label="Scroll to next section"
-        >
-          <span className="text-[10px] uppercase tracking-widest">Scroll</span>
-          <ChevronDown
-            className="h-5 w-5 animate-bounce"
-            style={{ animationDuration: "2s" }}
-          />
-        </button>
       </div>
-
     </section>
   )
 }
