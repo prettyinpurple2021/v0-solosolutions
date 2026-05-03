@@ -317,32 +317,33 @@ export function SolarSystemHero() {
             </p>
           </div>
 
-          {/* Orbiting Planets */}
+          {/* Orbiting Planets - Each planet orbits independently at its own radius */}
           {APPS.map((app, index) => {
             const isHovered = hoveredApp === app.slug
-            // Each planet starts at a different point in its orbit using negative animation-delay
-            const delayOffset = (index / APPS.length) * app.orbitDuration
+            // Calculate starting angle: spread planets evenly (0°, 60°, 120°, 180°, 240°, 300°)
+            const startAngle = (index / APPS.length) * 360
+            // Convert angle to delay: delay = -(angle/360) * duration
+            const delaySeconds = -(startAngle / 360) * app.orbitDuration
             
             return (
               <div
                 key={app.slug}
-                className="absolute left-1/2 top-1/2"
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                 style={{
                   width: `${app.orbitRadius * 2}%`,
                   height: `${app.orbitRadius * 2}%`,
-                  marginLeft: `-${app.orbitRadius}%`,
-                  marginTop: `-${app.orbitRadius}%`,
                   animation: `orbit-rotate ${app.orbitDuration}s linear infinite`,
-                  animationDelay: `-${delayOffset}s`,
+                  animationDelay: `${delaySeconds}s`,
                 }}
               >
-                {/* Planet positioned at top center of orbit ring, counter-rotates to stay upright */}
+                {/* Planet positioned at TOP of orbit ring (12 o'clock position) */}
+                {/* Counter-rotates to stay upright while orbiting */}
                 <Link
                   href={app.href}
                   className="absolute left-1/2 top-0 z-10 block -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 hover:scale-110"
                   style={{
                     animation: `orbit-rotate ${app.orbitDuration}s linear infinite reverse`,
-                    animationDelay: `-${delayOffset}s`,
+                    animationDelay: `${delaySeconds}s`,
                   }}
                   onMouseEnter={() => setHoveredApp(app.slug)}
                   onMouseLeave={() => setHoveredApp(null)}
