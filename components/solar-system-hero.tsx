@@ -26,9 +26,9 @@ const APPS: AppPlanet[] = [
     desc: "Automations, content, and insight calibrated for solo operators.",
     href: "/brands/ai",
     accent: "#00E5FF",
-    orbitRadius: 22,
-    orbitDuration: 20,
-    size: 48,
+    orbitRadius: 18,
+    orbitDuration: 25,
+    size: 44,
     placeholder: "/logos/ai-placeholder.jpg",
   },
   {
@@ -38,9 +38,9 @@ const APPS: AppPlanet[] = [
     desc: "Courses, coaching, and playbooks that teach real-world skills.",
     href: "/brands/academy",
     accent: "#B6FF3C",
-    orbitRadius: 32,
-    orbitDuration: 28,
-    size: 52,
+    orbitRadius: 28,
+    orbitDuration: 35,
+    size: 48,
     placeholder: "/logos/academy-placeholder.jpg",
   },
   {
@@ -50,9 +50,9 @@ const APPS: AppPlanet[] = [
     desc: "Done-for-you content that helps you show up with confidence.",
     href: "/brands/content-factory",
     accent: "#FFC53D",
-    orbitRadius: 42,
-    orbitDuration: 36,
-    size: 56,
+    orbitRadius: 38,
+    orbitDuration: 45,
+    size: 52,
     placeholder: "/logos/content-factory-placeholder.jpg",
   },
   {
@@ -62,9 +62,9 @@ const APPS: AppPlanet[] = [
     desc: "A curated circle of collaborators, mentors, and partners.",
     href: "/brands/connect",
     accent: "#FF3DAE",
-    orbitRadius: 52,
-    orbitDuration: 44,
-    size: 52,
+    orbitRadius: 48,
+    orbitDuration: 55,
+    size: 50,
     placeholder: "/logos/connect-placeholder.jpg",
   },
   {
@@ -74,9 +74,9 @@ const APPS: AppPlanet[] = [
     desc: "Copy, emails, and brand voice written to move readers.",
     href: "/brands/soloscribe",
     accent: "#A78BFA",
-    orbitRadius: 62,
-    orbitDuration: 52,
-    size: 48,
+    orbitRadius: 58,
+    orbitDuration: 65,
+    size: 46,
     placeholder: "/logos/soloscribe-placeholder.jpg",
   },
   {
@@ -86,12 +86,18 @@ const APPS: AppPlanet[] = [
     desc: "Brand, web, and creative design that stands out.",
     href: "/brands/solodesign",
     accent: "#FF6B9D",
-    orbitRadius: 72,
-    orbitDuration: 60,
-    size: 52,
+    orbitRadius: 68,
+    orbitDuration: 75,
+    size: 48,
     placeholder: "/logos/solodesign-placeholder.jpg",
   },
 ]
+
+// Deterministic pseudo-random for consistent rendering
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed * 9999) * 10000
+  return x - Math.floor(x)
+}
 
 export function SolarSystemHero() {
   const [hoveredApp, setHoveredApp] = useState<string | null>(null)
@@ -102,69 +108,137 @@ export function SolarSystemHero() {
   }, [])
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-[#050510]">
-      {/* Gradient background */}
+    <section className="relative min-h-screen w-full overflow-hidden bg-[#030308]">
+      {/* Deep space base gradient */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background: `
-            radial-gradient(ellipse 80% 50% at 50% 50%, rgba(120, 80, 200, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 40% at 70% 60%, rgba(200, 100, 150, 0.1) 0%, transparent 40%),
-            radial-gradient(ellipse 50% 30% at 30% 40%, rgba(50, 150, 200, 0.08) 0%, transparent 35%)
+            radial-gradient(ellipse 120% 80% at 50% 100%, rgba(10, 5, 25, 1) 0%, transparent 70%),
+            radial-gradient(ellipse 100% 60% at 50% 0%, rgba(15, 8, 35, 0.8) 0%, transparent 60%),
+            linear-gradient(180deg, #030308 0%, #0a0612 50%, #030308 100%)
           `,
         }}
       />
 
-      {/* Subtle iridescent horizontal line */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-0 right-0 top-1/2 h-px -translate-y-1/2"
-      >
+      {/* Animated nebula clouds */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Purple nebula - top left */}
         <div
-          className="h-full w-full"
+          className="animate-nebula-drift-1 absolute"
           style={{
-            background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(150,200,255,0.2) 35%, rgba(200,150,255,0.2) 50%, rgba(255,200,150,0.2) 65%, rgba(255,255,255,0.1) 80%, transparent 100%)",
+            width: "50vw",
+            height: "40vh",
+            left: "-5%",
+            top: "10%",
+            background: "radial-gradient(ellipse at center, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0.04) 40%, transparent 70%)",
+            filter: "blur(60px)",
           }}
         />
+        {/* Pink nebula - right side */}
         <div
-          className="absolute inset-0"
+          className="animate-nebula-drift-2 absolute"
           style={{
-            background: "linear-gradient(90deg, transparent 0%, rgba(150,200,255,0.15) 30%, rgba(200,150,255,0.15) 50%, rgba(255,200,150,0.15) 70%, transparent 100%)",
-            filter: "blur(4px)",
+            width: "45vw",
+            height: "50vh",
+            right: "-10%",
+            top: "30%",
+            background: "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0.03) 45%, transparent 70%)",
+            filter: "blur(70px)",
+          }}
+        />
+        {/* Cyan nebula - bottom center */}
+        <div
+          className="animate-nebula-pulse absolute"
+          style={{
+            width: "60vw",
+            height: "35vh",
+            left: "20%",
+            bottom: "5%",
+            background: "radial-gradient(ellipse at center, rgba(0, 229, 255, 0.08) 0%, rgba(0, 180, 200, 0.03) 50%, transparent 70%)",
+            filter: "blur(50px)",
+          }}
+        />
+        {/* Warm accent nebula - top right */}
+        <div
+          className="animate-nebula-drift-1 absolute"
+          style={{
+            width: "35vw",
+            height: "30vh",
+            right: "10%",
+            top: "5%",
+            background: "radial-gradient(ellipse at center, rgba(251, 191, 36, 0.06) 0%, rgba(245, 158, 11, 0.02) 50%, transparent 70%)",
+            filter: "blur(55px)",
+            animationDelay: "-30s",
           }}
         />
       </div>
 
-      {/* Stars */}
+      {/* Iridescent horizontal line with shimmer animation */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2"
+        style={{ height: "3px" }}
+      >
+        {/* Main iridescent line */}
+        <div
+          className="animate-iridescent-shimmer absolute inset-0"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #D93025 8%, #F07B1F 18%, #F5C400 28%, #2D9E2A 40%, #009B94 52%, #005FA3 64%, #6B44A0 76%, #D93025 88%, transparent 100%)",
+            backgroundSize: "200% 100%",
+            opacity: 0.7,
+          }}
+        />
+        {/* Glow layer */}
+        <div
+          className="animate-iridescent-shimmer absolute inset-0"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #D93025 8%, #F07B1F 18%, #F5C400 28%, #2D9E2A 40%, #009B94 52%, #005FA3 64%, #6B44A0 76%, #D93025 88%, transparent 100%)",
+            backgroundSize: "200% 100%",
+            filter: "blur(12px)",
+            opacity: 0.5,
+            animationDelay: "-4s",
+          }}
+        />
+        {/* Outer glow */}
+        <div
+          className="animate-iridescent-shimmer absolute -inset-y-2 inset-x-0"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, rgba(139,92,246,0.3) 25%, rgba(236,72,153,0.3) 50%, rgba(0,229,255,0.3) 75%, transparent 100%)",
+            backgroundSize: "200% 100%",
+            filter: "blur(20px)",
+            opacity: 0.4,
+            animationDelay: "-2s",
+          }}
+        />
+      </div>
+
+      {/* Stars field */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        {isMounted && Array.from({ length: 80 }).map((_, i) => {
-          const seed = (n: number) => {
-            const x = Math.sin(n * 12345) * 54321
-            return x - Math.floor(x)
-          }
-          return (
-            <span
-              key={i}
-              className="absolute rounded-full bg-white"
-              style={{
-                left: `${seed(i * 1.1) * 100}%`,
-                top: `${seed(i * 2.3) * 100}%`,
-                width: seed(i * 3.7) < 0.7 ? 1 : 2,
-                height: seed(i * 3.7) < 0.7 ? 1 : 2,
-                opacity: 0.3 + seed(i * 4.9) * 0.4,
-              }}
-            />
-          )
-        })}
+        {isMounted && Array.from({ length: 100 }).map((_, i) => (
+          <span
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${seededRandom(i * 1.1) * 100}%`,
+              top: `${seededRandom(i * 2.3) * 100}%`,
+              width: seededRandom(i * 3.7) < 0.6 ? 1 : seededRandom(i * 3.7) < 0.85 ? 1.5 : 2,
+              height: seededRandom(i * 3.7) < 0.6 ? 1 : seededRandom(i * 3.7) < 0.85 ? 1.5 : 2,
+              opacity: 0.2 + seededRandom(i * 4.9) * 0.5,
+              animation: `twinkle ${2 + seededRandom(i * 5.5) * 3}s ease-in-out infinite`,
+              animationDelay: `${seededRandom(i * 6.1) * 5}s`,
+            }}
+          />
+        ))}
       </div>
 
       {/* Main content */}
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-20">
         {/* Header */}
-        <div className="mb-12 text-center md:mb-16">
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/60">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+        <div className="mb-10 text-center md:mb-14">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/60 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400" />
             The Ecosystem
           </span>
           <h1 className="mx-auto mt-4 max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
@@ -178,44 +252,67 @@ export function SolarSystemHero() {
           </p>
         </div>
 
-        {/* Solar System */}
-        <div className="relative aspect-square w-full max-w-[500px] md:max-w-[600px]">
-          {/* Orbit rings */}
+        {/* Solar System Container */}
+        <div className="relative aspect-square w-full max-w-[420px] sm:max-w-[500px] md:max-w-[580px] lg:max-w-[640px]">
+          
+          {/* Orbit rings with subtle glow */}
           {APPS.map((app) => (
             <div
               key={`ring-${app.slug}`}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-300"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500"
               style={{
                 width: `${app.orbitRadius * 2}%`,
                 height: `${app.orbitRadius * 2}%`,
-                borderColor: hoveredApp === app.slug ? `${app.accent}40` : "rgba(255,255,255,0.06)",
+                border: hoveredApp === app.slug 
+                  ? `1.5px solid ${app.accent}50` 
+                  : "1px dashed rgba(255,255,255,0.08)",
+                boxShadow: hoveredApp === app.slug 
+                  ? `0 0 20px ${app.accent}20, inset 0 0 20px ${app.accent}10` 
+                  : "none",
               }}
             />
           ))}
 
-          {/* Central Sun */}
-          <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-            {/* Outer glow */}
+          {/* Central Sun with 3D effect */}
+          <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+            {/* Corona outer glow */}
+            <div
+              className="animate-sun-corona absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                width: 160,
+                height: 160,
+                background: "radial-gradient(circle, rgba(251,191,36,0.25) 0%, rgba(251,191,36,0.08) 40%, transparent 70%)",
+                filter: "blur(15px)",
+              }}
+            />
+            {/* Corona middle layer */}
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{
-                width: 140,
-                height: 140,
-                background: "radial-gradient(circle, rgba(251,191,36,0.3) 0%, rgba(251,191,36,0.1) 50%, transparent 70%)",
-                filter: "blur(10px)",
+                width: 120,
+                height: 120,
+                background: "radial-gradient(circle, rgba(251,191,36,0.35) 0%, rgba(245,158,11,0.15) 50%, transparent 70%)",
+                filter: "blur(8px)",
               }}
             />
-            {/* Sun body */}
+            {/* Sun body with 3D gradient */}
             <div
-              className="relative flex h-20 w-20 items-center justify-center rounded-full md:h-24 md:w-24"
+              className="relative flex h-20 w-20 items-center justify-center rounded-full sm:h-24 sm:w-24"
               style={{
-                background: "radial-gradient(circle at 35% 30%, #fef3c7 0%, #fbbf24 40%, #f59e0b 70%, #b45309 100%)",
-                boxShadow: "0 0 40px rgba(251,191,36,0.5), 0 0 80px rgba(251,191,36,0.25)",
+                background: "radial-gradient(circle at 30% 25%, #fef9c3 0%, #fde047 25%, #fbbf24 50%, #f59e0b 75%, #b45309 100%)",
+                boxShadow: `
+                  0 0 50px rgba(251,191,36,0.6),
+                  0 0 100px rgba(251,191,36,0.3),
+                  inset -8px -8px 20px rgba(180,83,9,0.5),
+                  inset 4px 4px 15px rgba(254,249,195,0.6)
+                `,
               }}
             >
-              <span className="text-3xl font-bold text-white drop-shadow-lg md:text-4xl">S</span>
+              <span className="text-3xl font-bold text-white drop-shadow-lg sm:text-4xl" style={{ textShadow: "0 2px 10px rgba(180,83,9,0.8)" }}>
+                S
+              </span>
             </div>
-            <p className="absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap text-[10px] font-medium uppercase tracking-wider text-white/50">
+            <p className="absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap text-[10px] font-medium uppercase tracking-wider text-white/40">
               SoloSuccess Core
             </p>
           </div>
@@ -223,6 +320,8 @@ export function SolarSystemHero() {
           {/* Orbiting Planets */}
           {APPS.map((app, index) => {
             const startOffset = (index / APPS.length) * 100
+            const isHovered = hoveredApp === app.slug
+            
             return (
               <div
                 key={app.slug}
@@ -236,68 +335,77 @@ export function SolarSystemHero() {
                   animationDelay: `-${(startOffset / 100) * app.orbitDuration}s`,
                 }}
               >
-                {/* Planet positioned at edge of orbit */}
+                {/* Planet at top of orbit, counter-rotates to stay upright */}
                 <Link
                   href={app.href}
-                  className="absolute left-1/2 top-0 block -translate-x-1/2 -translate-y-1/2 transition-transform duration-200 hover:scale-110"
+                  className="absolute left-1/2 top-0 z-10 block -translate-x-1/2 -translate-y-1/2 transition-transform duration-300"
                   style={{
                     animation: `orbit-rotate ${app.orbitDuration}s linear infinite reverse`,
                     animationDelay: `-${(startOffset / 100) * app.orbitDuration}s`,
+                    transform: `translateX(-50%) translateY(-50%) scale(${isHovered ? 1.15 : 1})`,
                   }}
                   onMouseEnter={() => setHoveredApp(app.slug)}
                   onMouseLeave={() => setHoveredApp(null)}
                 >
-                  {/* Glow */}
+                  {/* Planet glow */}
                   <div
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-200"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300"
                     style={{
-                      width: app.size * 1.8,
-                      height: app.size * 1.8,
-                      background: `radial-gradient(circle, ${app.accent}30 0%, transparent 70%)`,
-                      filter: "blur(8px)",
-                      opacity: hoveredApp === app.slug ? 1 : 0.5,
+                      width: app.size * 2,
+                      height: app.size * 2,
+                      background: `radial-gradient(circle, ${app.accent}${isHovered ? "40" : "20"} 0%, transparent 70%)`,
+                      filter: "blur(10px)",
                     }}
                   />
-                  {/* Planet body */}
+                  
+                  {/* Planet body with 3D effect */}
                   <div
-                    className="relative overflow-hidden rounded-full"
+                    className="relative overflow-hidden rounded-full transition-shadow duration-300"
                     style={{
                       width: app.size,
                       height: app.size,
-                      background: `radial-gradient(circle at 30% 30%, ${app.accent} 0%, ${app.accent}99 50%, ${app.accent}66 100%)`,
-                      boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.4), inset 2px 2px 8px rgba(255,255,255,0.2), 0 4px 16px rgba(0,0,0,0.3)`,
+                      background: `
+                        radial-gradient(circle at 25% 20%, white 0%, transparent 25%),
+                        radial-gradient(circle at 30% 25%, ${app.accent} 0%, ${app.accent}dd 35%, ${app.accent}aa 60%, ${app.accent}66 100%)
+                      `,
+                      boxShadow: isHovered
+                        ? `0 0 30px ${app.accent}80, 0 0 60px ${app.accent}40, inset -6px -6px 15px rgba(0,0,0,0.5), inset 3px 3px 10px rgba(255,255,255,0.3)`
+                        : `inset -5px -5px 12px rgba(0,0,0,0.4), inset 2px 2px 8px rgba(255,255,255,0.2), 0 4px 20px rgba(0,0,0,0.4)`,
                     }}
                   >
+                    {/* Logo image */}
                     <Image
                       src={app.placeholder}
                       alt={app.name}
                       fill
-                      className="object-cover opacity-80"
+                      className="object-cover opacity-75 mix-blend-overlay"
                       sizes={`${app.size}px`}
                     />
                   </div>
-                  {/* Label */}
+
+                  {/* Planet label */}
                   <span
-                    className="absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded px-1.5 py-0.5 text-[8px] font-medium uppercase tracking-wide transition-colors duration-200"
+                    className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide transition-all duration-300"
                     style={{
-                      backgroundColor: hoveredApp === app.slug ? app.accent : "rgba(0,0,0,0.5)",
-                      color: hoveredApp === app.slug ? "#000" : "#fff",
+                      backgroundColor: isHovered ? app.accent : "rgba(0,0,0,0.6)",
+                      color: isHovered ? "#000" : "#fff",
+                      boxShadow: isHovered ? `0 0 10px ${app.accent}60` : "none",
                     }}
                   >
                     {app.name.replace("SoloSuccess ", "").replace("Solo", "")}
                   </span>
 
                   {/* Tooltip on hover */}
-                  {hoveredApp === app.slug && (
+                  {isHovered && (
                     <div
-                      className="absolute left-full top-1/2 z-30 ml-3 w-44 -translate-y-1/2 rounded-lg border border-white/10 bg-black/90 p-3 backdrop-blur"
-                      style={{ boxShadow: `0 0 20px ${app.accent}20` }}
+                      className="absolute left-full top-1/2 z-30 ml-4 w-48 -translate-y-1/2 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-lg sm:w-52"
+                      style={{ boxShadow: `0 0 30px ${app.accent}30, 0 8px 32px rgba(0,0,0,0.5)` }}
                     >
-                      <div className="mb-1.5 h-0.5 w-6 rounded" style={{ backgroundColor: app.accent }} />
-                      <p className="text-xs font-semibold text-white">{app.name}</p>
-                      <p className="mt-0.5 text-[10px] font-medium" style={{ color: app.accent }}>{app.tagline}</p>
-                      <p className="mt-1.5 text-[10px] leading-relaxed text-white/60">{app.desc}</p>
-                      <div className="mt-2 flex items-center gap-1 text-[10px] font-medium text-white">
+                      <div className="mb-2 h-1 w-8 rounded-full" style={{ backgroundColor: app.accent }} />
+                      <p className="text-sm font-bold text-white">{app.name}</p>
+                      <p className="mt-0.5 text-xs font-medium" style={{ color: app.accent }}>{app.tagline}</p>
+                      <p className="mt-2 text-[11px] leading-relaxed text-white/60">{app.desc}</p>
+                      <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-white">
                         Explore <ArrowUpRight className="h-3 w-3" />
                       </div>
                     </div>
@@ -309,8 +417,8 @@ export function SolarSystemHero() {
         </div>
 
         {/* Subtitle */}
-        <p className="mt-10 text-center text-xs font-medium uppercase tracking-widest text-white/30">
-          Hover to explore each app
+        <p className="mt-12 text-center text-xs font-medium uppercase tracking-widest text-white/30">
+          Hover over a planet to explore
         </p>
       </div>
     </section>
