@@ -119,11 +119,13 @@ export function SolarSystemHero() {
   const [planets, setPlanets] = useState<PlanetState[]>(() =>
     PLANETS.map((p) => {
       const rad = (p.startAngle * Math.PI) / 180
+      const x = Math.sin(rad) * p.orbitRadius
+      const y = -Math.cos(rad) * p.orbitRadius
       return {
-        x: Math.sin(rad) * p.orbitRadius,
-        y: -Math.cos(rad) * p.orbitRadius,
+        x,
+        y,
         angle: p.startAngle,
-        inFront: p.startAngle >= 180,
+        inFront: y > 0,
       }
     })
   )
@@ -146,12 +148,14 @@ export function SolarSystemHero() {
       setPlanets(
         anglesRef.current.map((angle, i) => {
           const rad = (angle * Math.PI) / 180
+          const x = Math.sin(rad) * PLANETS[i].orbitRadius
+          const y = -Math.cos(rad) * PLANETS[i].orbitRadius
           return {
-            x: Math.sin(rad) * PLANETS[i].orbitRadius,
-            y: -Math.cos(rad) * PLANETS[i].orbitRadius,
+            x,
+            y,
             angle,
-            // inFront when planet is in the bottom half of the orbit (angles 0–180 = behind, 180–360 = front)
-            inFront: angle >= 180 && angle < 360,
+            // inFront when y > 0 (bottom half of orbit = closer to viewer)
+            inFront: y > 0,
           }
         })
       )
