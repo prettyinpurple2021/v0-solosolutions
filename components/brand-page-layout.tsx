@@ -19,6 +19,8 @@ function RainbowLetters({ text }: { text: string }) {
 
 export function BrandPageLayout({ brand }: { brand: Brand }) {
   const Icon = brand.icon
+  const isExternalBrandUrl = brand.ctaUrl.startsWith("http://") || brand.ctaUrl.startsWith("https://")
+  const brandLinkProps = isExternalBrandUrl ? { target: "_blank", rel: "noopener noreferrer" } : {}
 
   return (
     <div className="min-h-screen font-sans" style={{ background: "oklch(0.08 0.015 260)" }}>
@@ -70,7 +72,8 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
             {brand.wordmark}
           </span>
           <Link
-            href="#contact"
+            href={brand.ctaUrl}
+            {...brandLinkProps}
             className="rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
             style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
           >
@@ -138,7 +141,8 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4 mt-2">
               <Link
-                href="#contact"
+                href={brand.ctaUrl}
+                {...brandLinkProps}
                 className="group inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
                 style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
               >
@@ -219,7 +223,8 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
                 Take the next step toward building your solo business with the tools, community, and support you need to succeed.
               </p>
               <Link
-                href="mailto:hello@solosuccesssolutions.com"
+                href={brand.ctaUrl === "#contact" ? "mailto:hello@solosuccesssolutions.com" : brand.ctaUrl}
+                {...(brand.ctaUrl === "#contact" ? {} : brandLinkProps)}
                 className="group inline-flex items-center gap-2 rounded-xl px-10 py-4 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
                 style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
               >
