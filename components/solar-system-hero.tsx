@@ -408,11 +408,16 @@ export function SolarSystemHero() {
                       {p.name.replace('SoloSuccess ', '')}
                     </span>
 
-                    {/* Hover info card */}
+                    {/* Hover info card - positioned left or right based on planet position */}
                     {isHovered && (
                       <div
-                        className="pointer-events-none absolute left-full top-1/2 z-50 ml-4 w-48 -translate-y-1/2 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-lg sm:w-52"
-                        style={{ boxShadow: `0 0 30px ${p.accent}40, 0 8px 32px rgba(0,0,0,0.6)` }}
+                        className="pointer-events-none absolute top-1/2 z-50 w-48 -translate-y-1/2 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-lg sm:w-52"
+                        style={{
+                          boxShadow: `0 0 30px ${p.accent}40, 0 8px 32px rgba(0,0,0,0.6)`,
+                          ...(state.x > 0
+                            ? { right: '100%', marginRight: 16 }
+                            : { left: '100%', marginLeft: 16 }),
+                        }}
                       >
                         <div className="mb-2 h-1 w-8 rounded-full" style={{ backgroundColor: p.accent }} />
                         <p className="text-sm font-bold text-white">{p.name}</p>
