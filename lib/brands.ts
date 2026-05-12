@@ -28,7 +28,7 @@ export const brands: Brand[] = [
     secondaryColor: "#0077BB",
     icon: Brain,
     logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloSuccess%20AI%20logo%20-Fi9qyIMr0bi6OKjKgmPGMosUGRLknO.png",
-    url: "https://www.solosuccessai.fun",
+    url: "/brands/connect",
     features: [
       { title: "Workflow Automation", description: "Eliminate repetitive tasks with smart automations built for solo operators." },
       { title: "AI Content Generation", description: "Generate blogs, emails, social posts, and ad copy in seconds with your brand voice." },
