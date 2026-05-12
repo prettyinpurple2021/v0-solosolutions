@@ -26,7 +26,13 @@ function RainbowText({ text }: { text: string }) {
   )
 }
 
-export function Navbar({ prefixHashLinks = false }: { prefixHashLinks?: boolean } = {}) {
+function getNavHref(href: string, prefixHashLinks: boolean): string {
+  if (!prefixHashLinks) return href
+  // Only prefix if href starts with # (hash-only link)
+  return href.startsWith("#") ? `/${href}` : href
+}
+
+export function Navbar({ prefixHashLinks = false }: { prefixHashLinks?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -72,7 +78,7 @@ export function Navbar({ prefixHashLinks = false }: { prefixHashLinks?: boolean 
           {navLinks.map((link, i) => (
             <li key={link.href}>
               <Link
-                href={prefixHashLinks ? `/${link.href}` : link.href}
+                href={getNavHref(link.href, prefixHashLinks)}
                 className="text-sm font-semibold transition-colors duration-500 hover:opacity-80"
                 style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
               >
@@ -85,7 +91,7 @@ export function Navbar({ prefixHashLinks = false }: { prefixHashLinks?: boolean 
         {/* CTA */}
         <div className="hidden md:flex items-center">
           <Link
-            href={prefixHashLinks ? "/#connect" : "#connect"}
+            href={getNavHref("#connect", prefixHashLinks)}
             className="relative rounded-xl px-5 py-2 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
             style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
           >
@@ -112,7 +118,7 @@ export function Navbar({ prefixHashLinks = false }: { prefixHashLinks?: boolean 
             {navLinks.map((link, i) => (
               <li key={link.href}>
                 <Link
-                  href={prefixHashLinks ? `/${link.href}` : link.href}
+                  href={getNavHref(link.href, prefixHashLinks)}
                   className="block text-sm font-semibold py-1 transition-opacity hover:opacity-75"
                   style={{ color: spectrumColors[(i * 2) % spectrumColors.length] }}
                   onClick={() => setMobileOpen(false)}
@@ -123,7 +129,7 @@ export function Navbar({ prefixHashLinks = false }: { prefixHashLinks?: boolean 
             ))}
             <li>
               <Link
-                href={prefixHashLinks ? "/#connect" : "#connect"}
+                href={getNavHref("#connect", prefixHashLinks)}
                 className="mt-2 block w-full rounded-xl px-5 py-2.5 text-center text-sm font-bold text-white rainbow-border"
                 style={{ background: "linear-gradient(135deg, #6B44A0, #005FA3)" }}
                 onClick={() => setMobileOpen(false)}
