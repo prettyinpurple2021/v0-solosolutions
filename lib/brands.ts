@@ -1,5 +1,7 @@
 import { Brain, BookOpen, Film, Users, PenLine, Palette, Radar } from "lucide-react"
 
+const DEFAULT_BRAND_CTA_URL = "#contact"
+
 export type Brand = {
   slug: string
   name: string
@@ -159,7 +161,7 @@ export const brands: Brand[] = [
     secondaryColor: "#FF8FB3",
     icon: Palette,
     logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
-    url: "#contact",
+    url: DEFAULT_BRAND_CTA_URL,
     features: [
       { title: "Brand Identity Design", description: "Logo, color palette, typography, and complete visual identity systems." },
       { title: "Website Design", description: "Custom website designs that convert visitors into customers — landing pages to full sites." },
@@ -185,7 +187,7 @@ export const brands: Brand[] = [
     color: "#00D4AA",
     secondaryColor: "#F97316",
     icon: Radar,
-    url: "#contact",
+    url: DEFAULT_BRAND_CTA_URL,
     features: [
       {
         title: "Autonomous Data Ingestion",
