@@ -1,4 +1,4 @@
-import { Brain, BookOpen, Film, Users, PenLine, Palette } from "lucide-react"
+import { Brain, BookOpen, Film, Users, PenLine, Palette, Radar } from "lucide-react"
 
 export type Brand = {
   slug: string
@@ -167,6 +167,55 @@ export const brands: Brand[] = [
       { stat: "100%", label: "Ownership Rights" },
     ],
     ctaLabel: "Start Your Design Project",
+  },
+  {
+    slug: "soloscout",
+    name: "SoloScout",
+    wordmark: "SoloScout",
+    tagline: "AI-Driven Market Intelligence for Solo Founders",
+    description:
+      "Stop building in the dark. SoloScout is your autonomous market intelligence agent — continuously scanning high-intent communities, filtering signal from noise with AI, and surfacing validated business opportunities before anyone else sees them.",
+    color: "#00D4AA",
+    secondaryColor: "#F97316",
+    icon: Radar,
+    features: [
+      {
+        title: "Autonomous Data Ingestion",
+        description:
+          "Monitors high-intent communities like r/solopreneur and r/freelance every 60 minutes, capturing live discussions as they happen.",
+      },
+      {
+        title: "AI Signal Processing",
+        description:
+          "An LLM-powered brain filters out memes, venting, and self-promotion — leaving only actionable market signals worth your attention.",
+      },
+      {
+        title: "Signal Orange: Workflow Friction",
+        description:
+          "Identifies manual, repetitive, and time-consuming pain points that are ripe for new software features or automation tools.",
+      },
+      {
+        title: "Electric Cyan: The How-To Wall",
+        description:
+          "Surfaces knowledge gaps where current tutorials fail — instant blueprints for micro-courses, guides, and digital products.",
+      },
+      {
+        title: "Pain Point Scoring",
+        description:
+          "Every signal is assigned a Pain Point Score from 1–10 so you can prioritize the highest-demand opportunities with confidence.",
+      },
+      {
+        title: "Command Center Dashboard",
+        description:
+          "Tactical Cards displayed on your personal HUD — audit-ready evidence that your next product is backed by real market demand, not vibes.",
+      },
+    ],
+    benefits: [
+      { stat: "60min", label: "Scan Frequency" },
+      { stat: "1–10", label: "Pain Point Score" },
+      { stat: "100%", label: "Demand-Validated" },
+    ],
+    ctaLabel: "Activate Your Scout",
   },
 ]
 
