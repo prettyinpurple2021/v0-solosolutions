@@ -28,7 +28,7 @@ export const brands: Brand[] = [
     secondaryColor: "#0077BB",
     icon: Brain,
     logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloSuccess%20AI%20logo%20-Fi9qyIMr0bi6OKjKgmPGMosUGRLknO.png",
-    url: "/brands/connect",
+    url: "https://www.solosuccessai.fun",
     features: [
       { title: "Workflow Automation", description: "Eliminate repetitive tasks with smart automations built for solo operators." },
       { title: "AI Content Generation", description: "Generate blogs, emails, social posts, and ad copy in seconds with your brand voice." },
@@ -106,7 +106,7 @@ export const brands: Brand[] = [
     color: "#D93025",
     secondaryColor: "#E84C3D",
     icon: Users,
-    url: "https://www.solosuccessai.fun",
+    url: "/brands/connect",
     features: [
       { title: "Accountability Groups", description: "Small pods of 4–6 entrepreneurs who meet weekly to set goals and report progress." },
       { title: "Referral Network", description: "A trusted marketplace to send and receive client referrals within the community." },
@@ -159,6 +159,7 @@ export const brands: Brand[] = [
     secondaryColor: "#FF8FB3",
     icon: Palette,
     logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
+    url: "#contact",
     features: [
       { title: "Brand Identity Design", description: "Logo, color palette, typography, and complete visual identity systems." },
       { title: "Website Design", description: "Custom website designs that convert visitors into customers — landing pages to full sites." },
@@ -184,6 +185,7 @@ export const brands: Brand[] = [
     color: "#00D4AA",
     secondaryColor: "#F97316",
     icon: Radar,
+    url: "#contact",
     features: [
       {
         title: "Autonomous Data Ingestion",
