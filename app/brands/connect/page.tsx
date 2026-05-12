@@ -13,7 +13,7 @@ const connectColor = "#D93025"
 export default function SoloSuccessConnectPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Navbar />
+      <Navbar prefixHashLinks={true} />
 
       <main className="flex flex-1 items-center justify-center px-6 py-32 relative overflow-hidden">
         {/* Background orbs */}

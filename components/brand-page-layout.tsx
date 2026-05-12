@@ -224,7 +224,7 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
               </p>
               <Link
                 href={brand.ctaUrl === "#contact" ? "mailto:hello@solosuccesssolutions.com" : brand.ctaUrl}
-                {...brandLinkProps}
+                {...(brand.ctaUrl === "#contact" ? {} : brandLinkProps)}
                 className="group inline-flex items-center gap-2 rounded-xl px-10 py-4 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
                 style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
               >
