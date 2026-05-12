@@ -223,7 +223,7 @@ export function BrandPageLayout({ brand }: { brand: Brand }) {
                 Take the next step toward building your solo business with the tools, community, and support you need to succeed.
               </p>
               <Link
-                href={brand.url}
+                href={brand.url === "#contact" ? "mailto:hello@solosuccesssolutions.com" : brand.url}
                 {...brandLinkProps}
                 className="group inline-flex items-center gap-2 rounded-xl px-10 py-4 text-sm font-bold text-white transition-all duration-500 hover:opacity-90 rainbow-border"
                 style={{ background: `linear-gradient(135deg, ${brand.color}, ${brand.secondaryColor})` }}
