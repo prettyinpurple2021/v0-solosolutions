@@ -1,5 +1,7 @@
 import { Brain, BookOpen, Film, Users, PenLine, Palette, Radar } from "lucide-react"
 
+const DEFAULT_BRAND_CTA_URL = "#contact"
+
 export type Brand = {
   slug: string
   name: string
@@ -10,6 +12,7 @@ export type Brand = {
   secondaryColor: string
   icon: typeof Brain
   logoUrl?: string
+  url: string
   features: { title: string; description: string }[]
   benefits: { stat: string; label: string }[]
   ctaLabel: string
@@ -27,6 +30,7 @@ export const brands: Brand[] = [
     secondaryColor: "#0077BB",
     icon: Brain,
     logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloSuccess%20AI%20logo%20-Fi9qyIMr0bi6OKjKgmPGMosUGRLknO.png",
+    url: "https://www.solosuccessai.fun",
     features: [
       { title: "Workflow Automation", description: "Eliminate repetitive tasks with smart automations built for solo operators." },
       { title: "AI Content Generation", description: "Generate blogs, emails, social posts, and ad copy in seconds with your brand voice." },
@@ -52,6 +56,7 @@ export const brands: Brand[] = [
     color: "#2D9E2A",
     secondaryColor: "#38B835",
     icon: BookOpen,
+    url: "https://www.solosuccessacademy.cloud",
     features: [
       { title: "On-Demand Courses", description: "Self-paced video courses covering every stage of the solo business journey." },
       { title: "Live Coaching", description: "Weekly group coaching calls with experienced solo business mentors." },
@@ -77,6 +82,7 @@ export const brands: Brand[] = [
     color: "#F07B1F",
     secondaryColor: "#F5A623",
     icon: Film,
+    url: "https://www.solosuccesscontentfactory.digital",
     features: [
       { title: "Content Strategy", description: "A custom 90-day content roadmap built around your brand, audience, and goals." },
       { title: "Short-Form Video", description: "Reels, TikToks, and Shorts scripted, produced, and optimized for each platform." },
@@ -102,6 +108,7 @@ export const brands: Brand[] = [
     color: "#D93025",
     secondaryColor: "#E84C3D",
     icon: Users,
+    url: "/brands/connect",
     features: [
       { title: "Accountability Groups", description: "Small pods of 4–6 entrepreneurs who meet weekly to set goals and report progress." },
       { title: "Referral Network", description: "A trusted marketplace to send and receive client referrals within the community." },
@@ -127,6 +134,7 @@ export const brands: Brand[] = [
     color: "#6B44A0",
     secondaryColor: "#8B5FC0",
     icon: PenLine,
+    url: "https://www.soloscribe.buzz",
     features: [
       { title: "Sales Page Copywriting", description: "High-converting sales pages written to turn visitors into paying customers." },
       { title: "Email Sequences", description: "Welcome series, nurture flows, and launch sequences that build trust and drive revenue." },
@@ -153,6 +161,7 @@ export const brands: Brand[] = [
     secondaryColor: "#FF8FB3",
     icon: Palette,
     logoUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/SoloDesign_20260419_225525_0000-LbokV2tfsnH8rYIE5pqg09OsoMTfcb.png",
+    url: DEFAULT_BRAND_CTA_URL,
     features: [
       { title: "Brand Identity Design", description: "Logo, color palette, typography, and complete visual identity systems." },
       { title: "Website Design", description: "Custom website designs that convert visitors into customers — landing pages to full sites." },
@@ -178,6 +187,7 @@ export const brands: Brand[] = [
     color: "#00D4AA",
     secondaryColor: "#F97316",
     icon: Radar,
+    url: DEFAULT_BRAND_CTA_URL,
     features: [
       {
         title: "Autonomous Data Ingestion",
