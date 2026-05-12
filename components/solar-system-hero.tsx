@@ -71,9 +71,22 @@ const PLANETS = [
     accent: '#A78BFA',
     orbitRadius: 305,
     orbitSpeed: 4.5,
-    startAngle: 240,
+    startAngle: 205,
     size: 44,
     placeholder: '/logos/soloscribe-placeholder.jpg',
+  },
+  {
+    slug: 'soloscout',
+    name: 'SoloScout',
+    tagline: 'Market Intelligence Agent',
+    desc: 'AI-driven opportunity scouting that replaces guesswork with real-world demand signals.',
+    href: '/brands/soloscout',
+    accent: '#00D4AA',
+    orbitRadius: 355,
+    orbitSpeed: 3.5,
+    startAngle: 257,
+    size: 46,
+    placeholder: '/logos/soloscout-placeholder.jpg',
   },
   {
     slug: 'solodesign',
@@ -82,9 +95,9 @@ const PLANETS = [
     desc: 'Brand, web, and creative design that stands out.',
     href: '/brands/solodesign',
     accent: '#FF6B9D',
-    orbitRadius: 355,
-    orbitSpeed: 3,
-    startAngle: 300,
+    orbitRadius: 405,
+    orbitSpeed: 2.5,
+    startAngle: 310,
     size: 46,
     placeholder: '/logos/solodesign-placeholder.jpg',
   },
@@ -238,7 +251,7 @@ export function SolarSystemHero() {
             </span>
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-pretty text-sm text-white/50 md:text-base">
-            Six powerful apps orbiting around your entrepreneurial core — each independent, all connected.
+            Seven powerful apps orbiting around your entrepreneurial core — each independent, all connected.
           </p>
         </div>
 
