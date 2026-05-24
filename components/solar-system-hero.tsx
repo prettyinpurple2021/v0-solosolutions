@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
 // ─── Planet definitions ───────────────────────────────────────────────────────
-// orbitRadius: pixel radius FROM the center of the sun to the center of the planet
-// orbitSpeed:  degrees per second — smaller orbit = faster (inner planets)
-// startAngle:  initial angle in degrees, 0 = 12 o'clock, clockwise
+// Each planet has:
+// - orbitRadius: distance from sun center (px at base scale)
+// - orbitDuration: seconds for one complete orbit (inner planets faster)
+// - startAngle: initial position in degrees (0 = top/12 o'clock, clockwise)
+// - size: planet diameter in px
 const PLANETS = [
   {
     slug: 'ai',
@@ -17,8 +19,8 @@ const PLANETS = [
     desc: 'Automations, content, and insight calibrated for solo operators.',
     href: '/brands/ai',
     accent: '#00E5FF',
-    orbitRadius: 105,
-    orbitSpeed: 18,   // deg/s
+    orbitRadius: 95,
+    orbitDuration: 20,
     startAngle: 0,
     size: 42,
     placeholder: '/logos/ai-placeholder.jpg',
@@ -30,9 +32,9 @@ const PLANETS = [
     desc: 'Courses, coaching, and playbooks that teach real-world skills.',
     href: '/brands/academy',
     accent: '#B6FF3C',
-    orbitRadius: 155,
-    orbitSpeed: 13,
-    startAngle: 60,
+    orbitRadius: 140,
+    orbitDuration: 28,
+    startAngle: 51,
     size: 46,
     placeholder: '/logos/academy-placeholder.jpg',
   },
@@ -43,9 +45,9 @@ const PLANETS = [
     desc: 'Done-for-you content that helps you show up with confidence.',
     href: '/brands/content-factory',
     accent: '#FFC53D',
-    orbitRadius: 205,
-    orbitSpeed: 9,
-    startAngle: 120,
+    orbitRadius: 185,
+    orbitDuration: 38,
+    startAngle: 103,
     size: 50,
     placeholder: '/logos/content-factory-placeholder.jpg',
   },
@@ -56,9 +58,9 @@ const PLANETS = [
     desc: 'A curated circle of collaborators, mentors, and partners.',
     href: '/brands/connect',
     accent: '#FF3DAE',
-    orbitRadius: 255,
-    orbitSpeed: 6.5,
-    startAngle: 180,
+    orbitRadius: 230,
+    orbitDuration: 50,
+    startAngle: 154,
     size: 48,
     placeholder: '/logos/connect-placeholder.jpg',
   },
@@ -69,9 +71,9 @@ const PLANETS = [
     desc: 'Copy, emails, and brand voice written to move readers.',
     href: '/brands/soloscribe',
     accent: '#A78BFA',
-    orbitRadius: 305,
-    orbitSpeed: 4.5,
-    startAngle: 205,
+    orbitRadius: 275,
+    orbitDuration: 64,
+    startAngle: 206,
     size: 44,
     placeholder: '/logos/soloscribe-placeholder.jpg',
   },
@@ -82,8 +84,8 @@ const PLANETS = [
     desc: 'AI-driven opportunity scouting that replaces guesswork with real-world demand signals.',
     href: '/brands/soloscout',
     accent: '#00D4AA',
-    orbitRadius: 355,
-    orbitSpeed: 3.5,
+    orbitRadius: 320,
+    orbitDuration: 80,
     startAngle: 257,
     size: 46,
     placeholder: '/logos/soloscout-placeholder.jpg',
@@ -95,9 +97,9 @@ const PLANETS = [
     desc: 'Brand, web, and creative design that stands out.',
     href: '/brands/solodesign',
     accent: '#FF6B9D',
-    orbitRadius: 405,
-    orbitSpeed: 2.5,
-    startAngle: 310,
+    orbitRadius: 365,
+    orbitDuration: 100,
+    startAngle: 309,
     size: 46,
     placeholder: '/logos/solodesign-placeholder.jpg',
   },
@@ -119,56 +121,71 @@ const STARS = Array.from({ length: 110 }, (_, i) => ({
   delay: sr(i * 6.1) * 6,
 }))
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// Sun z-index constant - planets will be above or below this
+const SUN_Z_INDEX = 20
+
+// Planet state type
 type PlanetState = {
-  x: number        // px offset from center
-  y: number        // px offset from center
-  angle: number    // current angle in degrees
-  inFront: boolean // true when planet is in the front half of its orbit
+  x: number
+  y: number
+  angle: number
+  zIndex: number
 }
 
 export function SolarSystemHero() {
   const [hovered, setHovered] = useState<string | null>(null)
+  const pausedRef = useRef(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const anglesRef = useRef<number[]>(PLANETS.map(p => p.startAngle))
+  const lastTimeRef = useRef<number | null>(null)
+  const rafRef = useRef<number>(0)
+  
+  // Planet positions state (calculated via rAF)
   const [planets, setPlanets] = useState<PlanetState[]>(() =>
     PLANETS.map((p) => {
-      const rad = (p.startAngle * Math.PI) / 180
-      const x = Math.sin(rad) * p.orbitRadius
-      const y = -Math.cos(rad) * p.orbitRadius
+      const angleRad = (p.startAngle * Math.PI) / 180
+      const x = Math.sin(angleRad) * p.orbitRadius
+      const y = -Math.cos(angleRad) * p.orbitRadius
       return {
         x,
         y,
         angle: p.startAngle,
-        inFront: y > 0,
+        zIndex: y > 0 ? SUN_Z_INDEX + 10 : SUN_Z_INDEX - 5,
       }
     })
   )
 
-  const anglesRef = useRef<number[]>(PLANETS.map((p) => p.startAngle))
-  const lastTimeRef = useRef<number | null>(null)
-  const rafRef = useRef<number>(0)
-  const pausedRef = useRef(false)
+  // Calculate z-index based on y position (3D depth simulation)
+  // Positive y = bottom half of orbit = in front of sun
+  // Negative y = top half of orbit = behind sun
+  const getZIndex = (y: number): number => {
+    return y > 0 ? SUN_Z_INDEX + 10 : SUN_Z_INDEX - 5
+  }
 
+  // Animation loop
   const tick = useCallback((ts: number) => {
     if (lastTimeRef.current === null) lastTimeRef.current = ts
-    const dt = Math.min(ts - lastTimeRef.current, 50) // cap at 50ms to avoid large jumps
+    const dt = Math.min(ts - lastTimeRef.current, 50) // cap at 50ms
     lastTimeRef.current = ts
 
     if (!pausedRef.current) {
+      // Update angles based on each planet's orbital speed
       anglesRef.current = anglesRef.current.map((angle, i) => {
-        return (angle + PLANETS[i].orbitSpeed * (dt / 1000)) % 360
+        const speed = 360 / PLANETS[i].orbitDuration // degrees per second
+        return (angle + speed * (dt / 1000)) % 360
       })
 
+      // Calculate new positions
       setPlanets(
         anglesRef.current.map((angle, i) => {
-          const rad = (angle * Math.PI) / 180
-          const x = Math.sin(rad) * PLANETS[i].orbitRadius
-          const y = -Math.cos(rad) * PLANETS[i].orbitRadius
+          const angleRad = (angle * Math.PI) / 180
+          const x = Math.sin(angleRad) * PLANETS[i].orbitRadius
+          const y = -Math.cos(angleRad) * PLANETS[i].orbitRadius
           return {
             x,
             y,
             angle,
-            // inFront when y > 0 (bottom half of orbit = closer to viewer)
-            inFront: y > 0,
+            zIndex: getZIndex(y),
           }
         })
       )
@@ -182,9 +199,38 @@ export function SolarSystemHero() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [tick])
 
-  // Scale factor so the system fits any container width
-  const containerSize = 780 // design at this px, scale via CSS
-  const sunSize = 80
+  // Handle hover pause
+  const handleMouseEnter = useCallback(() => {
+    pausedRef.current = true
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    pausedRef.current = false
+    setHovered(null)
+  }, [])
+
+  // Scale factor for responsive sizing
+  const containerSize = 800 // Base design size
+
+  // Memoize star rendering
+  const starsElement = useMemo(() => (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      {STARS.map((s) => (
+        <span
+          key={s.id}
+          className="absolute rounded-full bg-white"
+          style={{
+            left: `${s.left}%`,
+            top: `${s.top}%`,
+            width: s.size,
+            height: s.size,
+            opacity: s.opacity,
+            animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  ), [])
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-[#030308]">
@@ -218,22 +264,7 @@ export function SolarSystemHero() {
       </div>
 
       {/* ── Stars ─────────────────────────────────────────────────────────── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        {STARS.map((s) => (
-          <span
-            key={s.id}
-            className="absolute rounded-full bg-white"
-            style={{
-              left: `${s.left}%`,
-              top: `${s.top}%`,
-              width: s.size,
-              height: s.size,
-              opacity: s.opacity,
-              animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite`,
-            }}
-          />
-        ))}
-      </div>
+      {starsElement}
 
       {/* ── Page content ──────────────────────────────────────────────────── */}
       <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 py-24">
@@ -256,16 +287,8 @@ export function SolarSystemHero() {
         </div>
 
         {/* ── Solar system stage ─────────────────────────────────────────── */}
-        {/*
-          We render at a fixed containerSize px square and scale it down with
-          CSS transform so it is always visible regardless of viewport.
-          The sun is at the absolute center (containerSize/2, containerSize/2).
-          Planets are positioned with:
-            left = center + x - size/2
-            top  = center + y - size/2
-          where x,y come from the rAF loop (sin/cos of current angle).
-        */}
         <div
+          ref={containerRef}
           className="relative mx-auto"
           style={{
             width: '100%',
@@ -273,24 +296,22 @@ export function SolarSystemHero() {
             aspectRatio: '1 / 1',
           }}
         >
-          {/* Scale wrapper so everything fits on small screens */}
+          {/* Inner container with overflow hidden for strict boundaries */}
           <div
-            className="absolute inset-0"
-            style={{ containerType: 'size' }}
-            onMouseEnter={() => { pausedRef.current = true }}
-            onMouseLeave={() => { pausedRef.current = false; setHovered(null) }}
+            className="absolute inset-0 overflow-hidden"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             {/* ── Orbit rings (static visual guides) ──────────────────── */}
             {PLANETS.map((p) => (
               <div
                 key={`ring-${p.slug}`}
                 aria-hidden
-                className="absolute rounded-full transition-all duration-500"
+                className="absolute left-1/2 top-1/2 rounded-full transition-all duration-500"
                 style={{
-                  width:  p.orbitRadius * 2,
+                  width: p.orbitRadius * 2,
                   height: p.orbitRadius * 2,
-                  left:   containerSize / 2 - p.orbitRadius,
-                  top:    containerSize / 2 - p.orbitRadius,
+                  transform: 'translate(-50%, -50%)',
                   border: hovered === p.slug
                     ? `1.5px solid ${p.accent}55`
                     : '1px dashed rgba(255,255,255,0.07)',
@@ -303,12 +324,12 @@ export function SolarSystemHero() {
 
             {/* ── Central Sun ─────────────────────────────────────────── */}
             <div
-              className="absolute z-20"
+              className="absolute left-1/2 top-1/2"
               style={{
-                left: containerSize / 2 - sunSize / 2,
-                top:  containerSize / 2 - sunSize / 2,
-                width:  sunSize,
-                height: sunSize,
+                width: 80,
+                height: 80,
+                transform: 'translate(-50%, -50%)',
+                zIndex: SUN_Z_INDEX,
               }}
             >
               {/* Corona pulse */}
@@ -335,25 +356,28 @@ export function SolarSystemHero() {
               </p>
             </div>
 
-            {/* ── Planets ─────────────────────────────────────────────── */}
+            {/* ── Orbiting Planets ─────────────────────────────────────── */}
             {PLANETS.map((p, i) => {
-              const state    = planets[i]
+              const state = planets[i]
               const isHovered = hovered === p.slug
+              // Calculate pixel position from center
               const planetLeft = containerSize / 2 + state.x - p.size / 2
-              const planetTop  = containerSize / 2 + state.y - p.size / 2
-              // z-index: above sun (z-30) when in front half, below sun (z-10) when in back half
-              const zIndex = state.inFront ? 30 : 10
+              const planetTop = containerSize / 2 + state.y - p.size / 2
+              // z-index: hovered planets always on top
+              const zIndex = isHovered ? SUN_Z_INDEX + 50 : state.zIndex
 
               return (
                 <div
                   key={p.slug}
                   className="absolute"
                   style={{
-                    left:   planetLeft,
-                    top:    planetTop,
-                    width:  p.size,
+                    left: planetLeft,
+                    top: planetTop,
+                    width: p.size,
                     height: p.size,
                     zIndex,
+                    willChange: 'transform',
+                    transition: 'z-index 0s',
                   }}
                 >
                   <Link
@@ -367,7 +391,7 @@ export function SolarSystemHero() {
                     <div
                       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300"
                       style={{
-                        width:  p.size * 2.2,
+                        width: p.size * 2.2,
                         height: p.size * 2.2,
                         background: `radial-gradient(circle, ${p.accent}${isHovered ? '45' : '22'} 0%, transparent 70%)`,
                         filter: 'blur(8px)',
@@ -408,7 +432,7 @@ export function SolarSystemHero() {
                       {p.name.replace('SoloSuccess ', '')}
                     </span>
 
-                    {/* Hover info card - positioned left or right based on planet position */}
+                    {/* Hover info card - positioned left or right based on planet x position */}
                     {isHovered && (
                       <div
                         className="pointer-events-none absolute top-1/2 z-50 w-48 -translate-y-1/2 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-lg sm:w-52"
