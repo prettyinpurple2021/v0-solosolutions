@@ -135,7 +135,6 @@ export function SolarSystemHero() {
   const [scale, setScale]               = useState<number>(1)
   const pausedRef                       = useRef(false)
   const stageRef                        = useRef<HTMLDivElement>(null)
-  // Live rendered half-width — kept in a ref so the rAF loop reads the latest value
   const halfSizeRef                     = useRef<number>(BASE_SIZE / 2)
   const anglesRef                       = useRef<number[]>(PLANETS.map(p => p.startAngle))
   const lastTimeRef                     = useRef<number | null>(null)
