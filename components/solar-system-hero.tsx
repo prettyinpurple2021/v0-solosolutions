@@ -373,6 +373,7 @@ export function SolarSystemHero() {
           {/* ── Planets ──────────────────────────────────────────────────────── */}
           {PLANETS.map((p, i) => {
             const state    = planetStates[i]
+            if (!state) return null
             const isHovered = hovered === p.slug
 
             // Convert design-space coords → rendered-stage pixel offsets from center.
