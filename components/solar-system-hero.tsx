@@ -381,17 +381,13 @@ export function SolarSystemHero() {
             const cy = halfSizeRef.current
             const px = cx + state.x * scale
             const py = cy + state.y * scale
-
-            const zIndex = isHovered ? Z_SUN + 50 : state.zIndex
-
-            return (
               <div
                 key={p.slug}
                 className="absolute left-0 top-0"
                 style={{
                   width:      p.size * scale,
                   height:     p.size * scale,
-                  transform:  `translate3d(${px - (p.size * scale) / 2}px, ${py - (p.size * scale) / 2}px, 0)`,
+                  transform:  `translate(${px - (p.size * scale) / 2}px, ${py - (p.size * scale) / 2}px)`,
                   zIndex,
                   willChange: 'transform',
                 }}
