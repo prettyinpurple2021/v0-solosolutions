@@ -126,6 +126,9 @@ const STARS = Array.from({ length: 110 }, (_, i) => ({
 
 // The sun is always z=20. Planets in front are 30, behind are 10.
 const Z_SUN = 20
+const MIN_TAP_TARGET = 44
+const HOVER_CARD_HEIGHT = 170
+const HOVER_CARD_PADDING = 8
 
 type PlanetState = { x: number; y: number; angle: number; zIndex: number }
 
@@ -134,6 +137,8 @@ export function SolarSystemHero() {
   // scale is stored as state so rings + planet positions re-render on resize
   const [scale, setScale]               = useState<number>(1)
   const pausedRef                       = useRef(false)
+  const pointerInsideRef                = useRef(false)
+  const focusWithinRef                  = useRef(false)
   const stageRef                        = useRef<HTMLDivElement>(null)
   const halfSizeRef                     = useRef<number>(BASE_SIZE / 2)
   const anglesRef                       = useRef<number[]>(PLANETS.map(p => p.startAngle))
@@ -204,10 +209,28 @@ export function SolarSystemHero() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [tick])
 
-  const handleMouseEnter = useCallback(() => { pausedRef.current = true  }, [])
+  const handleMouseEnter = useCallback(() => {
+    pointerInsideRef.current = true
+    pausedRef.current = true
+  }, [])
   const handleMouseLeave = useCallback(() => {
-    pausedRef.current = false
-    setHovered(null)
+    pointerInsideRef.current = false
+    if (!focusWithinRef.current) {
+      pausedRef.current = false
+      setHovered(null)
+    }
+  }, [])
+  const handleStageFocus = useCallback(() => {
+    focusWithinRef.current = true
+    pausedRef.current = true
+  }, [])
+  const handleStageBlur = useCallback((event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return
+    focusWithinRef.current = false
+    if (!pointerInsideRef.current) {
+      pausedRef.current = false
+      setHovered(null)
+    }
   }, [])
 
   const starsElement = useMemo(() => (
@@ -291,13 +314,15 @@ export function SolarSystemHero() {
         */}
         <div
           ref={stageRef}
-          className="relative mx-auto w-full overflow-hidden"
+          className="relative mx-auto w-full overflow-visible"
           style={{
             maxWidth:    BASE_SIZE,
             aspectRatio: '1 / 1',
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onFocusCapture={handleStageFocus}
+          onBlurCapture={handleStageBlur}
         >
 
           {/* ── Orbit rings ──────────────────────────────────────────────────── */}
@@ -381,6 +406,14 @@ export function SolarSystemHero() {
             const cy = halfSizeRef.current
             const px = cx + state.x * scale
             const py = cy + state.y * scale
+            const hitSize = Math.max(MIN_TAP_TARGET, p.size)
+            const visualSize = p.size * scale
+            const stageSize = halfSizeRef.current * 2
+            const cardHalf = HOVER_CARD_HEIGHT / 2
+            const minCardCenter = cardHalf + HOVER_CARD_PADDING
+            const maxCardCenter = stageSize - cardHalf - HOVER_CARD_PADDING
+            const cardCenterY = Math.min(Math.max(py, minCardCenter), maxCardCenter)
+            const cardOffsetY = cardCenterY - py
             const zIndex = isHovered ? Z_SUN + 50 : state.zIndex
 
             return (
@@ -388,9 +421,9 @@ export function SolarSystemHero() {
                 key={p.slug}
                 className="absolute left-0 top-0"
                 style={{
-                  width:      p.size * scale,
-                  height:     p.size * scale,
-                  transform:  `translate(${px - (p.size * scale) / 2}px, ${py - (p.size * scale) / 2}px)`,
+                  width:      hitSize,
+                  height:     hitSize,
+                  transform:  `translate(${px - hitSize / 2}px, ${py - hitSize / 2}px)`,
                   zIndex,
                   willChange: 'transform',
                 }}
@@ -404,12 +437,13 @@ export function SolarSystemHero() {
                   onBlur={() => setHovered(null)}
                   aria-label={`${p.name} — ${p.tagline}`}
                 >
-                  {/* Glow halo */}
+                  {/* Visual planet content remains scaled; link hitbox stays finger-friendly */}
                   <div
-                    className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300"
+                    className="pointer-events-none absolute left-1/2 top-1/2 rounded-full transition-all duration-300"
                     style={{
-                      width:      p.size * scale * 2.4,
-                      height:     p.size * scale * 2.4,
+                      width:      p.size * 2.4,
+                      height:     p.size * 2.4,
+                      transform:  `translate(-50%, -50%) scale(${scale})`,
                       background: `radial-gradient(circle, ${p.accent}${isHovered ? '40' : '20'} 0%, transparent 70%)`,
                       filter:     'blur(8px)',
                     }}
@@ -417,8 +451,11 @@ export function SolarSystemHero() {
 
                   {/* Planet body */}
                   <div
-                    className="relative h-full w-full overflow-hidden rounded-full transition-transform duration-200 group-hover:scale-110"
+                    className="absolute left-1/2 top-1/2 overflow-hidden rounded-full transition-transform duration-200 group-hover:scale-110"
                     style={{
+                      width: p.size,
+                      height: p.size,
+                      transform: `translate(-50%, -50%) scale(${scale})`,
                       background: `
                         radial-gradient(circle at 28% 22%, rgba(255,255,255,0.55) 0%, transparent 28%),
                         radial-gradient(circle at 30% 28%, ${p.accent} 0%, ${p.accent}cc 40%, ${p.accent}88 70%, ${p.accent}44 100%)
@@ -433,7 +470,7 @@ export function SolarSystemHero() {
                       alt={p.name}
                       fill
                       className="object-cover opacity-60 mix-blend-overlay"
-                      sizes={`${Math.round(p.size * scale)}px`}
+                      sizes={`${Math.round(visualSize)}px`}
                     />
                   </div>
 
@@ -452,8 +489,9 @@ export function SolarSystemHero() {
                   {/* Hover info card — flips left/right based on x position */}
                   {isHovered && (
                     <div
-                      className="pointer-events-none absolute top-1/2 z-50 w-44 -translate-y-1/2 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-lg sm:w-52"
+                      className="pointer-events-none absolute z-50 w-44 -translate-y-1/2 rounded-xl border border-white/10 bg-black/90 p-3 backdrop-blur-lg sm:w-52"
                       style={{
+                        top: `${hitSize / 2 + cardOffsetY}px`,
                         boxShadow: `0 0 30px ${p.accent}40, 0 8px 32px rgba(0,0,0,0.6)`,
                         ...(state.x > 0
                           ? { right: '100%', marginRight: 14 }
