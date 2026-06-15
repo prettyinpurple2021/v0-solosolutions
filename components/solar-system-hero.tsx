@@ -382,6 +382,9 @@ export function SolarSystemHero() {
             const cy = halfSizeRef.current
             const px = cx + state.x * scale
             const py = cy + state.y * scale
+            const zIndex = isHovered ? Z_SUN + 50 : state.zIndex
+
+            return (
               <div
                 key={p.slug}
                 className="absolute left-0 top-0"
