@@ -137,7 +137,6 @@ export function SolarSystemHero() {
   const stageRef                        = useRef<HTMLDivElement>(null)
   // Live rendered half-width — kept in a ref so the rAF loop reads the latest value
   const halfSizeRef                     = useRef<number>(BASE_SIZE / 2)
-  const scaleRef                        = useRef<number>(1)
   const anglesRef                       = useRef<number[]>(PLANETS.map(p => p.startAngle))
   const lastTimeRef                     = useRef<number | null>(null)
   const rafRef                          = useRef<number>(0)
@@ -160,7 +159,6 @@ export function SolarSystemHero() {
     const update = () => {
       const w = el.offsetWidth
       halfSizeRef.current = w / 2
-      scaleRef.current    = w / BASE_SIZE
       setScale(w / BASE_SIZE)
     }
     update()
@@ -176,13 +174,15 @@ export function SolarSystemHero() {
     lastTimeRef.current = ts
 
     if (!pausedRef.current) {
-      anglesRef.current = anglesRef.current.map((angle, i) => {
+      const angles = anglesRef.current
+      for (let i = 0; i < angles.length; i++) {
+        const angle = angles[i]
         const degsPerSec = 360 / PLANETS[i].duration
-        return (angle + degsPerSec * (dt / 1000)) % 360
-      })
+        angles[i] = (angle + degsPerSec * (dt / 1000)) % 360
+      }
 
       setPlanetStates(
-        anglesRef.current.map((angle, i) => {
+        angles.map((angle, i) => {
           const r   = ORBIT_RADII[PLANETS[i].orbitIndex]
           const rad = (angle * Math.PI) / 180
           const x   = Math.sin(rad) * r  // design-space pixels
@@ -386,14 +386,13 @@ export function SolarSystemHero() {
             return (
               <div
                 key={p.slug}
-                className="absolute"
+                className="absolute left-0 top-0"
                 style={{
-                  left:       px - (p.size * scale) / 2,
-                  top:        py - (p.size * scale) / 2,
                   width:      p.size * scale,
                   height:     p.size * scale,
+                  transform:  `translate3d(${px - (p.size * scale) / 2}px, ${py - (p.size * scale) / 2}px, 0)`,
                   zIndex,
-                  willChange: 'left, top',
+                  willChange: 'transform',
                 }}
               >
                 <Link
@@ -401,6 +400,8 @@ export function SolarSystemHero() {
                   className="group relative block h-full w-full"
                   onMouseEnter={() => setHovered(p.slug)}
                   onMouseLeave={() => setHovered(null)}
+                  onFocus={() => setHovered(p.slug)}
+                  onBlur={() => setHovered(null)}
                   aria-label={`${p.name} — ${p.tagline}`}
                 >
                   {/* Glow halo */}
@@ -432,7 +433,7 @@ export function SolarSystemHero() {
                       alt={p.name}
                       fill
                       className="object-cover opacity-60 mix-blend-overlay"
-                      sizes={`${p.size}px`}
+                      sizes={`${Math.round(p.size * scale)}px`}
                     />
                   </div>
 

@@ -268,11 +268,6 @@
   to   { transform: rotate(360deg); }
 }
 
-@keyframes orbit-counter-rotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
-}
-
 /*
   orbit-depth: runs in sync with orbit-rotate (same duration + delay).
   Planet starts at 12-o'clock (top = far side of sun).
