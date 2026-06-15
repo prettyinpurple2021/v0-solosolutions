@@ -434,7 +434,7 @@ export function SolarSystemHero() {
                       alt={p.name}
                       fill
                       className="object-cover opacity-60 mix-blend-overlay"
-                      sizes={`(max-width: 768px) ${(p.size / BASE_SIZE * 100).toFixed(2)}vw, ${p.size}px`}
+                      sizes={`(max-width: 768px) ${(p.size / BASE_SIZE * 100).toFixed(2)}vw, ${Math.round(p.size * scale)}px`}
                     />
                   </div>
 
