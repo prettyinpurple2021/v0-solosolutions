@@ -307,6 +307,7 @@ export function SolarSystemHero() {
             We use transform:scale so they always stay centered perfectly.
           */}
           {ORBIT_RADII.map((r, i) => {
+          {ORBIT_RADII.map((r, i) => {
             const planet = PLANETS.find(p => p.orbitIndex === i)
             if (!planet) return null
             const isActive = hovered === planet.slug
