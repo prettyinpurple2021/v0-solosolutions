@@ -308,7 +308,8 @@ export function SolarSystemHero() {
             We use transform:scale so they always stay centered perfectly.
           */}
           {ORBIT_RADII.map((r, i) => {
-            const planet = PLANETS.find(p => p.orbitIndex === i)!
+            const planet = PLANETS.find(p => p.orbitIndex === i)
+            if (!planet) return null
             const isActive = hovered === planet.slug
             // diameter in design-space px; scale to rendered size
             const diam = r * 2
@@ -433,7 +434,7 @@ export function SolarSystemHero() {
                       alt={p.name}
                       fill
                       className="object-cover opacity-60 mix-blend-overlay"
-                      sizes={`${Math.round(p.size * scale)}px`}
+                      sizes={`(max-width: 768px) ${(p.size / BASE_SIZE * 100).toFixed(2)}vw, ${p.size}px`}
                     />
                   </div>
 
