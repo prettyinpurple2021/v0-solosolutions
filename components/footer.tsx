@@ -5,7 +5,7 @@ const footerColors = ["#D93025", "#2D9E2A", "#F07B1F", "#009B94", "#6B44A0"]
 
 const footerLinks = [
   { label: "SoloSuccess AI", href: "https://www.solosuccessai.fun", color: "#005FA3", external: true },
-  { label: "SoloSuccess Academy", href: "https://www.solosuccessacademy.cloud", color: "#2D9E2A", external: true },
+  { label: "SoloSuccess Academy", href: "https://solosuccessacademy.app", color: "#2D9E2A", external: true },
   { label: "Content Factory", href: "https://www.solosuccesscontentfactory.digital", color: "#F07B1F", external: true },
   { label: "SoloSuccess Connect", href: "/brands/connect", color: "#D93025", external: false },
   { label: "SoloScribe", href: "https://www.soloscribe.buzz", color: "#6B44A0", external: true },
