@@ -56,7 +56,7 @@ export const brands: Brand[] = [
     color: "#2D9E2A",
     secondaryColor: "#38B835",
     icon: BookOpen,
-    ctaUrl: "https://www.solosuccessacademy.cloud",
+    ctaUrl: "https://solosuccessacademy.app",
     features: [
       { title: "On-Demand Courses", description: "Self-paced video courses covering every stage of the solo business journey." },
       { title: "Live Coaching", description: "Weekly group coaching calls with experienced solo business mentors." },

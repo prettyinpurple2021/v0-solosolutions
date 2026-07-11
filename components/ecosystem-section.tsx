@@ -20,7 +20,7 @@ const companies = [
     description:
       "Practical courses, coaching programs, and learning resources that teach real skills for building and scaling a solo business. No fluff — just actionable frameworks from founders who have done it.",
     color: "#2D9E2A",
-    href: "https://www.solosuccessacademy.cloud",
+    href: "https://solosuccessacademy.app",
     external: true,
     featured: false,
   },
